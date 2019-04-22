@@ -1,0 +1,286 @@
+﻿<div id="top_main">
+    <div id="top" <%if(istop==0){ %> class="w1210 clearfix" <%}else{ %> class="w990 clearfix"<%} %>>
+        <p class="top_l fl">
+            欢迎您访问<$ShopConfig.ReadConfigInfo().Title$>！</p>
+        <ul class="top_r fr">
+            <html:if expression="base.UserId<=0">
+            <li class="user"><a href="/User/Login.html" title="请登录">登录</a><a href="/User/Register.html" title="免费注册">免费注册</a></li><li class="split"></li>
+            <html:else>
+            <li class="user"><a href="/User/Index.html"><$base.UserName$></a><a href="/User/Logout.html">退出</a></li><li class="split"></li>
+            </html:if>
+            <li class="order"><a href="/User/OrderList.html" title="我的订单">我的订单</a></li><li
+                class="split"></li>
+            <li class="member hasDown">
+                <a href="/User/Index.html" title="会员中心">会员中心<s class="icon down"></s></a>
+                <div class="dropdown poa hidden">
+                    <span class="white poa"></span>
+                    <div class="memimg">
+                        <img class="fl" src="<$ShopCommon.ShowUserPhoto(UserBLL.ReadUserPhoto())$>"  alt="用户头像" />
+                         <html:if expression="base.UserId>0"><h3><a href="/User/Index.html"><$base.UserName$></a></h3><span>会员等级：<$base.UserGrade$></span>
+                             <html:else><h3><a href="/User/Login.html" title="请登录">你好，请登录</a></h3>
+                         </html:if>
+                    </div>
+                    <div class="item">
+                        <a href="/User/UserCoupon.html" >优惠券</a>
+                        <a href="/User/UserMessage.html">我的留言</a>
+                        <a href="/User/UserProductComment.html">评价晒单</a>
+                        <a href="/User/UserProductCollect.html" >我的关注</a>
+                        <a href="/User/HistoryList.html">我的足迹</a>
+                        <a href="/User/ChangePassword.html">修改密码</a>
+                    </div>
+                </div>
+            </li>
+            <li class="split"></li>
+            <li class="phone hasDown por"><a class="" href="javascript:" title="">
+                <s class="icon phoneicon"></s>手机版<s class="icon down"></s></a>
+                <div class="dropdown poa hidden">
+                    <span class="white poa"></span>
+                    <img src="<$ShopCommon.ShowImage(ShopConfig.ReadConfigInfo().MobileImage)$>" alt="手机版" title="手机版" />
+                </div>
+            </li>
+            <li class="split"></li>
+            <li class="service hasDown"><a href="/HelpCenter.html" title="帮助中心">帮助中心<s class="icon down"></s></a>
+                <div class="dropdown poa hidden">
+                    <span class="white poa"></span>
+                    <html:foreach expression="ArticleClassInfo arClass in ArticleClassBLL.ReadChilds(ArticleClass.Help)">
+            <div class="item">
+                <h3><$arClass.Name$></h3>
+            <html:foreach expression="ArticleClassInfo arClassChild in ArticleClassBLL.ReadChilds(arClass.Id)">  
+                <a href="<$ ArticleClassBLL.GetHelpClassUrl(ArticleClassBLL.Read(arClassChild.Id))$>" target="_blank" title="<$arClassChild.Name$>"><$arClassChild.Name$></a>
+            </html:foreach>
+            </div>
+            </html:foreach>
+                </div>
+            </li>
+            <li class="split"></li>
+            <li class="siteMap hasDown"><a href="javascript:" title="网站导航">网站导航<s class="icon down"></s></a>
+                <div class="dropdown poa hidden">
+                    <span class="white poa"></span>
+                    <%int ia=0; %>
+                    <html:foreach expression="ProductClassInfo proCInfo in productClassList">
+                    <%if(ia<4){ %>
+                    <div class="item">
+                        <h3>
+                            <$proCInfo.Name$></h3>
+                            <html:foreach expression="ProductClassInfo proChildInfo in ProductClassBLL.ReadChilds(proCInfo.Id)">
+                        <a href="/List.html?cat=<$ProductClassBLL.ReadFullParentId(proChildInfo.Id)$>" target="_blank" title="<$proChildInfo.Name$>"><$proChildInfo.Name$></a> 
+                       </html:foreach>
+                    </div>
+                    <%}ia++; %>
+                    </html:foreach>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<div id="top-banner">
+<div >
+ <a href="javascript:;" id="topbanner-close"></a>
+            <% List<AdImageInfo>  bannerlisttop = AdImageBLL.ReadList(11,1);
+             foreach(var pic in bannerlisttop){%>
+           <a <%if(pic.LinkUrl!=string.Empty){%>href="<%=pic.LinkUrl%>"
+                target="_blank" <%}%> title="<%=pic.Title%>" style="background:url(<%=pic.ImageUrl%>) no-repeat 50% 0;width:100%;display:block;height:80px;">
+                </a>
+         <%} %>
+<!-- <a href="#" target="_blank"><img src="<html:templatePath>/images/topbanner.jpg" width="1200" height="80"></a>-->
+
+</div></div>
+
+<!--header start-->
+
+<div id="header_main">
+    <%List<AdImageInfo> flashListTop=AdImageBLL.ReadList(2,1);%>
+    <!--<div class="topbanner" style="background: url(<%if(flashListTop.Count>0){%><$ShopCommon.ShowImage(flashListTop[0].ImageUrl)$><%}%>) no-repeat center top;">
+    </div>-->
+    <div id="header" <%if(istop==0){ %> class="w1210 clearfix" <%}else{ %> class="w990 clearfix"<%} %>>
+        <div id="logo_main" class="fl">
+            <a class="logo fl" href="/Default.html" title="<$ShopConfig.ReadConfigInfo().Title$>">
+                <img src="<$ShopCommon.ShowImage(ShopConfig.ReadConfigInfo().LogoAddress)$>" alt="<$ShopConfig.ReadConfigInfo().Title$>"
+                    title="<$ShopConfig.ReadConfigInfo().Title$>"  width="<%=ShopConfig.ReadConfigInfo().LogoWidth%>" height="<%=ShopConfig.ReadConfigInfo().LogoHeight%>"/>
+            </a>
+            <h1 class="txt fl">
+                </h1>
+        </div>
+        <div class="search_main fl">
+            <div class="por seardiv clearfix" >
+            <input type="text" id="SearchTxt" autocomplete="off" name="txt" class="txt fl" value="" maxlength="30" placeholder="请输入商品关键字" />
+            <input type="button" id="SearchSubmit" name="btn" class="btn fl" value="搜索" onclick="return topSearchProduct()"/>
+
+            <script type="text/javascript">
+                function topSearchProduct() {
+                    var keyWord = $("#SearchTxt").val();
+                    if (keyWord == "") {
+                        alert("请输入商品关键字");
+                        return false;
+                    }else{
+                        var url = "/searchresults.html?kw=" + encodeURIComponent(keyWord) + "";
+                        window.location.href = url;
+                    }
+                   
+                }
+
+               document.onkeydown = function (event) {
+                    var e = event || window.event || arguments.callee.caller.arguments[0];
+                    if (e && e.keyCode == 13) { // enter 键
+                        if (isFocus('SearchTxt')) {
+                            document.getElementById("SearchSubmit").click();
+                        }
+                    }
+               };
+               function isFocus(id) {
+                   if (document.activeElement.id == id) {
+                       return true;
+                   }
+                   else {
+                       return false;
+                   }
+               }    
+        
+            </script>
+    <!-- 搜索关键词模糊匹配 ↓-->
+<script type="text/javascript" src="<html:templatePath>/js/jquery.autocomplete.js"></script>
+<script type="text/javascript" src="<html:templatePath>/js/json2.js"></script>
+
+                <script type="text/javascript">             
+                    $(function () {
+                        getHotKeys();                        
+                    });
+                    //读取匹配搜索关键词列表
+                    function getHotKeys() {
+                     
+                            $.ajax({
+                                url: '/Ajax.aspx?Action=GetHotKeys',
+                                type: 'GET',
+                                data: { keyword: $("#SearchTxt").val() },
+                                success: function (result) {
+                                    var json = JSON.parse(result);
+
+                                    $("#SearchTxt").autocomplete(json, {
+                                        minChars: 0, //自动完成激活之前填入的最小字符
+                                        max: 12, //列表条目数
+                                        width: 454, //提示的宽度
+                                        scrollHeight: 300, //提示的高度
+                                        matchContains: true, //是否只要包含文本框里的就可以
+                                        autoFill: false, //自动填充
+                                        formatItem: function (data, i, max) { //格式化列表中的条目 row:条目对象,i:当前条目数,max:总条目数                                      
+                                            if (typeof (data.name) === 'undefined' || data.name === false) {
+                                                $(".ac_results ul").html("");
+                                                $(".ac_results").hide();
+                                                return"";                                            
+                                               
+                                            }
+                                            else {
+                                               
+                                                return "<span>约" + data.productcount + "个商品</span>"+data.name ;
+                                                $(".ac_results").show();
+                                            }
+                                        },
+                                        formatMatch: function (data, i, max) { //配合formatItem使用，作用在于，由于使用了formatItem，所以条目中的内容有所改变，而我们要匹配的是原始的数据，所以用formatMatch做一个调整，使之匹配原始数据
+                                            if (typeof (data.name) === 'undefined' || data.name === false) {                                                
+                                                return "";
+                                               
+                                            }
+                                            else {
+                                                return data.name + data.spell;
+                                               
+                                            }
+                                        },
+                                        formatResult: function (data) { //定义最终返回的数据，比如我们还是要返回原始数据，而不是formatItem过的数据
+                                            if (typeof (data.name) === 'undefined' || data.name === false) {
+                                                return "";
+                                                $(".ac_results").hide();
+                                            }
+                                            else {
+                                                return data.name;
+                                                $(".ac_results").show();
+                                            }
+                                        }
+                                    }).result(function (event, data, formatted) {
+
+                                        if (typeof (data.name) === 'undefined' || data.name === false) {
+                                            return false;
+                                        }
+                                        else {
+                                            var url = "/searchresults.html?kw=" + encodeURIComponent(data.name) + "";
+                                            window.location = url;
+                                        }
+                                    });
+                                }
+                            });                       
+                    }
+</script>
+ <!-- 搜索关键词模糊匹配↑-->
+            </div>
+            <div class="hotSkey">
+                <strong>热门搜索：</strong>
+                <html:foreach expression="var _keyword in AdKeywordBLL.ReadList()">
+                <a href="<%=_keyword.Url%>" title="<%=_keyword.Name%>"><%=_keyword.Name%></a>
+            </html:foreach>
+            </div>
+        </div>
+        <!--主导航购物车cart、checkout页面不显示-->
+        <html:if expression="istop==0">
+        <div class="carbox por fl">
+            <a class="car poa" href="javascript:void(0)" title="我的购物车">
+                <s class="icon"></s><em>我的购物车</em><span>></span>
+                <strong class="poa" id="ProductBuyCount"><$Sessions.ProductBuyCount$></strong>
+            </a>
+            <div class="whiteLine poa"></div>
+            <div class="dropdown poa">
+                <h3 class="droptitle">最新加入的商品</h3>
+                <ul class="list">
+<!--ajax加载购物车前4件 -->           
+                                
+                </ul>
+                <div class="carbtn"><a href="/cart.html">去购物车</a></div>
+            </div>
+        </div>
+        </html:if>
+    </div>
+</div>
+<div id="nav_main">
+    <div id="nav" <%if(istop==0){ %> class="w1210" <%}else{ %> class="w990"<%} %>>
+        <div class="wholeSort fl por">
+            <span>全部分类</span>
+            
+            <div class="listshow poa <%if(topNav!=1){%>hidden<%}%>>">
+                <html:foreach expression="ProductClassInfo productClass in productClassList.Take(7)">
+                    <div class="item">
+                        <div class="listshow_content">
+                            <h2><a href="/list.html?cat=<%=productClass.Id%>"><b>></b><$productClass.Name$></a></h2>
+                            <html:foreach expression="ProductClassInfo childssssProductClass in ProductClassBLL.ReadChilds(productClass.Id).Take(3)">
+                                <a href="/list.html?cat=<%=ProductClassBLL.ReadFullParentId(childssssProductClass.Id)%>"><$childssssProductClass.Name$></a>
+                            </html:foreach>
+                        </div>
+                        <div class="navlist_content">
+                            <html:foreach expression="ProductClassInfo childssssProductClass in ProductClassBLL.ReadChilds(productClass.Id)">
+                               <div class="threefloor clearfix"><a href="/list.html?cat=<%=ProductClassBLL.ReadFullParentId(childssssProductClass.Id)%>" class="twofloor"><$childssssProductClass.Name$></a>
+                                <%var _thirdproductclasslist=ProductClassBLL.ReadChilds(childssssProductClass.Id);%>
+                                <html:if expression="_thirdproductclasslist.Count>0">
+                                <p>
+                                    <html:foreach expression="ProductClassInfo thirdchildsProductClass in _thirdproductclasslist">
+                                    <a href="/list.html?cat=<%=ProductClassBLL.ReadFullParentId(thirdchildsProductClass.Id)%>"><$thirdchildsProductClass.Name$></a>
+                                        </html:foreach>
+                                    
+                                </p>
+                               </html:if>
+                               </div>
+                            </html:foreach>
+                        </div>
+                    </div>
+                    <span class="split"></span>
+                </html:foreach>
+                      
+                    </div>
+</div>
+            <div class="nav fl">
+                <a href="/" <%if(topNav==1){%>style="color: #b61d1d;"<%}%>>首页</a> 
+                  <%foreach (NavMenuInfo pcs in topNavMenuList){%>
+                    <a <%if(Request.RawUrl.ToLower()==pcs.LinkUrl.ToLower()){%>style="color: #b61d1d;"<%}%> href="<%=pcs.LinkUrl%>"><%=pcs.Name%></a>
+                  <%}%>
+       
+            </div>
+        </div>
+    </div>
+    

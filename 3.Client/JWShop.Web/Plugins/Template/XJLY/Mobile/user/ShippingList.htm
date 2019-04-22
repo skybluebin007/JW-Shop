@@ -1,0 +1,23 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<html:include file="/Mobile/Head.htm" />
+</head>
+<body>
+<header class="header-min" id="header">
+	<a class="back" href="javascript:;" ig-back>返回</a>
+	<h2>物流查询(<span style="color: red;"><%=tempOrder.OrderNumber%></span>)</h2>
+     <html:include file="/Mobile/TopLink.htm" />
+</header>
+<section class="wrapper user" id="wrapper">
+
+	<div class="user-email-form">
+    
+        <div class="conIndex userInfo"> <iframe width="100%" src="<%=shippingStr%>" height="260"></iframe></div>
+        
+    </div>
+</section>
+     <html:include file="/Mobile/Foot.htm" />
+    <html:include file="/Mobile/FootScript.htm" />
+</body>
+</html>   

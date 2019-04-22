@@ -1,0 +1,129 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{21FC24D1-5DFB-4BF7-B416-0EC6F98A96EE}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>JWShop.Page.Lab</RootNamespace>
+    <AssemblyName>JWShop.Page.Lab</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json.Net20">
+      <HintPath>..\JWShop.Web\Lib\Newtonsoft.Json.Net20.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="About.cs" />
+    <Compile Include="Ajax.cs" />
+    <Compile Include="BasePage\AdminBasePage.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="BasePage\AjaxBasePage.cs" />
+    <Compile Include="BasePage\BasePage.cs" />
+    <Compile Include="BasePage\CommonBasePage.cs" />
+    <Compile Include="BasePage\ShopBasePage.cs" />
+    <Compile Include="BasePage\UserAjaxBasePage.cs" />
+    <Compile Include="BasePage\UserBasePage.cs" />
+    <Compile Include="Cart.cs" />
+    <Compile Include="CartAjax.cs" />
+    <Compile Include="CheckOut.cs" />
+    <Compile Include="CheckOutShippingAjax.cs" />
+    <Compile Include="Default.cs" />
+    <Compile Include="Detail.cs" />
+    <Compile Include="DetailShippingAjax.cs" />
+    <Compile Include="error.cs" />
+    <Compile Include="Finish.cs" />
+    <Compile Include="Fresh.cs" />
+    <Compile Include="Gift.cs" />
+    <Compile Include="GiftDetail.cs" />
+    <Compile Include="GiftExchange.cs" />
+    <Compile Include="Help.cs" />
+    <Compile Include="List.cs" />
+    <Compile Include="ProductCommentAjax.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SearchResults.cs" />
+    <Compile Include="SiteMap.cs" />
+    <Compile Include="Subject.cs" />
+    <Compile Include="SubjectShow.cs" />
+    <Compile Include="User\ChangeMobile.cs" />
+    <Compile Include="User\ChangePassword.cs" />
+    <Compile Include="User\FindPassword.cs" />
+    <Compile Include="User\Index.cs" />
+    <Compile Include="User\Login.cs" />
+    <Compile Include="User\Logout.cs" />
+    <Compile Include="User\Order.cs" />
+    <Compile Include="User\OrderAjax.cs" />
+    <Compile Include="User\OrderDetail.cs" />
+    <Compile Include="User\ProviderGoods.cs" />
+    <Compile Include="User\ProviderGoodsAjax.cs" />
+    <Compile Include="User\Register.cs" />
+    <Compile Include="User\UserAccountRecord.cs" />
+    <Compile Include="User\UserAdd.cs" />
+    <Compile Include="User\UserAddress.cs" />
+    <Compile Include="User\UserCollect.cs" />
+    <Compile Include="User\UserProductComment.cs" />
+    <Compile Include="User\UserProductCommentAdd.cs" />
+    <Compile Include="User\UserRecharge.cs" />
+    <Compile Include="User\UserRechargeAjax.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\0.Libraries\JWShop.Common\JWShop.Common.csproj">
+      <Project>{132a8616-e78a-4a4f-93e1-e299da9868df}</Project>
+      <Name>JWShop.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\0.Libraries\SkyCES.EntLib\SkyCES.EntLib.csproj">
+      <Project>{b77e4f27-61fd-45fc-a232-afb8cb25b2f0}</Project>
+      <Name>SkyCES.EntLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\2.Service\JWShop.Business\JWShop.Business.csproj">
+      <Project>{d761ee23-4298-4feb-8c74-5bb6d94580e9}</Project>
+      <Name>JWShop.Business</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\2.Service\JWShop.Entity\JWShop.Entity.csproj">
+      <Project>{e65f00f5-9549-4d83-a1dc-f04a3374bab7}</Project>
+      <Name>JWShop.Entity</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

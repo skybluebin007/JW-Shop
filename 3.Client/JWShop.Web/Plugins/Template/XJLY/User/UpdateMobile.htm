@@ -1,0 +1,190 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <html:include file="/_Head.htm" />
+
+</head>
+<body>
+<html:include file="/_UTop.htm" />
+    <div id="myOrder">
+        <div class="w1210 clearfix">
+            <html:include file="/User/UserLeft.htm" />
+        <div id="right" class="content fr">
+            <html:include file="/User/UserTop.htm" />
+            <div class="orderList" id="userTab">
+                <div class="tab">
+                    <a href="javascript:;" class="item cur">验证手机</a> 
+                    <div class="clear">
+                    </div>
+                </div>
+                <div class="container">
+                    <div class="conIndex userInfo">
+                        <form action="" method="post" name="form" enctype="multipart/form-data">
+                        <input type="hidden" name="file_code" value="" />
+                        <table cellpadding="0" cellspacing="0" border="0" width="100%" class="tableThemes_6">
+                            <tr>
+                                <td align="right" width="120" height="40">
+                                    用户名：
+                                </td>
+                                <td align="left">
+                                    <$base.UserName$>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td align="right" height="40">手机号码：
+                                </td>
+                                <td align="left">
+                                    <input type="text" name="Mobile" id="Mobile" value="<$CurrentUser.Mobile$>" maxlength="11" onblur="checkMobile()" /><span class="red">*</span><input id="CheckMobile" value="0" type="hidden" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td align="right" height="40">手机校验码：
+                                </td>
+                                <td align="left">
+                                    <input type="text" name="phoneVer" id="phoneVer" value="" placeholder="请输入手机校验码" maxlength="5" />
+                                    <input type="button" class="yzm" id="get_code" value="获取校验码" />
+                                </td>
+                            </tr>
+                            <tr valign="middle">
+                                <td align="right" height="40">
+                                </td>
+                                <td align="left">
+                                    <input type="button" value="确定" id="submit_info" name="" class="submit" />
+                                </td>
+                            </tr>
+                        </table>
+                        </form>
+                    </div>
+            
+                    <div class="clear">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="clear">
+        </div>
+        </div>
+    </div>
+    <html:include file="/_Foot.htm" />
+    <div class="hidden" title="codes">
+    </div>
+<script type="text/javascript">
+    function checkMobile() {
+        var emailObj = o("Mobile");
+        var checkEmailObj = o("CheckMobile");
+        if (emailObj.value != "") {
+            if (!Validate.isMobile(emailObj.value)) {
+                checkEmailObj.value = "1";
+                return;
+            }
+            else {
+
+                $.ajax({
+                    type: 'post',
+                    url: "/Ajax.html?Action=CheckMobile&Mobile=" + encodeURIComponent(emailObj.value) + "&checkUserId=1",
+                    data: {},
+                    cache: false,
+                    //dataType: 'json',
+                    success: function (data) {
+                        if (data == "2") {
+                            checkEmailObj.value = "0";
+                        }
+                        else {
+                            checkEmailObj.value = "2";
+                        }
+                    },
+                    error: function () { }
+                });
+
+            }
+        }
+
+    }
+
+    $(function () {
+        var wait_sec=<$wait$>;
+        var util = {
+            wait: <$wait$>,
+            hsTime: function (that) {
+                var _this = this;
+                if (_this.wait == 0) {
+                    $(that).removeAttr("disabled").val('获取短信校验码');
+                    _this.wait = 60;
+                } else {
+                    $(that).attr("disabled", true).val('在' + _this.wait + '秒后点此重发');
+                    _this.wait--;
+                    setTimeout(function () {
+                        _this.hsTime(that);
+                    }, 1000)
+                }
+            }
+        }
+
+        $("#get_code").click(function () {
+            var mobile = $.trim($('#Mobile').val());
+            if (!Validate.isMobile(mobile)) {
+                alertMessage("请填写有效的手机号");
+                $('#Mobile').focus();
+                return;
+            }
+            $.ajax({
+                url: '/Ajax.aspx?Action=GetVerifyCode&mobile=' + mobile,
+                type: 'GET',
+                success: function (result) {
+                    var msg=result.split('|');
+                    if (msg[0] == "ok") {
+                        alertMessage("校验码已发送，请及时完成验证");
+                        util.wait = 60;
+                        util.hsTime('#get_code');
+                    }
+                    else {
+                        alertMessage(msg[1]);
+                    }
+                }
+            });
+        })
+
+        if (wait_sec > 0) util.hsTime('#get_code');
+
+        $("#submit_info").click(function () {  
+       
+            checkMobile();
+   
+            if ($("#Mobile").val() == "" || !Validate.isMobile($("#Mobile").val())) {
+                alertMessage("手机号码输入错误");
+                $("#Mobile").focus();
+                return false;
+            }
+            if ($("#CheckMobile").val() == "2") {
+                alertMessage("手机号码已被其他会员注册");
+                $("#Mobile").focus();
+                return false;
+            }
+            if ($("#phoneVer").val() == "") {
+                alertMessage("校验码不能为空");
+                $("#phoneVer").focus();
+                return false;
+            }
+            $.ajax({
+                url: '/User/updatemobile.html?Action=UpdateMobile',
+                type: 'POST',
+                data: $("form").serialize(),
+                success: function (result) {
+                    var arr = result.split('|');
+                    if (arr[0] == "ok") {
+                        alertMessage("修改成功", 500);
+                        $("#phoneVer").val("");
+                    }
+                    else {
+                        alertMessage(arr[1], 500);
+                    }
+                }
+            });
+        })  
+    })
+
+   
+</script>
+</body>
+</html>

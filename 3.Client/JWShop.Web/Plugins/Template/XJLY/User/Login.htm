@@ -1,0 +1,72 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <html:include file="/_Head.htm" />
+</head>
+<body id="loginForm">
+    <!--header start-->
+    <div id="header_main">
+        <div id="header" class="w1210 clearfix">
+            <div id="logo_main" class="fl">
+                <a class="logo fl" href="/" title="<$ShopConfig.ReadConfigInfo().Title$>">
+                    <img src="<$ShopCommon.ShowImage(ShopConfig.ReadConfigInfo().LogoAddress)$>" alt="<$ShopConfig.ReadConfigInfo().Title$>"
+                        title="<$ShopConfig.ReadConfigInfo().Title$>"  width="<%=ShopConfig.ReadConfigInfo().UPLogoWidth%>" height="<%=ShopConfig.ReadConfigInfo().UPLogoHeight%>"/>
+                </a>
+                <h1 class="txt fl">
+                    欢迎登陆</h1>
+            </div>
+        </div>
+    </div>
+    <!--main content start-->
+    <div id="floor_1_main" class="login" style="background: url(<$ShopCommon.ShowImage(ShopConfig.ReadConfigInfo().UserLoginPic)$>) no-repeat center top;">
+        <div id="floor_1" class="w1210">
+        <div id="loginForms">
+            <form action="/User/Login.html" method="post" class="loginCon fr">
+            <input type="hidden" name="RedirectUrl" id="RedirectUrl" value="<$HttpUtility.UrlEncode(Request["RedirectUrl"])$>" />
+            <div class="title">
+                <a href="/User/Register.html" target="_blank" class="fr"><s class="icon"></s>立即注册</a><h2>
+                   <$ShopConfig.ReadConfigInfo().SiteName$></h2>
+            </div>
+            <div class="item xm clearfix">
+                <label for="Name" class="icon">
+                </label>
+          <input type="text" value="" name="UserName" id="UserName" class="txt" placeholder="用户名/手机/邮箱"/>
+            </div>
+            <div class="item password clearfix">
+                <label for="password" class="icon">
+                </label>
+          <input type="password" value="" name="UserPassword" id="UserPassword" class="txt" maxlength="<$ShopConfig.ReadConfigInfo().PasswordMaxLength$>" placeholder="登录密码"/>
+            </div>
+            <p class="p1">
+                <a href="/User/FindPasswordInit.html" title="" target="_blank" class="fr">忘记密码</a>
+                <label for="checkbox"><input type="checkbox" id="checkbox" value="1" name="autoLogin"/>自动登录</label></p>
+            <div class="btn">
+                <input type="submit" value="登 录" class="sub" id="sub">
+                 <input type="hidden" name="Action" value="PostBack" />
+                </div>
+            <ul>
+               <!-- <li><a href="/" title="官网" target="_blank">官网</a></li>|-->
+                <%int li=1;%>
+             <html:foreach expression="LoginPluginsInfo loginPlugins in LoginPlugins.ReadEnabledLoginPluginsList()">               
+                <li><a href="/Plugins/Login/<%=loginPlugins.Key%>/Login.aspx" title="<$loginPlugins.Name$>" target="_blank"><$loginPlugins.Name$></a> </li>
+                 <%if(li<LoginPlugins.ReadEnabledLoginPluginsList().Count){%>|<%}li++;%>                       
+            </html:foreach>
+            </ul>
+            </form>
+
+            </div>
+        </div>
+    </div>
+    <!-- footer start -->
+    <html:include file="/_UFoot.htm" />
+    <script type="text/javascript" src="<html:templatePath>/js/single.js"></script>
+    <div class="hidden" title="codes"></div>
+    <script type="text/javascript">
+        $(function () {
+            var msg = '<%=result %>';
+            if (msg != "")
+                alertMessage(msg);
+        });        
+    </script>
+</body>
+</html>

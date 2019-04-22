@@ -1,0 +1,128 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<html:include file="/Mobile/Head.htm" />
+    <script language="javascript" type="text/javascript" src="/Admin/Js/UnlimitClass.js" ></script>
+    <script src="/laydate/laydate.js"></script>
+</head>
+<body>
+<header class="header-min clearfix" id="header">
+    <div class="back" ig-back></div>
+    <h2>基础资料</h2>
+    <html:include file="/Mobile/TopLink.htm" />
+</header>
+<section class="wrapper user" id="wrapper">
+	<ul class="user-info-tabbed">
+    	<li class="current">基本资料</li>
+        <li>用户头像</li>
+    </ul>
+	<div class="user-address-form">
+    	<form action="/Mobile/User/UserAdd.html" method="post" name="form" id="infoForm">
+            <div class="row">
+                <div class="head">性别：<$CurrentUser.Sex$></div>
+                <ul class="radio">
+                    <li><label class="ug-radio <html:if expression="CurrentUser.Sex==1">checked</html:if>"><input type="radio" name="Sex" <html:if expression="CurrentUser.Sex==1">checked</html:if> value="1" />男</label></li>
+                    <li><label class="ug-radio <html:if expression="CurrentUser.Sex==2">checked</html:if>"><input type="radio" name="Sex" <html:if expression="CurrentUser.Sex==2">checked</html:if> value="2" />女</label></li>
+                    <li><label class="ug-radio <html:if expression="CurrentUser.Sex==3">checked</html:if>"><input type="radio" name="Sex" <html:if expression="CurrentUser.Sex==3">checked</html:if> value="3" />性别保密</label></li>
+                </ul>
+            </div>
+            <div class="row">
+                <div class="head">手机：</div>
+                <html:if expression="!string.IsNullOrEmpty(CurrentUser.Mobile)">
+                  您验证的手机：<$ShopCommon.GetStarString(CurrentUser.Mobile)$> <a href="/mobile/user/updatemobile.html" style="color: #005ea7;padding-left:10px;">修改</a>
+                <html:else>
+                 <span style="color:#cc0000;">还没绑定手机</span> <a href="/mobile/user/updatemobile.html" style="color: #005ea7;padding-left:10px;">去绑定</a>
+                    </html:if>
+            </div>
+            <div class="row">
+                <div class="head">电子邮箱：</div>
+               <html:if expression="!string.IsNullOrEmpty(CurrentUser.Email)">
+                您验证的邮箱：<%if(CurrentUser.Email.Split('@').Length>1){%>
+                                            <%=ShopCommon.GetStarString(CurrentUser.Email.Split('@')[0])+"@"+CurrentUser.Email.Split('@')[1]%>
+                                            <%}else{%>
+                                            <%=ShopCommon.GetStarString(CurrentUser.Email)%>
+                                            <%}%>
+                                       <a href="/mobile/user/updateemail.html" style="color: #005ea7;padding-left:10px;">修改</a>
+                                    <html:else>
+                                        <span style="color:#cc0000;">还没绑定邮箱</span> <a href="/mobile/user/updateemail.html" style="color: #005ea7;padding-left:10px;">去绑定</a>
+                                </html:if>
+            </div>
+            <div class="row">
+                <div class="head">出生日期：</div>
+                <input type="text" class="txt" name="Birthday" id="Birthday" onclick="laydate()"  value="<$CurrentUser.Birthday$>" placeholder="出生日期" maxlength="11" error="请输入正确的出生日期" />
+            </div>            
+            <div class="row">
+                <div class="head">QQ：</div>
+                <input type="tel" class="txt" name="QQ" id="QQ" value="<$CurrentUser.QQ$>" placeholder="QQ" maxlength="11" error="请输入正确的QQ号码" />
+            </div>
+
+            <div class="row">
+                <div class="head">固定电话：</div>
+                <input type="tel" class="txt" name="Tel" id="Tel" value="<$CurrentUser.Tel$>" placeholder="固定电话" maxlength="15" error="请输入正确的固定电话号码" />
+            </div>
+            <div class="row">
+                <div class="head">所在地区：</div>
+                <$singleUnlimitClass.ShowContent()$>
+            </div>
+            <div class="row">
+                <div class="head">详细地址：</div>
+                <input type="text" class="text" name="Address" id="Address" placeholder="详细地址" value="<$CurrentUser.Address$>" />
+            </div>
+            <div class="row">
+                <div class="head">个人介绍：</div>
+                <textarea class="text" name="Introduce" placeholder="个人介绍"><$CurrentUser.Introduce$></textarea>
+            </div>
+            <div class="logreg-wram" id="logregWram"></div>
+            <div class="row">
+                <input type="submit" class="submit" value="提交" onclick="CheckEdit()"><input type="hidden" name="Action" value="PostBack" />
+            </div>
+        </form>
+    </div>
+</section>
+
+    <html:include file="/Mobile/Foot.htm" />
+    <html:include file="/Mobile/FootScript.htm" />
+    <script src="<html:templatePath>/Mobile/static/js/city.js"></script>
+    <script>
+        function CheckEdit() {
+            var email = $("#Email").val();
+            var mobile = $("#Mobile").val();
+            var qq = $("#QQ").val();
+            //if (email == "") {
+            //    alertMessage("邮箱不能为空");
+            //    $("#Email").focus();
+            //    return false;
+            //}
+            //if (mobile == "") {
+            //    alertMessage("移动电话不能为空");
+            //    $("#Mobile").focus();
+            //    return false;
+            //}
+            //if (email != "") {
+            //    if (!Validate.isEmail(email)) {
+            //        $("#Email").focus();
+            //        alertMessage("请输入正确的邮箱");
+            //        return false;
+            //    }
+            //}
+            if (qq != "") {
+                if (!Validate.isNumber(qq)) {
+                    $("#QQ").focus();
+                    alertMessage("QQ号码有错误");
+                    return false;
+                }
+            }
+            //if (mobile != "") {
+            //    if (!Validate.isMobile(mobile)) {
+            //        $("#Mobile").focus();
+            //        alertMessage("手机号错误");
+
+            //        return false;
+            //    }
+            //}
+
+            this.form.submit();
+        }
+    </script>
+</body>
+</html>

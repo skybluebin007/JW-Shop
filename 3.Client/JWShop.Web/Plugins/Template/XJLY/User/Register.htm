@@ -1,0 +1,284 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <html:include file="/_Head.htm" />
+</head>
+<body id="loginForm">
+    <!--header start-->
+    <div id="header_main">
+        <div id="header" class="w1210 clearfix">
+            <div id="logo_main" class="fl">
+                <a class="logo fl" href="/" title="<$ShopConfig.ReadConfigInfo().Title$>">
+                    <img src="<$ShopCommon.ShowImage(ShopConfig.ReadConfigInfo().LogoAddress)$>" alt="<$ShopConfig.ReadConfigInfo().Title$>"
+                        title="<$ShopConfig.ReadConfigInfo().Title$>"  width="<%=ShopConfig.ReadConfigInfo().UPLogoWidth%>" height="<%=ShopConfig.ReadConfigInfo().UPLogoHeight%>"/>
+                </a>
+                <h1 class="txt fl">
+                    欢迎注册</h1>
+            </div>
+            <div class="entrance fr">
+                已有账号<a href="/User/Login.html" title="请登录" target="">请登录</a></div>
+        </div>
+    </div>
+    <!--main content start-->
+    <div id="floor_1_main" class="regist">
+        <div id="floor_1" class="clearfix">
+            <div class="floor_1_1 fl" id="divRegister">
+                <form name="fmRegister">
+                <div class="itembox">
+                    <div class="item">
+                        <label for="UserName">
+                            用 户 名</label>
+                        <input type="text" class="txt" name="UserName" id="UserName" value="" maxlength="<$ShopConfig.ReadConfigInfo().UserNameMaxLength$>" onblur="checkUserName(<$ShopConfig.ReadConfigInfo().UserNameMinLength$>,<$ShopConfig.ReadConfigInfo().UserNameMaxLength$>)"
+                            placeholder="您的账号名和登录名" />
+                        <input id="CheckUserName" value="0" type="hidden" />
+                        <s id="id_ico" class="icon"></s>
+                    </div>
+                    <div class="tipspan">
+                        <span id="UserNameWarningMessage"></span>
+                    </div>
+                </div>
+                <div class="itembox passw clearfix">
+                    <div class="item fl">
+                        <label for="UserPassword1">
+                            设置密码</label>
+                        <input type="password" class="txt" name="UserPassword1" id="UserPassword1" maxlength="<$ShopConfig.ReadConfigInfo().PasswordMaxLength$>" onblur="checkUserPass(<$ShopConfig.ReadConfigInfo().PasswordMinLength$>,<$ShopConfig.ReadConfigInfo().PasswordMaxLength$>)"
+                            onkeyup="pwStrength(this.value)" placeholder="建议至少使用两种字符组合" />
+                        <input id="CheckUserPassword1" value="0" type="hidden" />
+                        <s class="icon"></s>
+                    </div>
+                    <div class="safe fl" id="safe">
+                        <span class="s1"><i id="strength_L" bgcolor="#eeeeee"></i>弱</span> <span class="s2">
+                            <i id="strength_M" bgcolor="#eeeeee"></i>中</span> <span class="s3"><i id="strength_H"
+                                bgcolor="#eeeeee"></i>强</span>
+                    </div>
+                    <div class="tipspan fl">
+                        <span id="PasswordWarningMessage1"></span>
+                    </div>
+                </div>
+                <div class="itembox">
+                    <div class="item">
+                        <label for="UserPassword2">
+                            确认密码</label>
+                        <input type="password" class="txt" name="UserPassword2" onblur="checkUserPass2(<$ShopConfig.ReadConfigInfo().PasswordMinLength$>,<$ShopConfig.ReadConfigInfo().PasswordMaxLength$>)"
+                            id="UserPassword2" placeholder="请再次输入密码" />
+                        <input id="CheckUserPassword2" value="0" type="hidden" />
+                        <s class="icon"></s>
+                    </div>
+                    <div class="tipspan">
+                        <span id="PasswordWarningMessage2"></span>
+                    </div>
+                </div>
+<input type="hidden" id="registerType" value="<$ShopConfig.ReadConfigInfo().RegisterCheck$>" />
+<html:if expression="ShopConfig.ReadConfigInfo().RegisterCheck==1">
+    <!--短信验证-->
+                <div class="itembox" id="divMobile">
+                    <div class="item">
+                        <label for="Phone">
+                            手机号码</label>
+                        <input type="text" class="txt" name="Phone" id="Phone" onblur="checkPhone()" value=""
+                            placeholder="建议使用常用手机" maxlength="11" />
+                        <input id="CheckPhone" value="0" type="hidden" />
+                        <s class="icon"></s>
+                    </div>
+                    <div class="tipspan">
+                        <span id="PhoneWarningMessage"></span>
+                    </div>
+                </div>
+                <div class="itembox" id="divMobileCode">
+                    <div class="item phoneVer clearfix">
+                        <label for="phoneVer">
+                            手机校验码</label>
+                        <input type="text" name="phoneVer" id="phoneVer" value="" placeholder="请输入手机校验码"
+                            maxlength="5" />
+                        <input type="button" class="yzm" id="get_code" value="获取校验码" />
+                    </div>
+                </div>
+    <html:else>
+        <!--邮件验证-->
+        <div class="itembox" id="divEmail">
+                    <div class="item">
+                        <label for="Email">
+                            邮箱</label>
+                        <input type="text" class="txt" name="Email" id="Email" onblur="checkEmail()" value=""
+                            placeholder="建议使用常用邮箱" maxlength="50" />
+                        <input id="CheckEmail" value="0" type="hidden" />
+                        <s class="icon"></s>
+                    </div>
+                    <div class="tipspan">
+                        <span id="EmailWarningMessage"></span>
+                    </div>
+        </div>
+         <div class="itembox" id="divEmailCode">
+                    <div class="item">
+                        <label for="SafeCode">
+                            验证码</label>
+                        <input type="text" class="txt" name="SafeCode" id="SafeCode"  value="" placeholder="请输入验证码" maxlength="5" style="width: 200px;"/> 
+                         <img src="CheckCode.ashx" onclick="this.src='CheckCode.ashx?t=' + new Date();" style="cursor:pointer;height: 25px;" alt="点击刷新验证码" align="absmiddle" />                    
+                        <s class="icon"></s>
+                    </div>            
+        </div>
+</html:if>
+                <div class="input_check_box">
+                    <input id="AgreeProtocol" class="input_check" type="checkbox">
+                    <label for="">
+                        我已阅读并同意<span class="">《用户协议》</span></label>
+                </div>              
+                <input type="button" value="立即注册" name="submit" class="subbtn" onclick="return checkRegister()" />               
+                </form>
+            </div>
+            <div class="floor_1_2 fr">
+                <img src="<$ShopCommon.ShowImage(ShopConfig.ReadConfigInfo().UserRegisterPic)$>" alt="" title="" /></div>
+        </div>
+    </div>
+    <!-- footer start -->
+    <html:include file="/_UFoot.htm" />
+    <div class="agreement hidden">
+	    <div class="agreementCon">
+	    	<div class="agreen_title">用户注册协议</div>
+	        <div class="con">
+	            <$ShopConfig.ReadConfigInfo().Agreement$>
+	        </div>
+	        <div class="agreen_btn">同意并继续</div>
+	        <div class="close icon" title="关闭"></div>
+	    </div>
+    </div>
+    <div class="layout hidden" id="layout">
+    </div>
+    <script type="text/javascript" src="<html:templatePath>/js/Register.js"></script>
+
+    <script type="text/javascript">
+        //密码强度--start
+        $(function () {
+            $(".regist .itembox .txt").blur(function () {
+                var txt = $(this).next().val();
+                //console.log(txt)
+                if (txt > 0) {
+                    $(this).siblings("s").css("display", "block");
+                } else {
+                    $(this).siblings("s").css("display", "none");
+                }
+            });
+        });
+
+        //判断输入密码的类型    
+        function CharMode(iN) {
+            if (iN >= 48 && iN <= 57) //数字    
+                return 1;
+            if (iN >= 65 && iN <= 90) //大写    
+                return 2;
+            if (iN >= 97 && iN <= 122) //小写    
+                return 4;
+            else
+                return 8;
+        }
+        //bitTotal函数    
+        //计算密码模式    
+        function bitTotal(num) {
+            modes = 0;
+            for (i = 0; i < 4; i++) {
+                if (num & 1) modes++;
+                num >>>= 1;
+            }
+            return modes;
+        }
+        //返回强度级别    
+        function checkStrong(sPW) {
+            if (sPW.length < 4)
+            //       	$(".safe").css("display","none");
+                return 0; //密码太短，不检测级别  
+            Modes = 0;
+            for (i = 0; i < sPW.length; i++) {
+                //密码模式    
+                Modes |= CharMode(sPW.charCodeAt(i));
+            }
+            $(".safe").css("display", "inline-block");
+            return bitTotal(Modes);
+        }
+
+        //显示颜色
+        function pwStrength(pwd) {
+            Dfault_color = "#ccc";     //默认颜色  
+            L_color = "#FF0000";      //低强度的颜色，且只显示在最左边的单元格中  
+            M_color = "#e54606";      //中等强度的颜色，且只显示在左边两个单元格中  
+            H_color = "#399d83";      //高强度的颜色，三个单元格都显示  
+            if (pwd == null || pwd == '') {
+                Lcolor = Mcolor = Hcolor = Dfault_color;
+            }
+            else {
+                S_level = checkStrong(pwd);
+                switch (S_level) {
+                    case 0:
+                        Lcolor = Mcolor = Hcolor = Dfault_color;
+                        break;
+                    case 1:
+                        Lcolor = L_color;
+                        Mcolor = Hcolor = Dfault_color;
+                        break;
+                    case 2:
+                        Lcolor = Mcolor = M_color;
+                        Hcolor = Dfault_color;
+                        break;
+                    default:
+                        Lcolor = Mcolor = Hcolor = H_color;
+                }
+            }
+            document.getElementById("strength_L").style.background = Lcolor;
+            document.getElementById("strength_M").style.background = Mcolor;
+            document.getElementById("strength_H").style.background = Hcolor;
+            return;
+        }
+        //密码强度--end
+
+        //发送验证码--start
+        $(function () {
+            var wait_sec=<$wait$>;
+            var util = {
+                wait: <$wait$>,
+                hsTime: function (that) {
+                    var _this = this;
+                    if (_this.wait == 0) {
+                        $(that).removeAttr("disabled").val('获取短信校验码');
+                        _this.wait = 60;
+                    } else {
+                        $(that).attr("disabled", true).val('在' + _this.wait + '秒后点此重发');
+                        _this.wait--;
+                        setTimeout(function () {
+                            _this.hsTime(that);
+                        }, 1000)
+                    }
+                }
+            }
+
+            $("#get_code").click(function () {
+                var mobile = $.trim($('#Phone').val());
+                if (!Validate.isMobile(mobile) || $("#CheckPhone").val()!="1") {
+                    alertMessage("请填写正确有效的手机号");
+                    $('#Phone').focus();
+                    return;
+                }
+                if($("#CheckPhone").val()=="1"){
+                    $.ajax({
+                        url: '/Ajax.aspx?Action=GetVerifyCode&mobile=' + mobile,
+                        type: 'GET',
+                        success: function (result) {
+                            var msg=result.split('|');
+                            if (msg[0] == "ok") {
+                                alertMessage("校验码已发送，请及时完成验证");
+                                util.wait = 60;
+                                util.hsTime('#get_code');
+                            }
+                            else {
+                                alertMessage(msg[1]);
+                            }
+                        }
+                    });
+                }
+            })
+
+            if (wait_sec > 0) util.hsTime('#get_code');
+        })
+        //发送验证码--end
+    </script>
+  
+</body>
+</html>

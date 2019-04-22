@@ -1,0 +1,113 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <html:include file="/_Head.htm" />
+
+</head>
+
+<body>
+   <html:include file="/_UTop.htm" />
+    <!--header start-->
+    <!--nav start-->
+    <!--main content start-->
+    <div id="myOrder">
+        <div class="w1210 clearfix">
+            <html:include file="/User/UserLeft.htm" />
+			<div id="right" class="content fr">
+            <div class="orderList">
+        	    <div class="tab">
+            	    <a style="margin-top: 0;" href="javascript:;" class="item cur">退款申请信息</a>
+            	    <div class="clear"></div>
+                </div>
+                <div class="container">
+                    <div class="conIndex">
+                        <table cellpadding="0" cellspacing="0" border="0" class="tableThemes_6" style="width: auto;">
+                            <tr>
+                                <td align="right" width="100" height="40">订单编号：</td>
+                                <td align="left"><a href="/user/orderdetail.html?id=61" target="_blank"><%=order.OrderNumber%></a></td>
+                            </tr>
+                            <tr>
+                                <td align="right" height="40">申请时间：</td>
+                                <td align="left"><%= orderRefund.TmCreate %></td>
+                            </tr>
+                            <html:if expression="orderRefund.OrderDetailId > 0">
+                                <html:csharp>
+                                    var _orderDetail = OrderDetailBLL.Read(orderRefund.OrderDetailId);
+                                    var _product = ProductBLL.Read(_orderDetail.ProductId);
+                                </html:csharp>
+                                <tr>
+                                    <td align="right" height="40">退款商品：</td>
+                                    <td align="left">
+                                        <a href="/ProductDetail-I<%=_product.Id%>.html" target="_blank" title="<%=_orderDetail.ProductName%>" class="refund_custom_a">
+                                            <img src="<%=_product.Photo.Replace("Original","90-90")%>" alt="<%=_orderDetail.ProductName%>" />
+                                            <p><%=_orderDetail.ProductName%></p>
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td align="right" height="40">退款数量：</td>
+                                    <td align="left"><b class="red"><%= orderRefund.RefundCount %></b></td>
+                                </tr>
+                            </html:if>
+                            <tr>
+                                <td align="right" height="40">退款金额：</td>
+                                <td align="left">
+                                    <html:if expression="orderRefund.RefundBalance > 0">余额：<%= orderRefund.RefundBalance %> </html:if>
+                                    <html:if expression="orderRefund.RefundMoney > 0"><%=(orderRefund.RefundBalance > 0 ? "+" : "")%> <%= orderRefund.RefundPayName %>： <%= orderRefund.RefundMoney %></html:if>
+                                     = <b class="red"><%= (orderRefund.RefundBalance + orderRefund.RefundMoney) %></b>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td align="right" height="40">退款说明：</td>
+                                <td align="left"><%= orderRefund.RefundRemark %></td>
+                            </tr>
+                            <html:if expression="orderRefundActionList.Count > 0">
+    	                        <tr>
+                                    <td align="right" height="40">退款进度：</td>
+                                    <td align="left" style="width: 88%;">
+                                        <table cellpadding="0" cellspacing="0" border="0" width="100%" class="tableThemes_2 collection">
+                                            <thead>
+                                                <tr>
+                                                    <td align="center" style="width:15%; height: 35px;">处理人</td>
+                                                    <td align="center" style="width:10%">处理状态</td>
+                                                    <td align="center" style="width:60%">备注</td>
+                                                    <td align="center" style="width:15%">处理时间</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <html:foreach expression="var item in orderRefundActionList">
+                                                    <tr class="even">
+                                                        <td align="center" style="height: 50px;"><%= (item.UserType == 2 ? "系统" : item.UserName) %></td>
+                                                        <td align="center" style="height: 50px;" class="refund-action-status <%=(item.Status == (int)BoolType.True ? "accept" : "unaccept")%>"></td>
+                                                        <td align="center" style="height: 50px;"><%= item.Remark %></td>
+                                                        <td align="center" style="height: 50px;"><%= item.Tm %></td>
+                                                    </tr>
+                                                </html:foreach>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </html:if>
+
+                            <html:if expression="OrderRefundBLL.CanToReturn(orderRefund.Status)">
+                                <tr>
+                                    <td align="right" height="40"></td>
+                                    <td align="left">
+                                        <input class="submit" value="取消退款申请" type="button" style=" width: 120px; height: 30px; line-height: 30px;" onclick="cancelRefund(<%=orderRefund.Id%>)" />
+                                    </td>
+                                </tr>                                
+                            </html:if>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        	</div>
+			</div>
+        <div class="clear"></div>
+    </div>
+
+    <html:include file="/_Foot.htm" />
+    <script type="text/javascript" src="<html:templatePath>/js/orderrefund.js"></script>
+</body>
+</html>

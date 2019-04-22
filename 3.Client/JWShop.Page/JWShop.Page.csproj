@@ -1,0 +1,253 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.21022</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{E32567A7-ECB4-4C24-8940-E680236E9BCA}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>JWShop.Page</RootNamespace>
+    <AssemblyName>JWShop.Page</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <UpgradeBackupLocation />
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile />
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccProvider>
+    </SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\JWShop.Web\Lib\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Ajax.cs" />
+    <Compile Include="ArticleDetail.cs" />
+    <Compile Include="BasePage\AdminBasePage.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="BasePage\AjaxBasePage.cs">
+    </Compile>
+    <Compile Include="BasePage\CommonBasePage.cs">
+    </Compile>
+    <Compile Include="BasePage\ShopBasePage.cs" />
+    <Compile Include="BasePage\UserAjaxBasePage.cs" />
+    <Compile Include="BasePage\UserBasePage.cs" />
+    <Compile Include="CheckOutAddressAjax.cs" />
+    <Compile Include="CheckOutShippingAjax.cs" />
+    <Compile Include="Default.cs">
+    </Compile>
+    <Compile Include="Finish.cs" />
+    <Compile Include="Gift.cs" />
+    <Compile Include="GiftDetail.cs" />
+    <Compile Include="GiftExchange.cs" />
+    <Compile Include="Mobile\About.cs" />
+    <Compile Include="Mobile\Ajax.cs" />
+    <Compile Include="Mobile\Cart.cs" />
+    <Compile Include="Mobile\CartAjax.cs" />
+    <Compile Include="Mobile\CheckOut.cs" />
+    <Compile Include="Mobile\CheckOutAddressAjax.cs" />
+    <Compile Include="Mobile\CheckOutShippingAjax.cs" />
+    <Compile Include="Mobile\CommentOrderProduct.cs" />
+    <Compile Include="Mobile\Default.cs" />
+    <Compile Include="Mobile\Detail.cs" />
+    <Compile Include="Mobile\Finish.cs" />
+    <Compile Include="Mobile\Fresh.cs" />
+    <Compile Include="Mobile\List.cs" />
+    <Compile Include="Mobile\ProductAjax.cs" />
+    <Compile Include="Mobile\ProductClass.cs" />
+    <Compile Include="Mobile\ProductCommentAjax.cs" />
+    <Compile Include="Mobile\ProductDetail.cs" />
+    <Compile Include="Mobile\Subject.cs" />
+    <Compile Include="Mobile\SubjectShow.cs" />
+    <Compile Include="Mobile\User\ChangePassword.cs" />
+    <Compile Include="Mobile\User\FindPassword.cs" />
+    <Compile Include="Mobile\User\Index.cs" />
+    <Compile Include="Mobile\User\Login.cs" />
+    <Compile Include="Mobile\User\Logout.cs" />
+    <Compile Include="Mobile\User\Order.cs" />
+    <Compile Include="Mobile\User\OrderDetail.cs" />
+    <Compile Include="Mobile\User\Register.cs" />
+    <Compile Include="Mobile\User\RegisterProtocol.cs" />
+    <Compile Include="Mobile\User\UserAccountRecord.cs" />
+    <Compile Include="Mobile\User\UserAdd.cs" />
+    <Compile Include="Mobile\User\UserAddress.cs" />
+    <Compile Include="Mobile\User\UserAddressAdd.cs" />
+    <Compile Include="Mobile\User\UserCollect.cs" />
+    <Compile Include="Mobile\User\UserProductCollect.cs" />
+    <Compile Include="Mobile\User\UserProductComment.cs" />
+    <Compile Include="Mobile\User\UserProductCommentAdd.cs" />
+    <Compile Include="News.cs" />
+    <Compile Include="NewsAjax.cs" />
+    <Compile Include="ProductBookingAdd.cs" />
+    <Compile Include="ProductDetail.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="BasePage\BasePage.cs" />
+    <Compile Include="SiteMap.cs" />
+    <Compile Include="User\ActiveUser.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="User\ChangeMobile.cs" />
+    <Compile Include="User\ChangePassword.cs" />
+    <Compile Include="User\Index.cs" />
+    <Compile Include="User\Login.cs" />
+    <Compile Include="User\Logout.cs" />
+    <Compile Include="User\Order.cs" />
+    <Compile Include="User\OrderAjax.cs" />
+    <Compile Include="User\OrderDetail.cs" />
+    <Compile Include="User\OrderEval.cs" />
+    <Compile Include="User\OrderRefund.cs" />
+    <Compile Include="User\OrderRefundApply.cs" />
+    <Compile Include="User\OrderRefundDetail.cs" />
+    <Compile Include="User\ProductBooking.cs" />
+    <Compile Include="User\ProductBookingDetail.cs" />
+    <Compile Include="User\ProviderGoods.cs" />
+    <Compile Include="User\ProviderGoodsAjax.cs" />
+    <Compile Include="User\Register.cs" />
+    <Compile Include="List.cs" />
+    <Compile Include="Detail.cs" />
+    <Compile Include="ProductCommentAjax.cs" />
+    <Compile Include="Cart.cs" />
+    <Compile Include="CartAjax.cs" />
+    <Compile Include="CheckOut.cs" />
+    <Compile Include="User\ResetPassword.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="User\UserAccountRecord.cs" />
+    <Compile Include="User\UserAccountRecordAjax.cs" />
+    <Compile Include="User\UserAdd.cs" />
+    <Compile Include="User\UserAddress.cs" />
+    <Compile Include="Subject.cs" />
+    <Compile Include="SubjectShow.cs" />
+    <Compile Include="Fresh.cs" />
+    <Compile Include="Help.cs" />
+    <Compile Include="About.cs" />
+    <Compile Include="User\UserCollect.cs" />
+    <Compile Include="User\UserCoupon.cs" />
+    <Compile Include="User\UserCouponAjax.cs" />
+    <Compile Include="User\UserMessage.cs" />
+    <Compile Include="User\UserMessageAjax.cs" />
+    <Compile Include="User\UserMessageDetail.cs" />
+    <Compile Include="User\UserProductCollect.cs" />
+    <Compile Include="User\UserProductComment.cs" />
+    <Compile Include="User\UserProductCommentAdd.cs" />
+    <Compile Include="User\UserRecharge.cs" />
+    <Compile Include="User\UserRechargeAjax.cs" />
+    <Compile Include="SearchResults.cs" />
+    <Compile Include="User\FindPassword.cs" />
+    <Compile Include="DetailShippingAjax.cs" />
+    <Compile Include="error.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\2.Service\JWShop.Business\JWShop.Business.csproj">
+      <Project>{d761ee23-4298-4feb-8c74-5bb6d94580e9}</Project>
+      <Name>JWShop.Business</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\0.Libraries\JWShop.Common\JWShop.Common.csproj">
+      <Project>{132a8616-e78a-4a4f-93e1-e299da9868df}</Project>
+      <Name>JWShop.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\2.Service\JWShop.Entity\JWShop.Entity.csproj">
+      <Project>{e65f00f5-9549-4d83-a1dc-f04a3374bab7}</Project>
+      <Name>JWShop.Entity</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\0.Libraries\SkyCES.EntLib\SkyCES.EntLib.csproj">
+      <Project>{b77e4f27-61fd-45fc-a232-afb8cb25b2f0}</Project>
+      <Name>SkyCES.EntLib</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

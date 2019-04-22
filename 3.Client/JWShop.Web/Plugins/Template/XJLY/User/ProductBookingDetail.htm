@@ -1,0 +1,98 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <html:include file="/_Head.htm" />
+</head>
+<body>
+<html:include file="/_UTop.htm" />
+    <div id="myOrder">
+        <div class="w1210 clearfix">
+        <html:include file="/User/UserLeft.htm" />
+         <div id="right" class="content fr">
+            <html:include file="/User/UserTop.htm" />
+            <div class="orderList" id="userTab">
+                <div class="tab">
+                    <a href="javascript:;" class="item cur">缺货登记</a>
+                    <div class="clear">
+                    </div>
+                </div>
+                <div class="container">
+                    <table cellpadding="0" cellspacing="0" border="0" width="100%" class="tableThemes_6">
+                        <tr>
+                            <td align="right" width="120" height="40">
+                                产品名称：
+                            </td>
+                            <td align="left">
+                                <$bookingProduct.ProductName$>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right" width="120" height="40">
+                                联系人：
+                            </td>
+                            <td align="left">
+                                <$bookingProduct.RelationUser$>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right" width="120" height="40">
+                                Email：
+                            </td>
+                            <td align="left">
+                                <$bookingProduct.Email$>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right" width="120" height="40">
+                                联系电话：
+                            </td>
+                            <td align="left">
+                                <$bookingProduct.Tel$>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right" width="120" height="40">
+                                用户备注：
+                            </td>
+                            <td align="left">
+                                <$bookingProduct.UserNote$>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right" width="120" height="40">
+                                登记时间：
+                            </td>
+                            <td align="left">
+                                <$bookingProduct.BookingDate$>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right" width="120" height="40">
+                                是否处理：
+                            </td>
+                            <td align="left">
+                                <html:if expression="bookingProduct.IsHandler==1">是<html:else>否</html:if>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right" width="120" height="40">
+                                处理备注：
+                            </td>
+                            <td align="left">
+                                <$bookingProduct.HandlerNote$>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="clear">
+                </div>
+            </div>
+            </div>
+        </div>
+        <div class="clear">
+        </div>
+    </div>
+    <html:include file="/Foot.htm" />
+</body>
+</html>

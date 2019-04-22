@@ -1,0 +1,43 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<html:include file="/Mobile/Head.htm" />
+</head>
+<body>
+<header class="header-min clearfix" id="header">
+    <div class="back" ig-back></div>
+    <h2>缺货登记</h2>
+    <html:include file="/Mobile/TopLink.htm" />
+</header>
+<section class="wrapper user" id="wrapper">
+    <dl class="user-favo">
+        <%if(bookingProductList.Count<=0){%>
+    	<dd class="null">暂无相关数据</dd>
+        <%}else{%>
+        <html:foreach expression="BookingProductInfo bookingProduct in bookingProductList">
+        <dd class="item">          
+            <div class="head">
+                <h2>联系人:<$bookingProduct.RelationUser $></h2>
+                <div class="phone"><$bookingProduct.Tel $></div>
+            </div> 
+            <div class="main"><a href="/ProductDetail-I<$bookingProduct.ProductID$>.html">
+                <figure><img src="<$ShopCommon.ShowImage(ProductBLL.Read(bookingProduct.ProductID).Photo.Replace("Original","90-90"))$>" title="<$bookingProduct.ProductName$>" alt="<$bookingProduct.ProductName$>" /></figure>
+                <h3><$bookingProduct.ProductName$></h3>
+            </a></div>
+            <div class="foot">
+            	<span class="time">登记时间:<$bookingProduct.BookingDate $></span>
+            	<span class="status status-on">是否处理:<html:if expression="bookingProduct.IsHandler==1">是<html:else>否</html:if></span>
+            </div>
+        </dd>
+        </html:foreach>
+        <%}%>
+    </dl>
+    <$commonPagerClass.ShowPage()$>  
+                    <div class="clear">
+                    </div>
+</section>
+
+    <html:include file="/Mobile/Foot.htm" />
+    <html:include file="/Mobile/FootScript.htm" />
+</body>
+</html>

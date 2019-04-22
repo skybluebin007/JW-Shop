@@ -1,0 +1,117 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<html:include file="/Mobile/Head.htm" />
+</head>
+<body>
+<header class="header-min clearfix" id="header">
+    <div class="back" ig-back></div>
+    <h2>验证邮箱</h2>
+    <html:include file="/Mobile/TopLink.htm" />
+</header>
+<section class="wrapper user" id="wrapper">
+
+	<div class="user-email-form">
+      <html:if expression="result!=string.Empty">
+        <div class="conIndex userInfo" style="color:red;"><$result$></div>
+        <html:else>
+    	<form action="/Mobile/User/UserAdd.html" method="post" name="form" id="infoForm">
+          
+            <div class="row">
+                <div class="head">用户名：</div>
+               用户名：<$base.UserName$>
+            </div>            
+            <div class="row">
+                <div class="head">邮箱：</div>
+                 <input type="text" class="txt" name="Email" id="Email" value="<$CurrentUser.Email$>" maxlength="30" onblur="checkEmail()" /><span class="red">*</span><input id="CheckEmail" value="0" type="hidden" />
+            </div>
+
+            <div class="row">
+                <div class="head">验证码：</div>
+                 <input type="text" class="txtcode" name="SafeCode" id="SafeCode" value="" placeholder="请输入验证码" maxlength="4" />
+                 <img src="CheckCode.ashx" onclick="this.src='CheckCode.ashx?t=' + new Date();" style="cursor:pointer" alt="点击刷新验证码" align="absmiddle" />
+            </div>
+            <div class="row">
+        	<input type="button" class="submit" value="确定" id="submit_info" />
+        </div>
+        </form>
+      </html:if> 
+    </div>
+</section>
+
+    <html:include file="/Mobile/Foot.htm" />
+    <html:include file="/Mobile/FootScript.htm" />
+  <script type="text/javascript">
+      function checkEmail() {
+          if ($("#Email").val() != "") {
+              if (!Validate.isEmail($("#Email").val())) {//格式不对
+                  $("#CheckEmail").val("1");
+                  return;
+              }
+              else {
+
+                  $.ajax({
+                      type: 'post',
+                      url: "/Ajax.html?Email=" + encodeURIComponent($("#Email").val()) + "&Action=CheckEmail2",
+                      //data: {},
+                      cache: false,
+                      //dataType: 'json',
+                      success: function (data) {
+                          if (data == "2") {
+                              $("#CheckEmail").val("0");
+                          }
+                          else {//被占用
+                              $("#CheckEmail").val("2");
+                          }
+                      },
+                      error: function () { }
+                  });
+
+              }
+          }
+
+
+      }
+
+      $(function () {
+
+
+          $("#submit_info").click(function () {
+
+              if ($("#Email").val() == "" || !Validate.isEmail($("#Email").val())) {
+                  app.jMsg("邮箱输入错误");
+                  $("#Email").focus();
+                  return false;
+              }
+              if ($("#CheckEmail").val() == "2") {
+                  app.jMsg("邮箱已被其他会员绑定");
+                  $("#Email").focus();
+                  return false;
+              }
+              if ($("#SafeCode").val() == "") {
+                  app.jMsg("验证码不能为空");
+                  $("#SafeCode").focus();
+                  return false;
+              }
+              $.ajax({
+                  url: '/mobile/User/updateemail.html?Action=UpdateEmail',
+                  type: 'POST',
+                  data: $("form").serialize(),
+                  success: function (result) {
+                      var arr = result.split('|');
+                      if (arr[0] == "ok") {
+                          //alertMessage("修改成功", 500);
+                          window.location.href = arr[1];
+                      }
+                      else {
+                          app.jMsg(arr[1], 500);
+                      }
+                  }
+              });
+          })
+      })
+
+
+</script>
+</body>
+</html>

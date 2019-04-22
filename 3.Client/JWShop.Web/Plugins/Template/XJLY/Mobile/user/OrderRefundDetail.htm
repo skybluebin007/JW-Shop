@@ -1,0 +1,95 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <html:include file="/Mobile/Head.htm" />
+</head>
+<body>
+    <header class="header-min clearfix" id="header">
+        <div class="back" ig-back></div>
+        <h2>退款申请信息</h2>
+        <html:include file="/Mobile/TopLink.htm" />
+    </header>
+
+    <section class="wrapper user" id="wrapper">
+        <div class="user-address-form">
+            <form>
+            <div class="row">
+                <div class="head" style="display:block" width="100" height="40">订单编号：</div>
+                <a href="/mobile/user/orderdetail.html?id=61" target="_blank"><%=order.OrderNumber%></a>
+            </div>
+            <div class="row">
+                <div class="head" style="display:block" height="40">申请时间：</div>
+                <%= orderRefund.TmCreate %>
+            </div>
+            <html:if expression="orderRefund.OrderDetailId > 0">
+                                <html:csharp>
+                                    var _orderDetail = OrderDetailBLL.Read(orderRefund.OrderDetailId);
+                                    var _product = ProductBLL.Read(_orderDetail.ProductId);
+                                </html:csharp>
+                                <div class="row">
+                                    <div class="head" style="display:block" height="40">退款商品：</div>
+                                    
+                                        <a href="/ProductDetail-I<%=_product.Id%>.html" target="_blank" title="<%=_orderDetail.ProductName%>" class="refund_custom_a">
+                                            <img src="<%=_product.Photo.Replace("Original","60-60")%>" alt="<%=_orderDetail.ProductName%>" />
+                                            <p><%=_orderDetail.ProductName%></p>
+                                        </a>                                    
+                                </div>
+                                <div class="row">
+                                    <div class="head" style="display:block" height="40">退款数量：</div>
+                                    <b class="red"><%= orderRefund.RefundCount %></b>
+                                </div>
+                            </html:if>
+            <div class="row">
+                <div class="head" style="display:block" height="40">退款金额：</div>
+
+                <html:if expression="orderRefund.RefundBalance > 0">余额：<%= orderRefund.RefundBalance %> </html:if>
+                <html:if expression="orderRefund.RefundMoney > 0"><%=(orderRefund.RefundBalance > 0 ? "+" : "")%> <%= orderRefund.RefundPayName %>： <%= orderRefund.RefundMoney %></html:if>
+                = <b class="red"><%= (orderRefund.RefundBalance + orderRefund.RefundMoney) %></b>
+            </div>
+            <div class="row">
+                <div class="head" style="display:block" height="40">退款说明：</div>
+                <%= orderRefund.RefundRemark %>
+            </div>
+            <html:if expression="orderRefundActionList.Count > 0">
+    	                        <div class="row">
+                                    <div class="head" style="display:block" height="40">退款进度：</div>
+                                    <div>              
+                                        <hr />                                                                 
+                                    </div>
+                                </div>
+                                <html:foreach expression="var item in orderRefundActionList">
+                                    <div  style="border:1px solid #ccc; padding:5px; margin-bottom:10px;">
+                                        <div class="row">
+                                            处理人: <%= (item.UserType == 2 ? "系统" : item.UserName) %>
+                                        </div>
+                                        <div class="row">
+                                            处理状态:<%=(item.Status == (int)BoolType.True ? "已受理" : "未受理")%>
+                                        </div>
+                                        <div class="row">
+                                            备注:<%= item.Remark %>
+                                        </div>
+                                        <div class="row">
+                                            处理时间:<%= item.Tm %>
+                                        </div>
+                                        </div>
+                                        </html:foreach> 
+                            </html:if>
+
+            <html:if expression="OrderRefundBLL.CanToReturn(orderRefund.Status)">
+                                <div class="row">
+                                    <div class="head" style="display:block" height="40"></div>                                    
+                                        <input class="submit" value="取消退款申请" type="button" style="margin-top:20px;" onclick="cancelRefund(<%=orderRefund.Id%>)" />                                    
+                                </div>                                
+                            </html:if>
+                </form>
+        </div>
+        
+        <div class="clear"></div>
+    </section>
+
+    <html:include file="/Mobile/FootScript.htm" />
+    <script type="text/javascript" src="<html:templatePath>/js/jquery.validator.js"></script>
+    <script type="text/javascript" src="<html:templatePath>/js/zh-CN.js"></script>
+    <script type="text/javascript" src="<html:templatePath>/js/orderrefund.js"></script>
+</body>
+</html>

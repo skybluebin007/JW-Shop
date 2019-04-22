@@ -1,0 +1,69 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <html:include file="/_Head.htm" />
+    <style type="text/css">
+        <html:if expression="themeActivity.Css!=string.Empty">
+        <$themeActivity.Css$>
+        </html:if>
+        .productName{
+            display:block;
+            min-height:44px;
+        	<html:if expression="styleArray[3]!=string.Empty">color:<$styleArray[3]$>; </html:if>
+        	<html:if expression="styleArray[4]!=string.Empty">font-size:<$styleArray[4]$>px; </html:if>
+        }
+        .productPrice{
+        	<html:if expression="styleArray[5]!=string.Empty">color:<$styleArray[5]$>; </html:if>
+        	<html:if expression="styleArray[6]!=string.Empty">font-size:<$styleArray[6]$>px; </html:if>
+        }
+        .otherText{
+        	<html:if expression="styleArray[7]!=string.Empty">color:<$styleArray[7]$>; </html:if>
+        	<html:if expression="styleArray[8]!=string.Empty">font-size:<$styleArray[8]$>px; </html:if>
+        }
+    </style>
+</head>
+<body id="about">
+    <!--top start-->
+   <html:include file="/_Top.htm" />
+    <!--main content start-->
+        <html:if expression="styleArray[0]!=string.Empty">
+            <div class="themeActivityTop"><img src="<$styleArray[0]$>" /></div>
+        </html:if>                
+        <div class="themeActivityMiddle" <html:if expression="styleArray[1]!=string.Empty">style="background-image:url(<$styleArray[1]$>);"</html:if>>
+        <div class="main">
+        <html:if expression="productGroupArray.Length>0">
+        <html:for init="int i=0" condtion="i<productGroupArray.Length" expression="i++">
+            <html:csharp>string[] tempArray=productGroupArray[i].Split('|');</html:csharp>
+            <html:if expression="tempArray.Length>0">
+            <html:if expression="tempArray[0]!=string.Empty">
+            <div class="blockPhoto"><img src="<$tempArray[0]$>" /></div>
+            </html:if>
+            </html:if>
+            <div class="productBlock">
+                <html:if expression="tempArray.Length>3">
+            <html:foreach expression="string temp in tempArray[4].Split(new char[] { ',' },StringSplitOptions.RemoveEmptyEntries)">    
+            <html:csharp>ProductInfo product=ProductBLL.ReadProductByProductList(productList,Convert.ToInt32(temp));</html:csharp>
+                <ul class="productPicture">
+                    <li class="photo"><a href="/ProductDetail-I<$product.Id$>.html" target="_blank" title="<$product.Name$>"><img src="<$product.Photo.Replace("Original","350-350")$>"  onload="photoLoad(this,230,230)"  title="<$product.Name$>" alt="<$product.Name$>"/></a></li>
+                    <li><a href="/ProductDetail-I<$product.Id$>.html" class="productName" title="<%=product.Name%>" target="_blank"><$StringHelper.Substring(product.Name,40)$></a></li>
+                    <li class="productPrice">售价：￥<$ProductBLL.GetCurrentPrice(product.SalePrice,base.GradeID)$></li>
+                </ul>             
+            </html:foreach>
+            </html:if>
+            </div>
+            <html:if expression="tempArray.Length>1">
+            <html:if expression="tempArray[1]!=string.Empty">
+            <div class="blockMore"><a href="<$tempArray[1]$>" target="_blank" class="otherText">更多</a></div>
+            </html:if>
+            </html:if>
+        </html:for>
+        </html:if>
+        </div>        
+    </div>
+    <html:if expression="styleArray[2]!=string.Empty">
+        <div class="themeActivityBottom"><img src="<$styleArray[2]$>" /></div>
+        </html:if>
+    <!-- footer start -->
+    <html:include file="/_Foot.htm" />
+</body>
+</html>

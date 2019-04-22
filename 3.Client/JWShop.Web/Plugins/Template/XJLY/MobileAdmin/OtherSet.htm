@@ -1,0 +1,127 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <html:include file="/MobileAdmin/_Head.htm" />
+</head>
+<body>
+    <header class="header" id="header">
+        <a class="goBack icon" href="/mobileadmin/info.html" ig-back=""></a>
+        <h2>系统设置</h2>
+    </header>
+    <section class="userlist marketing">
+        <form id="form1">
+            <div class="itembox">
+                <div class="item labbox clearfix">
+                    <span class="tit">评论默认状态<s class="why icon"></s></span>
+                    <label for="c1" class="sex <%if (ShopConfig.ReadConfigInfo().CommentDefaultStatus ==2){ %>checked<%}%>"><input type="radio" name="CommentDefaultStatus" id="c1" value="2" <%if (ShopConfig.ReadConfigInfo().CommentDefaultStatus == 2){ %>checked<%}%> />显示 </label>
+                    <label for="c2" class="sex <%if (ShopConfig.ReadConfigInfo().CommentDefaultStatus == 3){ %>checked<%}%>"><input type="radio" name="CommentDefaultStatus" id="c2" value="3" <%if (ShopConfig.ReadConfigInfo().CommentDefaultStatus == 3){ %>checked<%}%> />不显示 </label>
+                </div>            
+            </div>
+            <div class="itembox">
+                <div class="item labbox clearfix">
+                    <span class="tit">整站图片压缩<s class="why icon"></s></span>
+                    <label for="p1" class="sex <%if (ShopConfig.ReadConfigInfo().AllImageIsNail == 1){ %>checked<%}%>"><input type="radio" name="AllImageIsNail" id="p1" value="1" <%if (ShopConfig.ReadConfigInfo().AllImageIsNail == 1){ %>checked<%}%> />开启 </label>
+                    <label for="p2" class="sex <%if (ShopConfig.ReadConfigInfo().AllImageIsNail == 0){ %>checked<%}%>"><input type="radio" name="AllImageIsNail" id="p2" value="0" <%if (ShopConfig.ReadConfigInfo().AllImageIsNail == 0){ %>checked<%}%> />关闭 </label>
+                </div>
+                <div class="item clearfix" id="div1" <%if (ShopConfig.ReadConfigInfo().AllImageIsNail == 0){ %>style="display:none;"<%}%>>
+                    <span class="tit">图片压缩宽度<s class="why icon"></s></span>
+                    <input type="text" class="txt" id="AllImageWidth" name="AllImageWidth" value="<%=ShopConfig.ReadConfigInfo().AllImageWidth%>" maxlength="4" />
+                </div>
+
+            </div>
+            <div class="itembox">
+                <div class="item labbox clearfix">
+                    <span class="tit">是否启用自提<s class="why icon"></s></span>
+                    <label for="s1" class="sex <%if (ShopConfig.ReadConfigInfo().SelfPick ==1){ %>checked<%}%>"><input type="radio" name="SelfPick" id="s1" value="1" <%if (ShopConfig.ReadConfigInfo().SelfPick== 1){ %>checked<%}%> />启用 </label>
+                    <label for="s2" class="sex <%if (ShopConfig.ReadConfigInfo().SelfPick == 0){ %>checked<%}%>"><input type="radio" name="SelfPick" id="s2" value="0" <%if (ShopConfig.ReadConfigInfo().SelfPick== 0){ %>checked<%}%> />关闭 </label>
+                </div>
+            </div>
+            <div class="itembox">            
+                <div class="item clearfix">
+                    <span class="tit">团购天数<s class="why icon"></s></span>
+                    <input type="text" class="txt dptime" id="GroupBuyDays" name="GroupBuyDays" value="<%=ShopConfig.ReadConfigInfo().GroupBuyDays%>" maxlength="1" />
+                </div>
+                <div class="item clearfix">
+                    <span class="tit">打印机SN<s class="why icon"></s></span>
+                    <input type="text" class="txt dptime" id="PrintSN" name="PrintSN" value="<%=ShopConfig.ReadConfigInfo().PrintSN%>" maxlength="150" />
+                </div>
+            </div>
+            <!--end itembox-->
+            <input type="hidden" name="action" value="shopconfig" />
+            <input type="hidden" name="param" value="otherSet" />
+            <input type="button" value="保存" class="btnok" />
+        </form>
+
+
+    </section>
+
+    <script type="text/javascript" src="<html:templatePath>/mobileadmin/js/app.js"></script>
+    <script>
+        /*************************图片压缩****************************/
+        var enablePointPay = $("input[name=AllImageIsNail]:checked").val();
+        $(document).ready(function () {
+            $("input[name=AllImageIsNail]").each(function () {
+                $(this).click(function () {
+                    enablePointPay = $(this).val();
+                    if (enablePointPay == "0") {
+                        $("#div1").hide();
+                    }
+                    if (enablePointPay == "1") {
+                        $("#div1").show();
+
+                    }
+                });
+            });
+        });
+        /*************************图片压缩****************************/
+
+        /*********************表单提交*********************/
+        $(".btnok").bind('click', function () {
+
+                //正整数
+            //var reg2 = /^[|+\\-]*[\\d|\\.|,]+$/;
+            var reg = /^[0-9]*[1-9][0-9]*$/;
+              
+           //如果开启了图片压缩
+                if (parseInt(enablePointPay) == 1) {                  
+                    if ($("#AllImageWidth").val() == "" || !reg.test($("#AllImageWidth").val())) {
+                        Msg("图片压缩宽度必填且大于0");
+                        $("#AllImageWidth").focus();
+                        return false;
+                    }
+                    if ($("#AllImageWidth").val()<600) {
+                        Msg("图片压缩宽度不小于600");
+                        $("#AllImageWidth").focus();
+                        return false;
+                    }
+                }
+            //团购天数
+                if ($("#GroupBuyDays").val() == "" || !reg.test($("#GroupBuyDays").val())) {
+                    Msg("团购天数必填且大于0");
+                    $("#GroupBuyDays").focus();
+                    return false;
+                }
+            $.ajax({
+                url: '/mobileadmin/ajax.html',
+                type: 'Post',
+                data: $("#form1").serialize(),
+                dataType: 'Json',
+                cache: false,
+                async: false,
+                success: function (res) {
+                    if (res.ok) {
+                        Msg("操作成功");
+                       setTimeout(location.reload(),5000);
+                    }
+                    else {
+                        Msg(res.msg);
+                    }
+                },
+                error: function () {
+                    Msg("系统忙，请稍后重试");
+                }
+            })
+        })
+    </script>
+</body>
+</html>

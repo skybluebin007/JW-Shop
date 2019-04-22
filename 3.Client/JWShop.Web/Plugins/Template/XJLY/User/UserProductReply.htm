@@ -1,0 +1,47 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<html:include file="/_Head.htm" />
+</head>
+    <body>
+        <html:include file="/Topper.htm" />
+        <html:include file="/Top.htm" />
+<div class="wrapper" id="wrapper">
+	<html:include file="/User/UserLeft.htm" />
+    <div class="content">
+    	<html:include file="//User/UserTop.htm" />
+        <div class="orderList" id="orderList">
+        	<div class="tab">
+            	<a href="javascript:;" class="item cur" value="">我的回复</a>
+            	<div class="clear"></div>
+            </div>
+            <div class="container">
+                <table cellpadding="0" cellspacing="0" border="0" width="100%" class="tableThemes_2">
+                	<thead>
+                    	<tr>
+                            <td align="center" width="" height="35">回复内容</td>
+                            <td align="center" width="130">回复时间</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <html:foreach expression="ProductReplyInfo productReply in productReplyList">
+                        <tr class="even">
+                            <td align="left" height="35" class="link"><span><a href="/ProductReply-C<$productReply.CommentID$>.html" target="_blank"><$productReply.Content$></a></span></td>
+                            <td align="center"><$productReply.PostDate$></td>
+                        </tr>
+                        </html:foreach>     
+
+                    </tbody>
+                </table>
+                <$commonPagerClass.ShowPage()$>  
+                <div class="clear"></div>
+            </div>
+        </div>
+    </div>
+    <div class="clear"></div>
+</div>
+    <html:include file="/_Foot.htm" />
+</body>
+</html>
+

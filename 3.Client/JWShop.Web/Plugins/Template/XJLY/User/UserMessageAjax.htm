@@ -1,0 +1,27 @@
+﻿<html:namespace name="JWShop.Entity" />
+<html:namespace name="JWShop.Business" />
+<html:namespace name="JWShop.Common" />
+<html:namespace name="SkyCES.EntLib" />
+<table cellpadding="0" cellspacing="0" border="0" width="100%" class="tableThemes_2">
+                	<thead>
+                    	<tr>
+                            <td align="center" width="" height="35">留言标题</td>
+                            <td align="center" width="80">类型</td>
+                            <td align="center" width="130">留言时间</td>
+                            <td align="center" width="80">处理状态</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <html:if expression="userMessageList.Count>0">
+                        <html:foreach expression="UserMessageInfo userMessage in userMessageList">
+                        <tr class="even">
+                            <td align="left" height="35" class="link"><span><a href="/User/UserMessageDetail.html?ID=<$userMessage.Id$>" target="_blank"><$userMessage.Title $></a></span></td>
+                            <td align="center"><$UserMessageBLL.ReadMessageType(userMessage.MessageClass)$></td>
+                            <td align="center"><$userMessage.PostDate $></td>
+                            <td align="center"><html:if expression="userMessage.IsHandler==1">已处理<html:else>未处理</html:if></td>
+                        </tr>
+                        </html:foreach> 
+                        <html:else><tr><td colspan="4">暂无留言...</td></tr></html:if>
+                    </tbody>
+                </table>
+                <$ajaxPagerClass.ShowPage()$>

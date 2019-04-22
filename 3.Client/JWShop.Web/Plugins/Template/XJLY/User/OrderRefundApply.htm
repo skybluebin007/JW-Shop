@@ -1,0 +1,139 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+        <html:include file="/_Head.htm" />
+    <link href="<html:templatePath>/css/jquery.validator.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+ <html:include file="/_UTop.htm" />
+    <!--header start-->
+    <!--nav start-->
+    <!--main content start-->
+    <div id="myOrder">
+        <div class="w1210 clearfix">
+            <html:include file="/User/UserLeft.htm" />
+
+        <div id="right" class="content fr">
+    	    <html:include file="/User/UserTop.htm" />
+
+            <div class="orderList">
+        	    <div class="tab">
+            	    <a style="margin-top: 0;" href="javascript:;" class="item cur">退款申请</a>
+            	    <div class="clear"></div>
+                </div>
+                <div class="container">
+                    <div class="conIndex">
+                        <form>
+                            <table cellpadding="0" cellspacing="0" border="0" class="tableThemes_6" style="width: auto;">
+                                <tr>
+                                    <td align="right" width="100" height="40">订单编号：</td>
+                                    <td align="left"><a href="/user/orderdetail.html?id=<%=order.Id%>" target="_blank" class="refund_custom_a"><%=order.OrderNumber%></a></td>
+                                </tr>
+                                <tr>
+                                    <td align="right" height="40">订单状态：</td>
+                                    <td align="left"><%=OrderBLL.ReadOrderStatus(order.OrderStatus,order.IsDelete)%></td>
+                                </tr>
+                                <tr>
+                                    <td align="right" height="40">费用信息：</td>
+                                    <td align="left">
+                                        商品金额：<%=order.ProductMoney %> 元
+                                            <html:if expression="order.ShippingMoney > 0"> + 运费：<%=order.ShippingMoney %> 元 </html:if>
+                                            <html:if expression="order.OtherMoney != 0"> + <span title="后台调节订单费用项，“+”表示增加订单费用，“-”表示减去订单费用">其它费用</span>：<%=order.OtherMoney %> 元 </html:if>
+                                            <html:if expression="order.PointMoney > 0"> - 积分抵扣金额：<%=order.PointMoney %> 元 </html:if>
+                                         = 需支付金额：<b class="red"><%=(OrderBLL.ReadOrderMoney(order) - order.PointMoney)%></b> 元
+
+                                        <html:if expression="orderDetail.Id < 1 && orderRefundList.Count > 0">
+                                            <br />
+                                            <b>
+                                                <html:csharp>var _orderRefund = orderRefundList.FirstOrDefault(k => k.OrderDetailId < 1);</html:csharp>
+                                                <html:if expression="_orderRefund != null">
+                                                    <html:if expression="OrderRefundBLL.HasReturn(_orderRefund.Status)">退款已完成<html:else>正在处理退款</html:if>
+                                                <html:else>
+                                                    <html:csharp>
+                                                        int _returningCount = orderRefundList.Count(k => OrderRefundBLL.CanToReturn(k.Status));
+                                                        int _hasReturnCount = orderRefundList.Count(k => OrderRefundBLL.HasReturn(k.Status));
+                                                    </html:csharp>
+                                                    <html:if expression="_returningCount > 0">
+                                                        有<span class="red"><%=_returningCount %></span>个商品正在退款中，
+                                                    </html:if>
+                                                    <html:if expression="_hasReturnCount > 0">
+                                                        有<span class="red"><%= _hasReturnCount %></span>个商品已退款，
+                                                    </html:if>
+                                                    本次最多可退<span class="red"><%= JWRefund.CanRefund(order).CanRefundMoney %></span>元
+                                                <%} %>
+                                            </b>
+                                        </html:if>
+                                    </td>
+                                </tr>
+                                <html:if expression="orderDetail.Id > 0">
+                                    <tr>
+                                        <td align="right" height="40">商品信息：</td>
+                                        <td align="left">
+                                            <html:csharp>var _product = ProductBLL.Read(orderDetail.ProductId);</html:csharp>
+                                            <p><a href="/ProductDetail-I<%=orderDetail.ProductId%>.html" target="_blank"><img src="<%=_product.Photo.Replace("Original","90-90")%>" alt="<%=orderDetail.ProductName%>" title="<%=orderDetail.ProductName%>" /></a></p>
+                                            <p title="<%=orderDetail.ProductName %>"><a href="/ProductDetail-I<%=orderDetail.ProductId%>.html" target="_blank" class="refund_custom_a"><%=StringHelper.Substring(orderDetail.ProductName, 20) %></a></p>
+                                            <p>单价：<%=orderDetail.ProductPrice %>　X<%=orderDetail.BuyCount %>(数量)</p>
+                                            <p>小计：<b class="red"><%=orderDetail.ProductPrice * orderDetail.BuyCount %></b> 元</p>
+                                
+                                            <html:csharp>var _orderDetailRefundList = orderRefundList.Where(k => k.OrderDetailId == orderDetail.Id).ToList();</html:csharp>
+                                            <b>
+                                                <html:if expression="_orderDetailRefundList.Count > 0">
+                                                    
+                                                    <html:csharp>
+                                                        int _returningCount = _orderDetailRefundList.Count(k => OrderRefundBLL.CanToReturn(k.Status));
+                                                        int _hasReturnCount = _orderDetailRefundList.Count(k => OrderRefundBLL.HasReturn(k.Status));
+                                                    </html:csharp>
+                                                    <html:if expression="_returningCount > 0">
+                                                        有<span class="red"><%=_returningCount %></span>个商品正在退货中，
+                                                    </html:if>
+                                                    <html:if expression="_hasReturnCount > 0">
+                                                        有<span class="red"><%= _hasReturnCount %></span>个商品已退货，
+                                                    </html:if>
+                                                </html:if>
+                                                本次最多可退<span class="red"><%=(orderDetail.BuyCount - orderDetail.RefundCount)%></span>个商品
+                                            </b>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td align="right" height="40">退款数量：</td>
+                                        <td align="left"><input type="text" class="txt_300" style="width: 100px;" name="refund_count" value="1" /></td>
+                                    </tr>
+                                <html:else>
+                                    <input type="hidden" name="refund_count" value="1" />
+                                </html:if>
+                                <tr>
+                                    <td align="right" height="40">退款金额：</td>
+                                    <td align="left"><input type="text" class="txt_300" style="width: 100px;" name="refund_money" value="<%=canRefundMoney%>" /></td>
+                                </tr>
+                                <tr class="ui-tr" style="height: auto;">
+                                    <td align="right" height="40">退款说明：</td>
+                                    <td align="left">
+                                        <textarea name="refund_remark" class="txt_300" rows="3" style="height: 100px; width: 500px;"></textarea>
+                                    </td>
+                                </tr>
+                                <tr valign="middle">
+                                    <td align="right" height="40">&nbsp;</td>
+                                    <td align="left"><input style="width: 120px; height:30px; line-height: 30px;" type="submit" class="submit" value="提交退款申请" /></td>
+                                </tr>
+                            </table>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="clear"></div>
+    </div>
+    </div>
+    <html:include file="/_Foot.htm" />
+    <script type="text/javascript" src="<html:templatePath>/js/jquery.validator.js"></script>
+    <script type="text/javascript" src="<html:templatePath>/js/zh-CN.js"></script>
+    <script type="text/javascript" src="<html:templatePath>/js/orderrefund.js"></script>
+    <script>
+        var orderId = '<%=order.Id%>';
+        var orderDetailId = '<%=orderDetail.Id%>';
+        var canRefundMoney = '<%=canRefundMoney%>';
+    </script>
+</body>
+</html>

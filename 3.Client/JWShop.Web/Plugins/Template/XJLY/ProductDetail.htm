@@ -1,0 +1,377 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <html:include file="/_Head.htm" />
+</head>
+<body>
+    <!--top start-->
+    <html:include file="/_Top.htm" />
+    <!--header start-->
+    <!--nav start-->
+    <!--main content start-->
+    <div id="location" class="w1210">
+        <$ProductClassBLL.ProductClassNameList(product.ClassId)$>
+        > <a href="" title=""><$product.Name$></a>
+    </div>
+    <div id="pageProduct">
+        <div id="floor_1_main" class="proInfor w1210 clearfix">
+            <div class="photo fl">
+            <div class="jqzoom">
+                    <img class="img" orgimg="<$product.Photo.Replace("75-75","Original")$>" src="<$product.Photo.Replace("90-90","350-350").Replace("Original","350-350")$>" alt="<$product.Name$>" jqimg="<$product.Photo.Replace("75-75","Original")$>" id="bigImg" /></div>
+                <div class="photoimg">
+                    <div class="btnleft icon">
+                    </div>
+                    <div class="list clearfix">
+                        <div class="listcon">                            
+                            <html:foreach expression="ProductPhotoInfo productPhoto in productPhotoList">
+                                <a href="javascript:void(1)" title="">
+                                    <img src=" <$productPhoto.ImageUrl.Replace("75-75","90-90").Replace("Original","90-90")$>" alt=""  bigimg="<$productPhoto.ImageUrl.Replace("75-75","350-350").Replace("Original","350-350")$>"  originalimg="<$productPhoto.ImageUrl.Replace("75-75","Original")$>"/>
+                                </a>
+                            </html:foreach>
+                        </div>
+                    </div>
+                    <div class="btnright icon">
+                    </div>
+                </div>
+                <div class="information">
+                      
+                	<div class="shareNew bdsharebuttonbox fr">                         
+						<a href="#" class="bds_more shareIcon" data-cmd="more">分享到</a>
+                        <a class="bds_more shareIcon addcartIcon" href="javascript:collectProduct(<$product.Id$>)" title="">关注</a>
+                        </div>
+                    
+                    <span>商品编号：<$product.ProductNumber$></span>
+               
+                </div>
+            </div>
+            <div class="baseInfo fl">
+                <h1>
+                    <$product.Name$></h1>
+                <$product.SellPoint$>
+                <div class="baseInfo_price clearfix">
+                    <p class="evalu fr">
+                        累计评价<span class="blue"><$product.CommentCount$></span></p>
+                    <span class="title fl">促 销 价:</span><em class="price fl">￥<span id="salePrice"><$currentMemberPrice$></span></em>
+                    <input type="hidden" value="<$currentMemberPrice$>" id="CurrentMemberPrice" />
+                    <del class="fl">￥<span id="marketPrice"><$product.MarketPrice$></span></del>                    
+                </div>
+                <!--商品优惠-->
+                <div class="baseInfo_price clearfix" id="productfavor" style="display:none">
+
+                </div>
+                <!----------------------------------------------->
+                <div class="baseInfo_color clearfix">
+                    <input type="hidden" name="hProductID" id="hProductID" value="<$product.Id$>" />
+                    <input type="hidden" name="standardType" id="standardType" value="<$product.StandardType$>" />
+                    <input id="StandardRecordValueList" value="<%=standardRecordValueList %>" type="hidden" />
+                    <%if(product.StandardType!=0){%>
+                    <% if (product.StandardType == 1)
+                    {
+                    foreach(ProductTypeStandardInfo standard in standardList){ %>
+                    <div class="itemS clearfix">
+                    <span class="title fl"><%=standard.Name %>：</span>
+                    <ul>
+
+                        <%
+                        string[] valueArray = standard.ValueList.Split(';');
+                        for(int i=0;i
+                        <valueArray.Length;i++){ %>
+                            <li <%if(i==0){%>class="hover"<%} %> ><a title="<%=valueArray[i] %>" onClick="selectSingleStandard('<$valueArray[i]$>',<$standard.Id$>,this)"><s class="icon"></s><%=valueArray[i] %></a></li>
+
+                            <%} %>
+                            <input id="StandardValue_<%=standard.Id %>" name="StandardValue" type="hidden" value="<%=valueArray[0] %>" />
+                    </ul>
+					</div>
+                    <%}
+                    }
+                    else if(product.StandardType==2)
+                    {
+                    string recordValue=standardRecordValueList.Substring(standardRecordValueList.IndexOf("|"+product.Id+";")+1);
+                    recordValue = recordValue.Substring(0,recordValue.IndexOf('|'));
+                    string[] valueList = recordValue.Split(new char[]{';'},StringSplitOptions.RemoveEmptyEntries);
+                    int m = 0;
+                    foreach(ProductTypeStandardInfo standard in standardList)
+                    { %>
+                    <div class="itemS clearfix">
+                    <span class="title fl"><%=standard.Name %>：</span>
+                    <ul>
+                        <%
+                        string[] valueArray = standard.ValueList.Split(new char[]{';'},StringSplitOptions.RemoveEmptyEntries);
+
+                        for(int i=0;i
+                        <valueArray.Length;i++){ %>
+                            <li <%if(valueArray[i]==valueList[m+1]){%>class="hover"<%} %>><a title="<%=valueArray[i] %>" onClick="selectMultiStandard('<$valueArray[i]$>',<$standard.Id$>)"><s class="icon"></s><%=valueArray[i] %></a></li>
+                            <%} %>
+                            <input id="StandardValue_<%=standard.Id%>" name="StandardValue" type="hidden" value="<%=valueList[m+1] %>" />
+
+                    </ul>
+					</div>
+                    <%m++;}
+                    }%>
+
+                    <%} %>
+
+
+
+                </div>
+
+                 <!--------------------------------------->
+                <div class="choose_btns clearfix" id="buyPro">
+                    <div class="choose_num fl">
+                        <input type="text" name="" maxlength="5" id="BuyCount" class="txt"  value="1" />
+                        <a href="javascript:;" title="" class="plus">+</a> 
+                        <a href="javascript:;" title="" class="less">-</a>
+                    </div>
+                    <div id="buybox">
+                        
+                        <a id="addCartBTN" class="choose_car icon fl" href="javascript:;" onclick="addToCart(<$product.Id$>,'<$product.Name$>',<$product.StandardType$>)" title="">
+                            <s class="icon"></s>加入购物车
+                        </a> 
+                        <a href="javascript:;" class="choose_car icon fl" onClick="buyNow(<$product.Id$>,'<$product.Name$>',<$product.StandardType$>)">立即购买</a>
+                    </div>
+                    <div id="checkinbox" style="display:none;">
+                        <a id="booking" class="choose_car icon fl" href="javascript:;" onclick="bookingProduct(<$product.Id$>,'<$product.Name$>',<$product.StandardType$>)">缺货登记</a>
+                    </div>
+                    
+                </div>
+                <div class="choose_tip">
+                  </div>
+                    <div class="choose_tip">剩余库存:<span id="productStore"><%=leftStorageCount %></span> 件</div>
+            </div>
+            
+            <div class="shopInfo fr">
+                <h2 class="title">
+                    <$ShopConfig.ReadConfigInfo().SiteName$></h2>
+                <ul>
+                    <li class="person"><span>联系客服</span><s class="icon"></s><a href="http://wpa.qq.com/msgrd?v=1&uin=<$ShopConfig.ReadConfigInfo().QQ$>&site=qq&menu=yes" target="_blank">在线客服</a></li>
+                    <li><span>客服邮件</span><$ShopConfig.ReadConfigInfo().Fax$></li>
+                    <li><span>客服电话</span><$ShopConfig.ReadConfigInfo().Tel$></li>
+                    <li><span>所在地区</span><$ShopConfig.ReadConfigInfo().Address$></li>
+                </ul>
+                <div class="qrcode">
+                    手机端购物,扫一扫
+                    <html:if expression="!string.IsNullOrEmpty(product.Qrcode)">
+                         <img src="<%=product.Qrcode%>" />
+                        <html:else>              
+                    <img src="<%="/Plugins/Pay/WxPay/MakeQRCode.aspx?data=" + HttpUtility.UrlEncode("http://"+Request.Url.Host+ (Request.Url.Port > 0 ? ":" + Request.Url.Port : "") + "/mobile/ProductDetail-i"+product.Id+".html") %>" />
+                    </html:if>  
+                </div>
+            </div>
+        </div>
+        <html:if expression="!String.IsNullOrEmpty(product.RelationProduct)">    
+        <div class="plans" id="plans">
+        	<div class="tab">
+                <a href="javascript:;" class="item current">关联商品</a>
+                <div class="clear"></div>
+                
+            </div>
+            <div class="container ">
+            	
+                <div class="uis other relation" style=" display:block;">
+                    <html:if expression="product.RelationProduct!=string.Empty">
+                    <%int ri=1;%>
+                    <ul>
+                        <html:foreach expression="string temp in product.RelationProduct.Split(',')">
+                    <html:csharp>ProductInfo tempProduct=ProductBLL.ReadProductByProductList(tempProductList,Convert.ToInt32(temp));</html:csharp>
+                        <%if(ri<=8){%>
+                        <li>
+                            <a href="/ProductDetail-I<$tempProduct.Id$>.html" class="g" target="_blank" title="<$tempProduct.Name$>"><img src="<$ShopCommon.ShowImage(tempProduct.Photo.Replace("Original","150-150"))$>" alt="<$tempProduct.Name$>" /></a>
+                            <h3><a href="/ProductDetail-I<$tempProduct.Id$>.html" title="<$tempProduct.Name$>" target="_blank"><$tempProduct.Name$></a></h3>
+                            <p class="u">￥ <$ProductBLL.GetCurrentPrice(tempProduct.SalePrice,base.GradeID)$></p>
+                        </li>
+                        <%ri++;}%>
+                        </html:foreach>
+
+                    </ul>
+                    </html:if>
+                    <%if(product.RelationProduct==string.Empty){%><span>暂无关联商品</span><%}%>
+                </div>
+                <div class="clear"></div>
+            </div>   
+        </div>
+      </html:if> 
+        <div id="floor_2_main" class="w1210 clearfix detail">
+            <div id="left" class="fl">
+                <div class="similar left_list" style="display:none">
+                    <h3 class="title">
+                        同类其他品牌</h3>
+                    <div class="body">
+                        <a href="" title="" target="_blank">品牌品</a> <a href="" title="" target="_blank">品牌品</a>
+                    </div>
+                </div>
+                <div class="recom left_list">
+                    <h3 class="title">
+                        推荐商品</h3>
+                    <div class="body gridlist">
+                        <html:foreach expression="ProductInfo proInfo in proishot">
+                        <div class="item">
+                            <a href="/productDetail-I<$proInfo.Id$>.html" title="<$proInfo.Name$>"  class="img">
+                                <img src="<$ShopCommon.ShowImage(proInfo.Photo.Replace("Original","190-190"))$>" alt="<$proInfo.Name$>" title="<$proInfo.Name$>" /></a>
+                            <h3>
+                                <a href="/productDetail-I<$proInfo.Id$>.html" title="<$proInfo.Name$>" ><$proInfo.Name$></a></h3>
+                            <span class="price tac">￥<$ProductBLL.GetCurrentPrice(proInfo.SalePrice,base.GradeID)$></span>
+                        </div>
+                        </html:foreach>
+                    </div>
+                </div>
+                <div class="hot left_list">
+                    <h3 class="title">
+                        热销排行榜</h3>
+                    <div class="body">
+                        <ul>
+                            <%
+                           int ias=1;string aa="";
+                           foreach(ProductInfo proInfo in hotProductList){
+                           if(ias<=3){ 
+                           aa="list"+ias;}else{aa="";}%>
+                            <li class="<$aa$>"><a href="/ProductDetail-I<$proInfo.Id$>.html" title="<$proInfo.Name$>"
+                               ><span><$ias$></span><$StringHelper.Substring(proInfo.Name,8)$></a></li>
+                            <%ias++;} %>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div id="right" class="fr" style="width: 1008px;">
+                <div class="right_top detail_top">
+                    <div class="tabcon">
+                        <div class="tab clearfix">
+                            <a id="addCar3"  href="javascript:void(0);" onclick="addToCart(<$product.Id$>,'<$product.Name$>',<$product.StandardType$>)" class="tabcar fr"><s class="icon"></s>加入购物车</a>
+                            <a id="booking1" style="display:none;"  href="javascript:void(0);" onclick="bookingProduct(<$product.Id$>,'<$product.Name$>',<$product.StandardType$>)" class="tabcar fr">缺货登记</a>
+                            <div class="detaila1con">
+	                            <a href="#detail_infor_1_achor" class="a1 cur" title="">商品介绍</a>
+	                            <a href="#detail_infor_2_achor" class="a1" title="">商品评价<span>(<$product.CommentCount$>)</span></a>
+	                            <a href="#detail_infor_3_achor" class="a1" title="">售后服务</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="body">
+                        <ul class="clearfix">
+                            <li title="<%=product.Name%>">商品名称：<$StringHelper.Substring(product.Name,13)$></li>
+                            <%foreach(var attributeRecord in attributeRecordList){ %>
+                            <li>
+                                <%if(attributeRecord.Value.Trim()!=string.Empty){%>
+                                <%=ProductTypeAttributeBLL.Read(attributeRecord.AttributeId).Name %>：<%=attributeRecord.Value %></li>
+                            <%}} %>
+                        </ul>
+                    </div>
+                </div>
+                <div class="right_center">
+                    <div id="detail_infor_1">
+                    	<div class="achor" id="detail_infor_1_achor"></div>
+                        <div class="error" style="display: none">
+                            <s class="icon"></s>如果您发现商品信息不准确,<a class="blue" href="" title="" target="_blank">欢迎纠错</a></div>
+                        <div class="contxt">
+                            <$product.Introduction1$>
+                        </div>
+                    </div>
+                    <div id="detail_infor_2">
+                    	<div class="achor" id="detail_infor_2_achor"></div>
+                        <div class="title">
+                            商品评价</div>
+                        <div class="evaluation clearfix">
+                            <div class="evaluation_left fl">
+                                <% int haop=0;int zhongp=0;int chap=0;int totalrank=0;
+                            foreach(ProductCommentInfo pm in  proComm)
+                            {
+                            if(pm.Rank==5){haop++;}
+                            else if(pm.Rank==1){chap++;}
+                            else{zhongp++;}
+                                totalrank+=pm.Rank;
+                            }
+                                %>
+                                <strong>
+                                    <%if(proComm.Count>0){ %>
+                                    <%=(int)((haop*1.00)/proComm.Count*100)%>%
+                                    <%}else{ %>100%<%} %></strong>
+                                好评度
+                            </div>
+                            <ul class="evaluation_right fl">
+                                <li><span class="tit">好评(<%if((int)((haop*1.00)/proComm.Count*100)>0){ %><%=(int)((haop*1.00)/proComm.Count*100) %>%<%}else{ %>0%
+                                    <%} %>)</span>
+                                    <div class="hua">
+                                        <span style="width: <%=(int)((haop*1.00)/proComm.Count*100)%>%;"></span>
+                                    </div>
+                                </li>
+                                <li><span class="tit">中评(<%if((int)((zhongp*1.00)/proComm.Count*100)>0){ %><%=(int)((zhongp*1.00)/proComm.Count*100) %>%<%}else{ %>0%
+                                    <%} %>)</span>
+                                    <div class="hua">
+                                        <span style="width: <%=(int)((zhongp*1.00)/proComm.Count*100) %>%;"></span>
+                                    </div>
+                                </li>
+                                <li><span class="tit">差评(<%if((int)((chap*1.00)/proComm.Count*100)>0){ %>
+                                    <%=(int)((chap*1.00)/proComm.Count*100) %>%<%}else{ %>0%
+                                    <%} %>)</span>
+                                    <div class="hua">
+                                        <span style="width: <%=(int)((chap*1.00)/proComm.Count*100) %>%;"></span>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="evaluation_list">
+                            <ul class="eval_tit">
+                                <li class="cur" id="0">全部评价(<$product.CommentCount$>)</li>
+                                <li id="1">好评(<$haop$>)</li>
+                                <li id="2">中评(<$zhongp$>)</li>
+                                <li id="3">差评(<$chap$>)</li>
+                            </ul>
+                            <div class="eval_con" id="ProductCommentAjax" data-title="商品评价">
+                            </div>
+                        </div>
+                    </div>
+                    <div id="detail_infor_3">
+                    	<div class="achor" id="detail_infor_3_achor"></div>
+                        <div class="title">
+                            售后服务</div>
+                        <div class="contxt">
+                            <$(String.IsNullOrEmpty(product.Remark)?"资料添加中...":product.Remark)$>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="floor_6_main" class="w1210">
+            <div class="title">
+                热卖商品</div>
+            <div class="hotlist" id="hotlist">
+                <div class="num">
+                    <span class="dq">1</span>/<span class="z">4</span></div>
+                <div class="btnleft icon">
+                </div>
+                <div class="conlist">
+                    <ul class="clearfix">
+                        <html:foreach expression="ProductInfo proInfo  in ishot">
+                        <li style="width: 190px;"><a href="/ProductDetail-I<$proInfo.Id$>.html" title="<$proInfo.Name$>" class="img">
+                            <img src="<$ShopCommon.ShowImage(proInfo.Photo.Replace("Original","190-190"))$>" alt="<$proInfo.Name$>" title="<$proInfo.Name$>" />
+                            <span class="price fwb">￥<$ProductBLL.GetCurrentPrice(proInfo.SalePrice,base.GradeID)$></span> </a></li>
+                       </html:foreach>
+                    </ul>
+                </div>
+                <div class="btnright icon">
+                </div>
+            </div>
+        </div>
+    </div>
+    <input type="hidden" id="pcid" value="<%=product.ClassId%>" />
+    <!-- footer start -->
+    <html:include file="/_Foot.htm" />
+    <script type="text/javascript" src="<html:templatePath>/js/jQZoom.js"></script>
+    <script language="javascript" type="text/javascript" src="<html:templatePath>/Js/ProductDetail.js"></script>
+    <script type="text/javascript"> 
+        var productID=<%= product.Id%>;       
+    	var commNum;
+         var commStyle;
+
+    	$(".eval_tit li").click(function(){
+    		commNum=$(this).attr("id");
+            commStyle=commNum;
+             pageInit(<%=product.AllowComment%>);
+    	})
+       
+        pageInit(<%=product.AllowComment%>);
+        
+       
+       
+    </script>
+    <script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"16"},"share":{"bdSize":16}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+</body>
+</html>

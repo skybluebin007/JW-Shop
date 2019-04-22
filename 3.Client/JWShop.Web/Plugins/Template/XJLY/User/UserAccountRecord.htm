@@ -1,0 +1,38 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <html:include file="/_Head.htm" />
+</head>
+<body>
+  <html:include file="/_UTop.htm" />
+    <div id="myOrder">
+        <div class="w1210 clearfix">
+        <html:include file="/User/UserLeft.htm" />
+            <div id="right" class="content fr">
+                 <html:include file="/User/UserTop.htm" />
+        <div class="content">
+          
+            <div class="orderList" id="userTab">
+                <div class="tab">
+                    <a href="javascript:readUserAccountRecord('Point')" class="item cur" id="Point">我的积分</a> 
+                            
+                    <div class="clear">
+                    </div>                                   
+                </div>
+             	
+                <div class="container">
+                	<a class="nowaccouunt">现有积分：<span><%=CurrentUser.PointLeft%></span></a>
+                	<div id="UserAccountRecordAjax"></div>
+                </div>
+            </div>
+        </div>
+        <div class="clear">
+        </div>
+                </div>
+    </div>
+        </div>
+   
+    <script language="javascript" type="text/javascript" src="<html:templatePath>/Js/UserAccountRecord.js"></script>
+ <html:include file="/_Foot.htm" />
+</body>
+</html>

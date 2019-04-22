@@ -1,0 +1,29 @@
+﻿<html:namespace name="JWShop.Entity" />
+<html:namespace name="JWShop.Business" />
+<html:namespace name="JWShop.Common" />
+<html:namespace name="SkyCES.EntLib" />
+
+<dl class="detail-comment-list">
+    <%if(commentList.Count<=0){%>
+        <dd class="null">暂时没有评论</dd>
+    <%}else{%>
+        <html:foreach expression="ProductCommentInfo productComment in commentList">        
+                <dd class="item">
+                    <ul class="head">
+                        <li class="avatar"><img src="<%=ShopCommon.ShowImage(UserBLL.Read(productComment.UserId).Photo)%>" title="" alt="" /></li>
+                        <li class="user"><$productComment.UserName$></li>
+                        <li class="time"><$productComment.PostDate$></li>
+                    </ul>
+                    <div class="star"><span style="width:<$productComment.Rank*20$>%;"></span></div>
+                    <div class="info"><$productComment.Content$></div>
+                </dd>
+        </html:foreach>
+        <div class="clearfix"></div>
+                    <div class="w pager">
+                        <div class="pageCss">
+                	        <$pager.ShowPage()$>                        
+                            </div>
+                    </div>
+                    <div class="clearfix"></div>
+        </dl>
+<%}%>

@@ -1,0 +1,36 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <html:include file="/_Head.htm" />
+    <script language="javascript" type="text/javascript" src="/Admin/Js/Calendar.js"></script>
+    <script language="javascript" type="text/javascript" src="/Admin/Js/UnlimitClass.js"></script>
+</head>
+<body>
+<html:include file="/_UTop.htm" />
+     <div id="myOrder">
+        <div class="w1210 clearfix">
+        <html:include file="/User/UserLeft.htm" />
+            <div id="right" class="content fr">
+        <div class="content">
+            <html:include file="/User/UserTop.htm" />
+            <div class="orderList" id="userTab">
+                <div class="tab">
+                    <a href="javascript:readUserCoupon('NotUse')" id="NotUse" class="item cur">未使用</a>
+                    <a href="javascript:readUserCoupon('HasUse')" id="HasUse" class="item">已使用</a>
+                    <a href="javascript:readUserCoupon('TimeOut')" id="TimeOut" class="item">已过期</a>
+                    <a href="javascript:readUserCoupon('AddCoupon')" id="AddCoupon" class="item">添加线下优惠券</a>
+                    <div class="clear"></div>
+                </div>
+                <div class="container" id="UserCouponAjax">
+                    
+                </div>
+            </div>
+        </div>
+                </div>
+        <div class="clear"></div>
+    </div>
+         </div>
+    <script language="javascript" type="text/javascript" src="<html:templatePath>/Js/UserCoupon.js" ></script>
+    <html:include file="/_Foot.htm" />
+</body>
+</html>

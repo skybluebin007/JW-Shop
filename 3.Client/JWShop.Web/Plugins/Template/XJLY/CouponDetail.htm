@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+ <html:include file="/_Head.htm" />
+</head>
+<body>
+<!--top start-->
+ <html:include file="/_Top.htm" />
+<!--main content start-->
+
+<div class="jifengPage w1210">
+	<div class="jfTit">
+		<p class="fr">当前位置：<a href="/" >首页</a> >领取优惠券 >  <%=StringHelper.Substring(coupon.Name,20,false) %></p>
+		<s></s>领取优惠券
+	</div>
+	<div class="jfContent clearfix">
+
+		<div class="imgtxt txt fl">
+			<h3><%=coupon.Name %></h3>
+			<p><em>优惠券金额：</em><span> <%=coupon.Money %></span>元</p>
+            <p><em>最小订单金额：</em><span> <%=coupon.UseMinAmount%></span>元</p>
+            <p><em>使用开始日期：</em><span> <%=coupon.UseStartDate.ToString("yyyy-MM-dd") %> </span></p>
+            <p><em>使用结束日期：</em><span> <%=coupon.UseEndDate.ToString("yyyy-MM-dd") %> </span></p>
+            <html:if expression="isOutOfDate">
+                 <a class="btn" style="background: gray;">已过期</a>
+                <html:else>          
+             <html:if expression="!UserCouponBLL.UniqueUserCatch(base.UserId,coupon.Id)">
+                <a class="btn" style="background: gray;">已领</a>
+                 <html:else>
+<a class="btn" href="javascript:" onclick="CatchCoupon(<$base.UserId$>,<$coupon.Id$>,this);" title="领取优惠券">领取优惠券</a>
+             </html:if>
+			  </html:if>
+			<div>
+				<div class="bdsharebuttonbox"><a href="#" class="bds_more" data-cmd="more"></a><a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a><a href="#" class="bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a><a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a><a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a><a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"></a></div>
+
+			</div>
+		</div>
+	</div>
+
+</div>
+
+	
+<!-- footer start -->
+ <html:include file="/_Foot.htm" />
+ <script>
+
+     function CatchCoupon(uid, cpid, obj) {
+         if ($(obj).attr("_iscatch") == "False") {
+             alertMessage("您已领过此优惠券");
+             return false;
+         }
+         if (uid <= 0) {
+             alertMessage("请先登录");
+             window.setTimeout(function () { window.location.href = "/user/login.html?RedirectUrl=/CouponDetail-I"+cpid+".html"; }, 1000);
+         }
+         else {
+             $.ajax({
+                 type: 'get',
+                 url: "/Ajax.html?Action=CatchUserCoupon",
+                 data: { UserId: uid, CouponId: cpid },
+                 cache: false,
+                 dataType: 'json',
+                 async: false,
+                 success: function (data) {
+                     if (data.flag == "ok") {
+                         alertMessage("领取成功");
+                         window.setTimeout(function () { window.location.href = "/User/UserCoupon.html"; }, 1000);
+                     }
+                     else if (data.flag == "no") {
+                         alertMessage(data.msg, 500);
+                         return false;
+                     }
+                     else {
+                         alertMessage("请先登录");
+                         window.setTimeout(function () { window.location.href = "/user/login.html?RedirectUrl=/CouponDetail-I" + cpid + ".html"; }, 1000);
+                     }
+                 },
+                 error: function () { alertMessage("系统忙，请稍后重试", 1000); }
+             });
+
+         }
+     }
+    </script>
+
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"16"},"share":{},"image":{"viewList":["weixin","sqq","qzone","tsina","tqq"],"viewText":"分享到：","viewSize":"16"},"selectShare":{"bdContainerClass":null,"bdSelectMiniList":["weixin","sqq","qzone","tsina","tqq"]}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+</body>
+</html>

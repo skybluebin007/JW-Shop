@@ -1,0 +1,97 @@
+﻿<html:namespace name="JWShop.Entity" />
+<html:namespace name="JWShop.Business" />
+<html:namespace name="JWShop.Common" />
+<html:namespace name="SkyCES.EntLib" />
+<html:switch name="action">
+    <html:case value=""Money"">    
+<div class="conIndex">
+    <table cellpadding="0" cellspacing="0" border="0" width="100%" class="tableThemes_2">
+        <thead>
+            <tr>
+                <td align="center" width="150" height="35">
+                    时间
+                </td>
+                <td align="center" width="">
+                    备注
+                </td>
+                <td align="center" width="120">
+                    IP
+                </td>
+                <td align="center" width="120">
+                    收入
+                </td>
+                <td align="center" width="120">
+                    支出
+                </td>
+                <td align="center" width="120">
+                    剩余
+                </td>
+            </tr>
+        </thead>
+        <tbody>
+            <html:foreach expression="UserAccountRecordInfo userAccountRecord in userAccountRecordList">
+    <html:csharp>
+        moneyLeft += userAccountRecord.Money;
+    </html:csharp>
+                            <tr class="even">
+                                <td align="center" height="35"><$userAccountRecord.Date$></td>
+                                <td align="center" ><$userAccountRecord.Note$></td>
+                                <td align="center" ><$userAccountRecord.IP$></td>
+                                <td align="center" ><html:if expression="userAccountRecord.Money > 0"><$userAccountRecord.Money$></html:if>&nbsp;</td>
+                                <td align="center" ><html:if expression="userAccountRecord.Money < 0"><$-userAccountRecord.Money$></html:if>&nbsp;</td>
+                                <td align="center" class="money"><$moneyLeft$></td>
+                            </tr>
+                            </html:foreach>
+        </tbody>
+    </table>
+    <$ajaxPagerClass.ShowPage()$>
+    <div class="clear">
+    </div>
+</div>
+    <html:break>
+    
+    <html:case value=""Point"">
+<div class="conIndex">
+    <table cellpadding="0" cellspacing="0" border="0" width="100%" class="tableThemes_2">
+        <thead>
+            <tr>
+                <td align="center" width="150" height="40">
+                    时间
+                </td>
+                <td align="center" width="">
+                    备注
+                </td>                
+                <td align="center" width="120">
+                    收入
+                </td>
+                <td align="center" width="120">
+                    支出
+                </td>
+                <td align="center" width="120">
+                    剩余
+                </td>
+            </tr>
+        </thead>
+        <tbody>
+            <html:foreach expression="UserAccountRecordInfo userAccountRecord in userAccountRecordList">
+    <html:csharp> 
+        pointLeft =UserAccountRecordBLL.ReadPointLeftBeforID(userAccountRecord.Id, base.UserId) +  userAccountRecord.Point ;
+    </html:csharp>
+                            <tr class="even">
+                                <td align="center" height="40"><$userAccountRecord.Date$></td>
+                                <td align="center" ><$userAccountRecord.Note$></td>                               
+                                <td align="center" ><html:if expression="userAccountRecord.Point > 0"><$userAccountRecord.Point$></html:if>&nbsp;</td>
+                                <td align="center" ><html:if expression="userAccountRecord.Point < 0"><$-userAccountRecord.Point$></html:if>&nbsp;</td>
+                                <td align="center" class="money"><$pointLeft$></td>
+                            </tr>
+                            </html:foreach>
+        </tbody>
+    </table>
+    <$ajaxPagerClass.ShowPage()$>
+    <div class="clear">
+    </div>
+</div>
+    <html:break>    
+    <html:default>
+    <html:break>
+</html:switch>

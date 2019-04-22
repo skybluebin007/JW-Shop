@@ -1,0 +1,34 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <html:include file="/_Head.htm" />
+</head>
+<body>
+    <!--top start-->
+    <html:include file="/_Top.htm" />
+        <div class="w1210 clearfix" id="Newspage">
+         <div class="sideBar fl" id="sideBar">
+            <div class="uit" onclick="readNews(64,1);" style="cursor: pointer;">
+               <%=ArticleClassBLL.Read(64).Name%></div>
+               <ul class="uet">
+                   <html:if expression="newsClassList.Count>0">
+                <html:foreach expression="ArticleClassInfo articleClass in newsClassList">
+                <li><a href="/News.html?ID=<$articleClass.Id$>" ><$articleClass.Name$></a></li>
+                </html:foreach>
+                <html:else>
+<li><a href="/News.html" ><%=ArticleClassBLL.Read(64).Name%></a></li>
+                </html:if>
+            </ul>
+        </div>
+        <div class="content fr" id="NewsList">
+        </div>
+        <div class="clear">
+        </div>
+    </div>
+    <input type="hidden" value="<%=id %>" id="classId" />
+
+    
+    <html:include file="/_Foot.htm" />
+    <script language="javascript" type="text/javascript" src="<html:templatePath>/Js/news.js"></script>
+</body>
+</html>

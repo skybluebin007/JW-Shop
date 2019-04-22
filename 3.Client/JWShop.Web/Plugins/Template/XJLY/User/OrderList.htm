@@ -1,0 +1,157 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <html:include file="/_Head.htm" />
+</head>
+<body>
+    <!--top start-->
+   <html:include file="/_UTop.htm" />
+    <!--header start-->
+    <!--nav start-->
+    <!--main content start-->
+    <div id="myOrder">
+        <div class="w1210 clearfix">
+            <html:include file="/User/UserLeft.htm" />
+            <div id="right" class="content fr">
+                 <html:include file="/User/UserTop.htm" />
+              <!--  <h2 class="boxOrder">
+                    我的订单</h2>-->
+                <div class="boxOrder">
+                    <form action="/User/OrderList.html" method="get" onsubmit="return submitForm();">
+                    <div class="box_top clearfix">
+                        <div class="box_top_left fl">
+                            <html:if expression="type!="5"">
+                            <a class="<%if(string.IsNullOrEmpty(type)){%>cur<%} %>" href="/User/OrderList.html" title="">
+                                全部订单</a> <a class="<%if(type=="2"){%>cur<%} %>" href="/User/OrderList.html?type=2"
+                                    title="">待审核</a> <a class="<%if(type=="3"){%>cur<%} %>" href="/User/OrderList.html?type=3"
+                                        title="">待发货</a> <a class="<%if(type=="4"){%>cur<%} %>" href="/User/OrderList.html?type=4"
+                                            title="">待收货</a>
+                            <html:else><a class="cur">取消订单记录</a></html:if>
+                        </div>
+                        <html:if expression="type!="5"">
+                        <div class="box_top_right fr" id="orderSearch">
+                            <input type="hidden" name="type" value="<%=type %>" />
+                            <input type="text" class="txt fl" id="" placeholder="搜索订单编号" value="" id="keywords"
+                                name="keywords" onfocus="if(this.value=='搜索订单编号'){this.value='';}" onblur="if(this.value==''){this.value='搜索订单编号';}" />
+                            <input type="submit" class="btn icon fl" name="" id="" value="" />
+                        </div>
+                       </html:if>
+                    </div>
+                    <div class="orderList">
+                        <ul class="orderTit clearfix">
+                            <li class="a1">商品信息</li>                           
+                            <li class="a3">金额</li>
+                             <li class="a2">收货人</li>
+                            <li class="a4">订单状态</li>
+                            <li class="a5">操作</li>
+                        </ul>
+                        <% if(orderList.Count>0)
+                            { %>
+                        <html:foreach expression="OrderInfo order in orderList">
+                            <%List<OrderDetailInfo> orderdetailinfo = OrderDetailBLL.ReadList(order.Id);int proSelect=0;  %>
+                          
+                               <table class="item" border="" cellspacing="" cellpadding="">
+                            <tr class="item_top">
+                                <td colspan="5">
+                                    <span class="time"><$order.AddDate.ToString("yyyy-MM-dd HH:mm:ss")$></span> <span class="num">订单号:<em><$order.OrderNumber$></em></span>应付金额:￥<$(order.ProductMoney-order.FavorableMoney-order.PointMoney-order.CouponMoney+order.ShippingMoney+order.OtherMoney)$> <span class="num">付款方式：<em><$order.PayName$></em></span>
+                                </td>
+                            </tr>
+                            <% foreach(OrderDetailInfo orderdetail in orderdetailinfo){  %>
+                            <% ProductInfo productList = ProductBLL.Read(orderdetail.ProductId); %>
+                            <tr class="item_bottom">
+                                <td class="a1">
+                                    <div class="img clearfix">
+                                        <a class="fl" href="/ProductDetail-I<$productList.Id$>.html" title="<$orderdetail.ProductName$>" target="_blank">
+                                            <img class="fl" src="<$ShopCommon.ShowImage(productList.Photo.Replace("Original","90-90"))$>" alt="<$orderdetail.ProductName$>" title="<$orderdetail.ProductName$>" />
+                                            <h3><$orderdetail.ProductName$></h3>
+                                        </a><span class="fr">x<$orderdetail.BuyCount$></span>
+                                        <html:if expression="JWRefund.CanRefund(order, orderdetail, 1).CanRefund">
+                                            <span class="fr"><a href="/user/orderrefundapply.html?orderid=<%=order.Id%>&orderdetailid=<%=orderdetail.Id%>" class="g-refund">申请退款</a></span>
+                                        </html:if>
+                                    </div>
+                                </td>                               
+                                <td class="a3">
+                                    <div>
+                                        <span class="money">总额<em class="price">￥<%=orderdetail.ProductPrice*orderdetail.BuyCount%></em>
+                                        </span> 
+                                     
+                                    </div>
+                                </td>
+                                 <%if(proSelect==0){ %> 
+                                <td class="a2" rowspan="<$orderdetailinfo.Count$>">
+                                  <div>
+                                       <$order.Consignee$>
+                                        <s class="icon"></s>
+                                        </div>
+                                </td>
+                                <%} %> 
+                                <td class="a4" rowspan="<$orderdetailinfo.Count$>">
+                                    <div>
+                                    
+                                        <$OrderBLL.ReadOrderStatus(order.OrderStatus,order.IsDelete)$>
+                                          
+                                    </div>
+                                        <html:if expression="JWRefund.CanRefund(order).CanRefund">
+                            
+                            </html:if>
+                                </td>
+                                <%if(proSelect==0){ %>
+                                <td class="a5" rowspan="<$orderdetailinfo.Count$>">
+                                    <div>
+                                    
+                                    <a href="/User/OrderDetail.aspx?id=<$order.Id$>">查看详细</a>
+                                        <$OrderBLL.ReadOrderUserOperate(order.Id,order.OrderStatus,order.PayKey,base.UserId)$> 
+                                 <html:if expression="order.OrderStatus!=(int)OrderStatus.HasDelete && order.IsDelete!=(int)BoolType.True"> 
+                                  <a href="javascript:void(0)" onclick="deleteOrder(<$order.Id$>,<$base.UserId$>)" style="color: red;">删除</a> 
+                            </html:if>  
+                                    </div>
+                                    <html:if expression="JWRefund.CanRefund(order).CanRefund">
+                                        <div> <a href="/user/orderrefundapply.html?orderid=<%=order.Id%>" class="red">申请退款</a></div>
+                                    </html:if>
+</td>
+                                  <%}proSelect++; %>
+                            </tr>
+                           <%} %>
+                        </table>
+                         
+                        </html:foreach>
+                        <$commonPagerClass.ShowPage()$>
+                        <%}else{ %>
+                        <table border="0" cellpadding="0" cellspacing="0">
+                            <tr>
+                                <td>
+                                    <html:if expression="string.IsNullOrEmpty(keywords)">暂无订单,<a href="/List.html">快去下单吧</a>
+                                        <html:else>没有查找到相关订单信息...<br /><a href="/User/OrderList.html">查看所有订单</a>
+                                    </html:if> 
+                                </td>
+                            </tr>
+                        </table>
+                        <%} %>
+                    </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- footer start -->
+    <html:include file="/_Foot.htm" />
+       <script language="javascript" type="text/javascript" src="<html:templatePath>/Js/Order.js"></script>
+          <script type="text/ecmascript">
+
+              function deleteOrder(orderID, userID) {
+                  if (window.confirm("确定要删除该订单？")) {
+                      var url = "/Ajax.aspx?Action=DeleteOrder&OrderID=" + orderID + "&UserID=" + userID;
+                      Ajax.requestURL(url, dealDeleteOrder);
+                  }
+              }
+              function dealDeleteOrder(data) {
+                  if (data == "ok") {
+                      reloadPage();
+                  }
+                  else{
+                      alertMessage(data);
+                  }
+              }
+    </script>
+</body>
+</html>

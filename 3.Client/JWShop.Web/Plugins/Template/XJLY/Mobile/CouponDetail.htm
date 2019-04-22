@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+ <html:include file="/Mobile/Head.htm" />
+</head>
+<body>
+<header class="header-min header-jf" id="header">
+	<s class="icon"></s>领取优惠券
+        <html:include file="/Mobile/TopLink.htm" />
+</header>
+<div class="jfListbox">
+	<div class="jfContent">
+	
+		<h3 class="title" style="margin-bottom: .15rem;"><%=coupon.Name %></h3>
+		<p class="jf">优惠券金额：<span> <%=coupon.Money %></span>元</p>
+		<p class="jf">最小订单金额：<span> <%=coupon.UseMinAmount %></span>元</p>
+        <p class="jf">使用开始日期：<span> <%=coupon.UseStartDate.ToString("yyyy-MM-dd") %></span></p>
+        <p class="jf" style="margin-bottom: .2rem;">使用结束日期：<span> <%=coupon.UseEndDate.ToString("yyyy-MM-dd") %></span></p>
+		 <html:if expression="isOutOfDate">
+                 <a class="btn" style="background: gray;">已过期</a>
+                <html:else>          
+             <html:if expression="!UserCouponBLL.UniqueUserCatch(base.UserId,coupon.Id)">
+                <a class="btn" style="background: gray;">已领</a>
+                 <html:else>
+<a class="btn" href="javascript:" onclick="CatchCoupon(<$base.UserId$>,<$coupon.Id$>,this);" title="领取优惠券">领取优惠券</a>
+             </html:if>
+			  </html:if>
+      
+	</div>
+</div>
+
+
+ <html:include file="/Mobile/Foot.htm" />
+ <html:include file="/Mobile/FootScript.htm" />
+     <script>
+
+         function CatchCoupon(uid, cpid, obj) {
+             if ($(obj).attr("_iscatch") == "False") {
+                 alertMessage("您已领过此优惠券");
+                 return false;
+             }
+             if (uid <= 0) {
+                 alertMessage("请先登录");
+                 window.setTimeout(function () { window.location.href = "/mobile/user/login.html?RedirectUrl=/Mobile/CouponDetail-I" + cpid + ".html"; }, 1000);
+             }
+             else {
+                 $.ajax({
+                     type: 'get',
+                     url: "/Ajax.html?Action=CatchUserCoupon",
+                     data: { UserId: uid, CouponId: cpid },
+                     cache: false,
+                     dataType: 'json',
+                     async: false,
+                     success: function (data) {
+                         if (data.flag == "ok") {
+                             alertMessage("领取成功");
+                             window.setTimeout(function () { window.location.href = "/mobile/User/UserCoupon.html"; }, 1000);
+                         }
+                         else if (data.flag == "no") {
+                             alertMessage(data.msg, 500);
+                             return false;
+                         }
+                         else {
+                             alertMessage("请先登录");
+                             window.setTimeout(function () { window.location.href = "/mobile/user/login.html?RedirectUrl=/Mobile/CouponDetail-I" + cpid + ".html"; }, 1000);
+                         }
+                     },
+                     error: function () { alertMessage("系统忙，请稍后重试", 1000); }
+                 });
+
+             }
+         }
+    </script>
+</body>
+</html>

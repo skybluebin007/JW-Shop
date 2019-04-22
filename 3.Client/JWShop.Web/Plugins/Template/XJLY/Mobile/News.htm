@@ -1,0 +1,84 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <html:include file="/Mobile/Head.htm" />
+</head>
+<body>
+   <header class="header-min" id="header">
+        <a class="back" href="javascript:;" ig-back>返回</a>
+        <h2><$topClass.Name$></h2>
+        <html:include file="/Mobile/TopLink.htm" />
+    </header>
+    <section class="cateContent newsList newsList2">
+	<hgroup class="newsTit">
+		<%if (string.IsNullOrEmpty(keywords)){%><h2><$topClass.Name$></h2>
+		<h3><$topClass.EnName$></h3><%}else{%><h2>搜索结果</h2><h3>Search Results</h3><%}%>
+
+	</hgroup>
+	<ul class="" id="listBox">
+	 <html:if expression="articleList.Count>0">
+<html:foreach expression="ArticleInfo article in articleList">
+		<li class="">
+			<a href="<%if(string.IsNullOrEmpty(article.Url)){ %> /mobile/newsDetail.html?id=<$article.Id$>  <%}else{%><$article.Url$> <%} %>" title="<$article.Title$>">
+			<img src="<$ShopCommon.ShowImage(article.Photo.Replace("Original","320-240"))$>" title="<$article.Title$>" alt="<$article.Title$>"/>
+				<h3><$StringHelper.Substring(article.Title,13)$></h3>
+				<!--<p class="txt"><$StringHelper.Substring(article.Summary,28)$></p>-->
+				<p class="b"> <span class="time">时间：<$article.RealDate.ToString("yyyy-MM-dd")$></span><span class="more fr">查看详情</span></p>
+			</a>
+		</li>
+</html:foreach>
+<html:else><li>暂无相关信息...</li>
+</html:if>	
+	</ul>
+   </section>
+	<a id="seeMore" class="catemore"> <html:if expression="articleList.Count>=pageSize">向下滑动加载更多<html:else>没有了~~</html:if></a>
+        
+
+    <!--footer-->
+    <html:include file="/Mobile/_Foot.htm" />
+</body>
+<script type="text/javascript">
+    var classID=<%=articleClassID%>;
+    var keywords="<%=RequestHelper.GetQueryString<string>("Keywords")%>";
+    //第几页
+    var page_num = 1; 
+    //每页多少条
+    var pageSize=<%=pageSize%>;
+    var aut = 200;
+    //滚动加载开关
+    var canscroll=true;
+    $(window).scroll(function() {
+        if (($(window).scrollTop() + $(window).height() >= $(document).height() - aut) && canscroll) {
+            //console.log(canscroll);
+            //滚动后关闭开关
+            canscroll=false;
+            page_num++;
+            $.ajax({
+                url: "/Ajax.html",
+                type: "GET",
+                dateType: "text",
+                data: { Action: "GetArticleListMobile", Page: page_num,ClassID: classID,PageSize:pageSize,KeyWords:keywords},
+                success: function (data) {
+                    if (data == "0") {
+                        $("#seeMore").html('没有了~~');
+                        //没有返回信息则关闭开关
+                        canscroll=false;
+                    } else {
+                        $("#seeMore").html('正在加载中...');
+                        $("#listBox").append(data);
+                        $("#seeMore").html('向下滑动加载更多');
+                        //有返回信息则重新开启开关
+                        canscroll=true;
+                    }
+                },
+                error: function () {
+                    // alert("error");
+                }
+            });
+        }
+
+    })
+</script>
+
+    <html:include file="/Mobile/FootScript.htm" />
+</html>

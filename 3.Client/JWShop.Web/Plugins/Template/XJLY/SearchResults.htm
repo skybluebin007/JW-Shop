@@ -1,0 +1,165 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <html:include file="/_Head.htm" />
+</head>
+<body>
+    <!--top start-->
+    <html:include file="/_Top.htm" />
+    <!--header start-->
+    <html:csharp>
+                var _baseQueryString = "/list.html?cat=" + Request.QueryString["cat"];
+                var _kw=RequestHelper.GetQueryString<string>("kw");
+                    if(!string.IsNullOrEmpty(_kw))_baseQueryString+="&kw="+_kw;
+                var _brand = RequestHelper.GetQueryString<string>("brand");
+                var _at = RequestHelper.GetQueryString<string>("at");
+                var _ex = RequestHelper.GetQueryString<string>("ex");
+                var _ats = _at.Split(new char[]{';'}, StringSplitOptions.RemoveEmptyEntries).ToList();
+                var _exs = _ex.Split(new char[]{';'}, StringSplitOptions.RemoveEmptyEntries).ToList();
+            </html:csharp>
+    <!--nav start-->
+    <!--main content start-->
+    <div id="location" class="w1210">
+        <a href="/" title="">首页</a>  > <a href=""> 搜索关键字:"<$keywords$>"</a>
+    </div>
+    <div id="pageProduct">
+        <div id="floor_1_main" class="proSort w1210">
+            
+          
+        </div>
+        <div id="floor_2_main" class="w1210 clearfix">
+               <div id="right">
+                <html:csharp>
+                    if(!string.IsNullOrEmpty(_brand)) _baseQueryString += "&brand=" + _brand;
+                    if(!string.IsNullOrEmpty(_at)) _baseQueryString += "&at=" + _at;
+                    if(!string.IsNullOrEmpty(_ex)) _baseQueryString += "&ex=" + _ex;
+
+                    string _sort = Request.QueryString["sort"] ?? "";                    
+                    string _orderType = _sort == "SalePrice_asc" ? "desc" : "asc";
+                    string _isNew = Request.QueryString["IsNew"] ?? "";
+                    string _isHot = Request.QueryString["IsHot"] ?? "";
+                    string _isSpecial = Request.QueryString["IsSpecial"] ?? "";
+                    string _isTop = Request.QueryString["IsTop"] ?? "";
+                    
+                    int _minPrice = RequestHelper.GetQueryString<int>("min");
+                    int _maxPrice = RequestHelper.GetQueryString<int>("max");
+
+                        if(!string.IsNullOrEmpty(_isNew)) _baseQueryString += "&IsNew=" + _isNew;
+                        if(!string.IsNullOrEmpty(_isHot)) _baseQueryString += "&IsHot=" + _isHot;
+                        if(!string.IsNullOrEmpty(_isSpecial)) _baseQueryString += "&IsSpecial=" + _isSpecial;
+                        if(!string.IsNullOrEmpty(_isTop)) _baseQueryString += "&IsTop=" + _isTop;
+                </html:csharp>
+                <div class="right_top s_filter clearfix">
+                    <div class="f_sort fl">
+                       <a href="<%=_baseQueryString%>&sort=" <%if(_sort == ""){%>class="cur" <%}%>>默认</a>
+                        <a href="<%=_baseQueryString%>&sort=OrderCount" <%if(_sort == "OrderCount"){%>class="cur"
+                            <%}%>>销量</a> <a href="<%=_baseQueryString%>&sort=SalePrice_<%=_orderType%>" >
+                                价格</a>
+                        <a href="<%=_baseQueryString%>&sort=CommentCount" <%if(_sort == "CommentCount"){%>class="cur"
+                            <%}%>>评论</a> <a href="<%=_baseQueryString%>&sort=CollectCount" <%if(_sort == "CollectCount"){%>class="cur"
+                                <%}%>>收藏</a>
+                    </div>
+                      <$pager.ShowLoadPages()$>
+                   <!-- <div class="f_pager fr">
+                        <a href="" title="" class="prev">&lt;</a> <a href="" title="" class="next">&gt;</a>
+                    </div>-->
+                    <!--<div class="f_num fr">
+                        <p class="p1 fl">
+                            共<span><$productList.Count$></span>件商品</p>
+                        <p class="p2 fl">
+                            <span><$currentPage$></span>/<%=pagecount %></p>
+                    </div>-->
+                </div>
+                <div class="right_body">
+                    <div class="gridlist">
+                        <html:if expression="productList.Count > 0">
+                         <html:foreach expression="ProductInfo product in productList">
+                        <div class="item">
+                            <a href="/ProductDetail-I<$product.Id$>.html" title="<$product.Name$>" target="_blank" class="img">
+                                <img src="<$ShopCommon.ShowImage(product.Photo.Replace("Original","350-350"))$>" alt="<$product.Name$>" title="<$product.Name$>" /></a>
+                            <p class="price">
+                                ￥<span><$ProductBLL.GetCurrentPrice(product.SalePrice,base.GradeID)$></span></p>
+                            <h3>
+                                <a href="" title="" target="_blank"><$product.Name$></a></h3>
+                            <div class="p1">
+                                已有<span class="fwb"><$product.CommentCount$></span>人评价</div>
+                            <div class="p2 clearfix">
+                                <a href="javascript:collectProduct(<$product.Id$>)" class="focus fl" title=""><s class="icon"></s>收藏</a> 
+                                <a href="javascript:;" onclick="handleCart(<$product.Id$>,'<$product.Name$>',<$product.StandardType$>,<$ProductBLL.GetCurrentPrice(product.SalePrice,base.GradeID)$>)"  class="addcart fl" title="" target="_blank"><s class="icon"></s>加入购物车</a>
+                            </div>
+                        </div>
+                        </html:foreach>
+                        <html:else>
+                            <div class="notice-filter-noresult">
+                                <div class="nf-n-wrap clearfix">
+                                    <span class="nf-icon"></span>
+                                    <div class="nf-content">
+                                        <span class="result">抱歉，没有找到相关的商品</span><p>
+                                            建议您：</p>
+                                        <p>
+                                            1、适当减少筛选条件</p>
+                                        <p>
+                                            2、调整价格区间</p>
+                                        <p>
+                                            3、尝试其他关键字</p>
+                                        <a href="javascript:window.history.back(-1);" class="btn btn-default mt20">返回上一步操作</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </html:if>
+                    </div>
+                    <div class="pager">
+                        <$pager.ShowLoadPage()$> 
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="floor_3_main" class="w1210">
+            <div id="floor_3">
+                <h3 class="title">
+                    热销精品</h3>
+                <div class="floor_3_body gridlist clearfix">
+                <html:foreach expression="ProductInfo proInfo  in hotProductList">
+                    <div class="item">
+                        <a href="/ProductDetail-I<$proInfo.Id$>.html" title="<$proInfo.Name$>" target="_blank" class="img">
+                            <img src="<$ShopCommon.ShowImage(proInfo.Photo.Replace("Original","350-350"))$>" alt="<$proInfo.Name$>" title="<$proInfo.Name$>" /></a>
+                        <h3>
+                            <a href="/ProductDetail-I<$proInfo.Id$>.html" title="<$proInfo.Name$>" target="_blank"><$StringHelper.Substring(proInfo.Name,13)$></a></h3>
+                        <span class="price fwb">￥<$ProductBLL.GetCurrentPrice(proInfo.SalePrice,base.GradeID)$></span>
+                        <div class="p1">
+                            <span><$proInfo.CommentCount$></span>人评价</div>
+                    </div></html:foreach>
+                  
+                </div>
+            </div>
+        </div>
+        <div id="floor_4_main" class="w1210">
+            <div id="floor_4" class="clearfix">
+                <div class="again fwb fl">
+                    重新搜索：</div>
+                <div class="search_main fl">
+                    <form class="por clearfix" method="post" action="">
+                    <input type="text" id="kw" name="kw" class="txt fl" value="" placeholder="请输入商品关键字" />
+                    <input type="button" id="sbtn" name="btn" class="btn fl" value="搜索" />
+                    <script type="text/javascript">
+                        $("#sbtn").click(function () {
+                            if ($("#kw").val() == "") {
+                                alert("请输入商品关键字 ");
+                                $("#kw").focus();
+                                return false;
+                            }
+                            else {
+                                window.location.href = "/searchresults.html?kw=" + encodeURIComponent($("#kw").val());
+                            }
+                        })
+                    </script>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- footer start -->
+    <html:include file="/_Foot.htm" />
+
+</body>
+</html>

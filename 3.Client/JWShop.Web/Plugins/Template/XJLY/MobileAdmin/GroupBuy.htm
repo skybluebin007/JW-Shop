@@ -1,0 +1,164 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <html:include file="/MobileAdmin/_Head.htm" />
+    <link rel="stylesheet" href="<html:templatePath>/mobileadmin/css/jquery-ui.min.css">
+</head>
+<body>
+    <header class="header" id="header">
+        <a class="goBack icon" href="/mobileadmin/business.html" ig-back=""></a>
+        <h2>拼团管理</h2>
+    </header>
+    <!--header-->
+    <section class="user-order">
+        <ul class="tabbed clearfix">
+            <li <%if(status==-1){%>class="hover"<%}%>><a href="/mobileadmin/groupbuy.html?status=-1">拼团失败</a></li>
+            <li <%if(status==0){%>class="hover"<%}%>><a href="/mobileadmin/groupbuy.html?status=0">正在拼团</a></li>
+            <li <%if(status==1){%>class="hover"<%}%>><a href="/mobileadmin/groupbuy.html?status=1">拼团成功</a></li>
+        </ul>
+        <dl class="orderlist">
+            <%if(dataList.Count>0){%>
+            <%foreach(var item in dataList){%>
+            <dd class="item">
+                <div class="head status">
+                    <span id="refund_<%=item.Id%>" data-id="<%=item.Id%>" data-quantity="<%=item.Quantity%>" class="js-needrefund"></span> 团长：<%=item.GroupUserName%>
+                </div>
+                <div class="main">
+                    <a class="clearfix" href="/mobileadmin/groupsign.html?GroupId=<%=item.Id%>" title="查看参团记录">
+                        <figure><img src="<%=ShopCommon.ShowImage(item.ProductPhoto.Replace(" Original","90-90"))%>""></figure>
+                        <h3><%=StringHelper.Substring(item.ProductName,36)%></h3>
+                    </a>
+                </div>
+
+                <div class="price">
+                    <span>拼团价：￥<$item.ProductPrice$></span>
+                </div>
+                <div class="btn">
+                    <a href="/mobileadmin/groupsign.html?GroupId=<%=item.Id%>" class="blue">参团记录</a>
+                </div>
+            </dd>
+
+            <%}%>
+            <%}else{%>
+            <div class="nodata"><span></span>暂无</div>
+            <%}%>
+        </dl>
+    </section>
+
+    <!--bottom-->
+    <div class="g-top g-icobef"></div>
+    <!--navBar-->
+    <html:include file="/MobileAdmin/_Foot.htm" />
+    <script type="text/javascript" src="<html:templatePath>/mobileadmin/js/order.js"></script>
+    <script>
+        var pageIndex = 1, pageSize = "<%=pageSize%>", status = "<%=status%>", count = "<%=dataList.Count%>";
+        var canScroll = parseInt(count)>0?true:false;
+        $(function () {
+            //下拉加载订单
+            $(window).scroll(function () {
+                if (canScroll) {
+                    if ($(window).scrollTop() + $(window).height() >= $(document).height() - 100) {
+                        pageIndex++;
+                        canScroll = false;
+                        scrollOrders();
+                    }
+                }
+            });
+        });
+        //加载订单列表
+        function scrollOrders()
+        {
+            $.ajax({
+                url: '/mobileadmin/ajax.html',
+                type: 'Get',           
+                data: { action: 'getgroupbuylist', pageindex: pageIndex, pagesize: pageSize, status: status},
+                dataType: 'Json',
+                cache: false,
+                success: function (res) {
+                    if (res.ok) {
+                        if (res.count > 0) {
+                            var d = [];
+                            for (var i in res.data) {
+                                var item = res.data[i];
+                                d.push("<dd class='item'>");
+                                d.push("<div class='head status'>");
+                                d.push("<span id='refund_"+item.Id+"' data-id='"+item.Id+"' data-quantity='"+item.Quantity+"' class='js-needrefund'></span>团长：" + item.GroupUserName + "</div>");
+
+                                d.push("<div class='main'>");
+                                d.push("<a class='clearfix' href='/mobileadmin/groupsign.html?GroupId=" + item.Id + "'  title='查看参团记录'>");
+                                d.push("<figure><img src='" + item.ProductPhoto.replace('Original', '90-90') + "'></figure>");
+                                d.push("<h3>" + item.ProductName.substr(0, 36) + "</h3>");
+                                d.push("</a></div>");
+
+                           
+                                d.push("<div class='price'>");
+                                d.push("拼团价：￥" + item.ProductPrice + "</span>");
+                                d.push("</div>");
+                                d.push("<div class='btn'>")
+                                d.push("<a href='/mobileadmin/groupsign.html?GroupId=" + item.Id + "' class='blue'>参团记录</a>");
+                             
+                                d.push("</div></dd>");
+                            }
+                            $(".orderlist").append(d.join(""));
+                            //异步架子判断是否待退款
+                            $(".orderlist .js-needrefund").each(function () {
+                                var _id = $(this).attr("data-id");
+                                var _quantity = $(this).attr("data-quantity");
+                                needRefund(_id, _quantity)
+                            })
+                        }
+                        if (res.count < pageSize) {
+                            canScroll = false;
+                            $(".orderlist").append("<div class='dixian'>我是有底线的</div>");
+                        }
+                        else {
+                            canScroll = true;
+                        }
+                    }
+                    else {
+                        Msg(res.msg);
+                    }
+                },
+                error: function (res) {
+                    console.log(res);
+                }
+            })
+        }
+
+ /****************判断是否待退款****************/
+        $(function () {
+            $(".orderlist .js-needrefund").each(function () {
+                var _id = $(this).attr("data-id");
+                var _quantity = $(this).attr("data-quantity");
+                needRefund(_id, _quantity)
+            })        
+        })
+        //计算是否待退款
+        function needRefund(id, quantity) {
+            if (id > 0 && quantity > 0) {
+                $.ajax({
+                    url: '/mobileadmin/Ajax.html',
+                    data: { Action: 'needrefund', id: id, quantity: quantity },
+                    type: 'Get',
+                    dataType: 'Json',
+                    success: function (res) {
+                        if (res.needrefund) {
+                            $("#refund_" + id).text("待退款");
+                        }
+                        else if (res.needcheck) {
+                            $("#refund_" + id).text("待审核");
+                        }                     
+                        else {
+                            //console.log(res.msg);
+                        }
+                    },
+                    error: function () {
+                        console.log("系统忙，请稍后重试");
+                    }
+                })
+            }
+        }
+ /****************判断是否待退款 end****************/
+    </script>
+</body>
+</html>

@@ -1,0 +1,69 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <html:include file="/MobileAdmin/_Head.htm" />
+</head>
+<body>
+    <header class="user_index clearfix">
+        <div class="Turnover">
+            <b><%=orderMoney%></b>
+            <p>今日营业额(元)</p>
+        </div>
+        <div class="Turnover">
+            <b><%=orderCount%></b>
+            <p>今日付款单数</p>
+        </div>
+    </header>
+    <section class="operations">
+        <h2>门店运营</h2>
+        <div class="operationslist">
+            <ul class="clearfix">
+                <li style="display:none;">
+                    <a href="" title="">
+                        <span class="sp"></span><h3>商品管理</h3>
+                    </a>
+                </li>
+                <li  style="display:none;">
+                    <a href="" title="">
+                        <span class="pj"></span><h3>用户评价</h3>
+                    </a>
+                </li>
+                <li  style="display:none;">
+                    <a href="" title="">
+                        <span class="hy"></span><h3>会员管理</h3>
+                    </a>
+                </li>
+                <li  style="display:none;">
+                    <a href="" title="">
+                        <span class="tj"></span><h3>分析统计</h3>
+                    </a>
+                </li>
+                <li>
+                    <a href="/mobileadmin/marketing.html">
+                        <span class="yx"></span><h3>市场营销</h3>
+                    </a>
+                </li>
+                <li  style="display:none;">
+                    <a href="" title="">
+                        <span class="sk"></span><h3>门店收款</h3>
+                    </a>
+                </li>
+                <li>
+                    <a href="/mobileadmin/groupbuy.html">
+                        <span class="hy"></span><h3>拼团管理</h3>
+                    </a>
+                </li>
+                <li>
+                    <a href="/mobileadmin/writeoff.html">
+                        <span class="hx"></span><h3>订单核销</h3>
+                    </a>
+                </li>
+            </ul>
+
+        </div><!--end operationslist-->
+
+    </section>
+    <!--navBar-->
+    <html:include file="/MobileAdmin/_Foot.htm" />
+</body>
+</html>

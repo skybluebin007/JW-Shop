@@ -1,0 +1,46 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<html:include file="/Mobile/Head.htm" />
+</head>
+<body>
+<header class="header-min clearfix" id="header">
+    <div class="back" ig-back></div>
+    <h2>退款记录</h2>
+    <html:include file="/Mobile/TopLink.htm" />
+</header>
+<section class="wrapper user" id="wrapper">    
+    <div class="user-order">    	
+    	<dl class="list">
+            <%if(orderRefundList.Count<=0){%>
+    	    <dd class="null">暂无相关数据</dd>
+            <%}else{%>
+            <html:foreach expression="var item in orderRefundList">
+        	<dd class="item">
+            	<div class="head">
+                	<h2></h2>
+                    <div class="status status-doing">状态：<%=EnumHelper.ReadEnumChineseName<OrderRefundStatus>(item.Status)%></div>
+                </div>
+                <div class="main" style="padding: .2rem;">
+                    订单号:<%=item.OrderNumber%><br />
+                    申请时间:<%=item.TmCreate%><br />
+                    退款时间:<%=item.TmRefund%>
+                </div>                
+                <div class="foot">
+                	<span class="fee">金额：￥<%=item.RefundMoney%></span>
+                    <div class="btn">
+                        <a href="/Mobile/user/orderrefunddetail.html?id=<%=item.Id%>">查看</a>
+                    </div>
+                </div>
+            </dd>
+            </html:foreach>
+            <%}%>
+            </dl>
+            </div>        
+    
+</section>
+
+    <html:include file="/Mobile/Foot.htm" />
+    <html:include file="/Mobile/FootScript.htm" />
+</body>
+</html>

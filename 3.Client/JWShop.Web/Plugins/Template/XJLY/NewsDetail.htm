@@ -1,0 +1,45 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <html:include file="/_Head.htm" />
+</head>
+<body>
+
+  <html:include file="/_Top.htm" />
+    <div class="w1210 clearfix" id="Newspage">
+      <div class="sideBar fl" id="sideBar">
+            <div class="uit" onclick="window.location.href='/News.html'" style="cursor: pointer;">
+                <%=ArticleClassBLL.Read(topClassID).Name%></div>
+            <ul class="uet">
+                <html:if expression="newsClassList.Count>0">
+                <html:foreach expression="ArticleClassInfo articleClass in newsClassList">
+                <li><a href="/News.html?ID=<$articleClass.Id$>" ><$articleClass.Name$></a></li>
+                </html:foreach>
+                    <html:else>
+<li><a href="/News.html" ><%=ArticleClassBLL.Read(64).Name%></a></li>
+                 </html:if>
+            </ul>
+        </div> 
+        <div class="content fr">
+        	<div class="sitepath">
+            	<strong>当前位置：</strong><a href="/">首页</a> <i class="crumbs-arrow">&gt; </i> <a href="/News.html"><%=ArticleClassBLL.Read(topClassID).Name%></a>  <%if(articleClassID>0 && articleClassID!=topClassID)%><i class="crumbs-arrow">&gt; </i><a href="/News.html?ID=<%=articleClassID%>"><%=ArticleClassBLL.Read(articleClassID).Name%></a>
+            </div>
+            <div class="newsCon">
+                <h1><$article.Title$></h1>
+                <div class="newsTime">
+                    <span>时间：<$article.RealDate.ToString("yyyy-MM-dd")$></span>
+                    <span>来源：<%if(!string.IsNullOrEmpty(article.Resource)){%><$article.Resource$><%}else{%>本站<%}%> </span>
+                    <span>作者：<%if(!string.IsNullOrEmpty(article.Author)){%><$article.Author$><%}else{%>原创<%}%></span>
+                </div>
+                <div class="newsContent"><$(!String.IsNullOrEmpty(article.Content)?article.Content:"资料添加中...")$></div>
+            </div>
+            <div class="ig-link">
+                <p class="prev">上一篇：<$NextNews$></p>
+                <p class="next">下一篇：<$PreNews$></p>
+            </div>
+        </div>
+        <div class="clear"></div>
+    </div>
+   <html:include file="/_Foot.htm" />
+</body>
+</html>

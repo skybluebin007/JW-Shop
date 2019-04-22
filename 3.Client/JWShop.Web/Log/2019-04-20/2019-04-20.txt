@@ -1,0 +1,18 @@
+System.Threading.ThreadAbortException: 正在中止线程。
+   在 System.Threading.Thread.AbortInternal()
+   在 System.Threading.Thread.Abort(Object stateInfo)
+   在 System.Web.HttpResponse.AbortCurrentThread()
+   在 System.Web.HttpResponse.End()
+   在 System.Web.HttpResponse.Redirect(String url, Boolean endResponse, Boolean permanent)
+   在 System.Web.HttpResponse.Redirect(String url)
+   在 SkyCES.EntLib.ResponseHelper.Redirect(String url) 位置 E:\2018\xcxshop-分销\code\0.Libraries\SkyCES.EntLib\SkyCES\EntLib\ResponseHelper.cs:行号 15
+   在 JWShop.Web.Admin.OrderPrint.ExcelPrint(OrderInfo order, List`1 orderDetailList) 位置 E:\project2019-3-7\合肥宏鸣商贸\xcxshop_v3.10.17\code\3.Client\JWShop.Web\Admin\OrderPrint.aspx.cs:行号 108
+System.Threading.ThreadAbortException: 正在中止线程。
+   在 System.Threading.Thread.AbortInternal()
+   在 System.Threading.Thread.Abort(Object stateInfo)
+   在 System.Web.HttpResponse.AbortCurrentThread()
+   在 System.Web.HttpResponse.End()
+   在 System.Web.HttpResponse.Redirect(String url, Boolean endResponse, Boolean permanent)
+   在 System.Web.HttpResponse.Redirect(String url)
+   在 SkyCES.EntLib.ResponseHelper.Redirect(String url) 位置 E:\2018\xcxshop-分销\code\0.Libraries\SkyCES.EntLib\SkyCES\EntLib\ResponseHelper.cs:行号 15
+   在 JWShop.Web.Admin.OrderPrint.ExportSingle() 位置 E:\project2019-3-7\合肥宏鸣商贸\xcxshop_v3.10.17\code\3.Client\JWShop.Web\Admin\OrderPrint.aspx.cs:行号 250

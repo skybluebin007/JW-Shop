@@ -1,0 +1,96 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <html:include file="/Mobile/Head.htm" />
+</head>
+<body>
+<header class="header-min clearfix" id="header">
+    <div class="back" ig-back></div>
+    <h2>兑换记录</h2>
+    <html:include file="/Mobile/TopLink.htm" />
+</header>
+<section class="wrapper user orderPoint" id="wrapper">
+
+    <div class="user-order">
+    	
+        <%if(orderList.Count>0)
+                            {%>
+         <html:csharp>var productList = PointProductBLL.ReadList(orderList.Select(k => k.ProductId).Distinct().ToArray());</html:csharp> 
+    	<dl class="list">
+            <html:foreach expression="var order in orderList">
+                 <html:csharp>var _product = productList.FirstOrDefault(k => k.Id == order.ProductId) ?? new PointProductInfo();</html:csharp>     
+        	<dd class="item">
+            	<div class="head">
+                	<h2></h2>
+                    <div class="status status-doing"><span class="fr"><%=EnumHelper.ReadEnumChineseName<PointProductOrderStatus>(order.OrderStatus) %></span>订单号：<$order.OrderNumber$> &nbsp;&nbsp;</div>
+                </div>
+            
+                <div class="main">
+                    <a href="/mobile/PointDetail-I<$order.ProductId$>.html" title="<$order.ProductName$>">
+                	<figure><img src="<$ShopCommon.ShowImage(_product.Photo.Replace("Original","90-90"))$>" alt="<$order.ProductName$>" title="<$order.ProductName$>" /></figure>
+                    <h3 style="margin-bottom: .2rem;"><%=StringHelper.Substring(order.ProductName,30)%></h3>
+                        <h3 style=" color: #f15353;">积分：<%=order.Point %></h3>
+                </a></div>
+     
+                <div class="foot">                    
+                	<span class="fee"><%=order.Consignee%>，<%=order.Tel%></span>  
+                                   
+                </div>
+                <div class="foot">              
+                    <span class="fee"><%=RegionBLL.RegionNameList(order.RegionId)%>&nbsp;&nbsp;&nbsp;<%=order.Address%></span> 
+                                   
+                </div>
+                <html:if expression="order.OrderStatus >= (int)PointProductOrderStatus.HasShipping">
+                    <div class="foot"> 
+                                        <span class="fee"><%=order.ShippingName %>：<em><%=order.ShippingNumber %></em></span>&nbsp;&nbsp;&nbsp;
+                                        <span class="fee">发货日期：<em><%=order.ShippingDate %></em></span>
+                        </div>
+                    </html:if>     
+       <html:if expression="order.OrderStatus == (int)PointProductOrderStatus.HasShipping">
+                                <div class="foot">
+                                    <div class="btn">
+                                        <a href="javascript:void(0)" class="js-order-receive" data-order="<%=order.Id %>">确定收货</a>      
+                                    </div>
+                                </div>
+                            </html:if>
+            </dd>            
+            </html:foreach>
+        </dl>
+        
+                        <$pager.ShowPage()$>
+                        <div class="clear">
+                        </div>
+        <%}else{%>
+                        您还没有兑换商品。
+          <br />
+                                     <a href="/mobile/pointproduct.html">去兑换</a>
+                        <%}%>
+    </div>
+</section>
+
+    <html:include file="/Mobile/Foot.htm" />
+    <html:include file="/Mobile/FootScript.htm" />
+    <script>
+        $(function () {
+            $("img.lazy").lazyload();
+
+            $('.js-order-receive').on('click', function () {
+                var _order_id = $(this).attr('data-order');
+
+                app.jConfirm("请确认收到货物，是否继续？", function (res) {
+                    if (!res) return;
+
+                    $.ajax({
+                        url: '/User/OrderPoint.aspx?Action=ReceiveShipping',
+                        type: 'GET',
+                        data: { orderId: _order_id },
+                        success: function () {
+                            window.location.reload();
+                        }
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>

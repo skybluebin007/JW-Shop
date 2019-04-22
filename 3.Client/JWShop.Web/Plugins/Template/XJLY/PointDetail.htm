@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+ <html:include file="/_Head.htm" />
+</head>
+<body>
+<!--top start-->
+ <html:include file="/_Top.htm" />
+<!--main content start-->
+
+<div class="jifengPage w1210">
+	<div class="jfTit">
+		<p class="fr">当前位置：<a href="/" >首页</a> ><a href="/pointproduct.html" >积分兑换</a> >  <%=StringHelper.Substring(gift.Name,20,false) %></p>
+		<s></s>积分兑换
+	</div>
+	<div class="jfContent clearfix">
+		<img class="img fl" src="<%=gift.Photo.Replace("Original", "400-300") %>" alt="<%=gift.Name %>" />
+		<div class="imgtxt fl">
+			<h3><%=gift.Name %></h3>
+			<p>需要积分：<span><%=gift.Point %></span>剩余：<%=(gift.TotalStorageCount - gift.SendCount) %>件</p>
+			<a class="btn" href="javascript:checkPoint(<%=gift.Id%>)" title="立即兑换">立即兑换</a>
+			<div>
+				<div class="bdsharebuttonbox"><a href="#" class="bds_more" data-cmd="more"></a><a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a><a href="#" class="bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a><a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a><a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a><a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"></a></div>
+
+			</div>
+		</div>
+	</div>
+	<div class="jfContentTxt">
+		<strong class="title">介绍：</strong>
+		<div class="txt">
+<%=gift.Introduction1%>
+
+		</div>
+	</div>
+</div>
+</div>
+	
+<!-- footer start -->
+ <html:include file="/_Foot.htm" />
+       <script type="text/javascript" src="<html:templatePath>/js/jquery.validator.js"></script>
+    <script type="text/javascript" src="<html:templatePath>/js/zh-CN.js"></script>
+     <script type="text/javascript" src="<html:templatePath>/js/pointproduct.js"></script>
+
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"16"},"share":{},"image":{"viewList":["weixin","sqq","qzone","tsina","tqq"],"viewText":"分享到：","viewSize":"16"},"selectShare":{"bdContainerClass":null,"bdSelectMiniList":["weixin","sqq","qzone","tsina","tqq"]}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+</body>
+</html>

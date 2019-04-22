@@ -1,0 +1,61 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <html:include file="/_Head.htm" />
+</head>
+    <body>
+  
+    <html:include file="/_UTop.htm" />
+<div id="myOrder">
+        <div class="w1210 clearfix">
+	<html:include file="/User/UserLeft.htm" />
+    <div  id="right" class="content fr">
+    	<html:include file="/User/UserTop.htm" />
+        <div class="orderList" id="userTab">
+        	<div class="tab">
+            	<a href="javascript:;" class="item cur">我的留言</a>
+                
+            	<div class="clear"></div>
+            </div>
+            <div class="container">
+            	<div class="conIndex">
+                	
+                	<table cellpadding="0" cellspacing="0" border="0" width="70%" class="tableThemes_3" id="rechargeForm">
+                    	<tr class="odd">
+                        	<td width="100" align="right" height="35" class="tit">标题：</td>
+                            <td ><$userMessage.Title$></td>
+                        </tr>
+                        <tr class="even">
+                        	<td align="right" height="35" class="tit">内容：</td>
+                            <td ><$userMessage.Content$></td>
+                        </tr>
+                        <tr class="odd">
+                        	<td align="right" height="35" class="tit">类型：</td>
+                            <td ><$UserMessageBLL.ReadMessageType(userMessage.MessageClass)$></td>
+                        </tr>
+                        <tr class="even">
+                        	<td align="right" height="35" class="tit">时间：</td>
+                            <td ><$userMessage.PostDate$></td>
+                        </tr>
+                        <tr class="odd">
+                        	<td align="right" height="35" class="tit">处理意见：</td>
+                            <td ><html:if expression="userMessage.IsHandler==1"><$userMessage.AdminReplyContent$><html:else>未处理</html:if></td>
+                        </tr>
+                        <tr class="even">
+                        	<td align="right" height="35" class="tit"></td>
+                            <td ><input type="button" value="返回" class="submit submit_red_themes_1" onclick="window.location.href = '/User/UserMessage.html'" /></td>
+                        </tr>
+                    </table>
+                    
+                </div>
+                
+            </div>
+        </div>
+    </div>
+    <div class="clear"></div>
+</div>
+    </div>
+<html:include file="/_Foot.htm" />
+<div class="hidden" title="codes"></div>
+</body>
+</html>

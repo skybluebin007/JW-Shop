@@ -1,0 +1,83 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <html:include file="/MobileAdmin/_Head.htm" />
+    <script src="/Admin/Js/jquery-1.7.2.min.js"></script>
+    <link rel="stylesheet" href="/Admin/Js/jqdate/base/jquery.ui.all.css">
+    <script type="text/javascript" src="/Admin/Js/jqdate/js/jquery.ui.core.js"></script>
+    <script type="text/javascript" src="/Admin/Js/jqdate/js/jquery.ui.widget.js"></script>
+    <script type="text/javascript" src="/Admin/Js/jqdate/js/jquery.ui.datepicker.js"></script>
+    <script type="text/javascript" src="/Admin/Js/jqdate/js/jquery.ui.datepicker-zh-CN.js"></script>
+    <link rel="stylesheet" href="<html:templatePath>/MobileAdmin/css/jquery-ui.min.css">
+    <!--<link rel="stylesheet" href="/Admin/Js/jqdate/demos.css">-->
+    <script>
+        $(function () {
+            $("#date").datepicker({ changeMonth: true, changeYear: true });
+            $("#date").focus(function(){
+		        document.activeElement.blur();
+		    });
+        });
+    </script>
+</head>
+<body>
+    <!--header-->
+    <header class="header" id="header">
+        <a class="goBack icon" href="javascript:;" ig-back=""></a>
+        <h2>订单详情</h2>
+    </header>
+    <section class="wrapper">
+        <div class="order-no">
+            <div class="no">订单号:<$order.OrderNumber$></div>
+            <div class="status status-doing"><$OrderBLL.ReadOrderStatus(order.OrderStatus,order.IsDelete)$></div>
+        </div>
+        <div>
+        <div class="dditem"><span>配送日期：</span><input id="date" name="date" /></div>
+        <div class="dditem"><span>配送单号：</span><input type="text" id="shippingno" name="shippingno" value="" maxlength="30" /></div>
+        <input type="button" id="btnsave" value="确定"/>
+        </div>
+    </section>
+
+    <script type="text/javascript" src="<html:templatePath>/mobileadmin/js/app.js"></script>
+    <script>
+        $("#btnsave").bind('click', function () {
+            var date = $("#date").val();
+            var shippingnumber = $("#shippingno").val();
+            var orderid="<%=order.Id%>";
+            if ($("#date").val() == "") {
+                Msg("配送日期不能为空");
+                $("#date").focus();
+                document.activeElement.blur();
+                return false;
+            }
+            if ($("#shippingno").val() == "") {
+                Msg("配送单号不能为空");
+                $("#shippingno").focus();
+                return false;
+            }
+            if (confirm("确认发货吗？")) {
+                $.ajax({
+                    url: '/mobileadmin/shippingorder.html',
+                    type: 'Post',
+                    data: { action: 'shipping', orderid: orderid, date: date, shippingnumber: shippingnumber },
+                    dataType: 'json',
+                    cache: false,
+                    async: false,
+                    success: function (res) {
+                        if (res.ok) {
+                            Msg("操作成功");
+                           setTimeout(window.location.href = "/mobileadmin/orderdetail.html?id=" + orderid,5000);
+                        }
+                        else {
+                            Msg(res.msg);
+                        }
+                    },
+                    error: function () {
+                        Msg("系统忙，请稍后重试");
+                    }
+                })
+            }
+        });
+        
+    </script>
+</body>
+</html>

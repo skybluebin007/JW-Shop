@@ -1,0 +1,58 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <html:include file="/_Head.htm" />
+    <script language="javascript" type="text/javascript" src="/Admin/Js/Calendar.js" ></script>
+</head>
+<body>
+
+  <html:include file="/_UTop.htm" />
+<div id="myOrder">
+        <div class="w1210 clearfix">
+	<html:include file="/User/UserLeft.htm" /> 
+    <div id="right" class="content fr">
+    	<html:include file="/User/UserTop.htm" />
+        <div class="orderList" id="orderList">
+        	<div class="tab">
+            	<a href="javascript:;" class="item cur" value="">我的留言</a>
+            	<div class="clear"></div>
+            </div>
+            <div class="container">
+                <div id="UserMessageAjax"></div>  
+                <div class="clear"></div>
+                
+                <table cellpadding="0" cellspacing="0" border="0" width="100%" class="tableThemes_5" id="sendMsg">
+                	<tr>
+                    	<th align="right" width="80" height="35">类型：</th>
+                        <td align="left" width="">
+                        	<input type="radio" name="MessageClass" value="1" id="a1" class="radio" checked /><label for="a1">留言</label>
+                            <input type="radio" name="MessageClass" value="2" id="a2" class="radio" /><label for="a2">投诉</label>
+                            <input type="radio" name="MessageClass" value="3" id="a3" class="radio" /><label for="a3">询问</label>
+                            <input type="radio" name="MessageClass" value="4" id="a4" class="radio" /><label for="a4">售后</label>
+                            <input type="radio" name="MessageClass" value="5" id="a5" class="radio" /><label for="a5">求购</label>
+                       </td>
+                    </tr>
+                    <tr>
+                    	<th align="right" height="40">标题：</th>
+                        <td align="left"><input type="text" value="" name="" id="Title" class="txt_300 msgTitle" maxlength="20"/></td>
+                    </tr>
+                    <tr>
+                    	<th align="right" height="100">内容：</th>
+                        <td align="left"><textarea class="text_300 msgInfo" name="Content" id="Content" maxlength="200"></textarea></td>
+                    </tr>
+                    <tr>
+                    	<th align="right" height="35"></th>
+                        <td align="left"><input type="button" name="submit" class="submit" value="确定" onclick="addUserMessage()"  style="background:red;" /></td>
+                    </tr>
+                </table>
+                
+            </div>
+        </div>
+    </div>
+    <div class="clear"></div>
+</div>
+    </div>
+    <script type="text/javascript" src="<html:templatePath>/js/UserMessage.js"></script>
+<html:include file="/_Foot.htm" />
+</body>
+</html>

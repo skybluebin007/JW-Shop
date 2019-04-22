@@ -1,0 +1,78 @@
+﻿/*
+.form-select-line, .form-select2-line, .form-txt-line, .form-txt2-line { float:left; width:auto; height:auto; line-height:30px; padding:0 0 0 90px; position:relative; margin-bottom:10px; }
+.form-select-line .head,.form-txt-line .head{ position:absolute; left:-10px; top:0; width:90px; text-align:right; overflow:hidden; white-space:nowrap; }
+.form-select-line .txt,.form-txt-line .txt,
+.form-select-line .text,.form-txt-line .text { width:250px; padding:0 5px; height:28px; line-height:28px; border:1px solid #ddd; box-shadow:0 1px 1px rgba(0,0,0,0.075) inset; vertical-align:middle; }
+.form-select-line .text,.form-txt-line .text { line-height:18px; padding:5px; height:80px; }
+.form-select-line .select { width:262px; padding:0 5px; height:28px; line-height:28px; border:1px solid #ddd; box-shadow:0 1px 1px rgba(0,0,0,0.075) inset; }
+.form-txt-line > img { vertical-align:middle; }
+
+.form-txt > span
+{ position:absolute; left:370px; top:0; }
+
+.form-select-line span,
+.form-select2-line span
+{ position:absolute; left:410px; top:0; }
+
+.form-txt-line > span,
+.form-txt2-line > span
+{ position:absolute; left:510px; top:0; }
+
+.form-select-line .select + br + span + span,
+.form-select-line .select + br + span + span + span,
+.form-select-line .select + br + span + span + span + span,
+
+.form-select2-line .select2 + br + span + span,
+.form-select2-line .select2 + br + span + span + span,
+.form-select2-line .select2 + br + span + span + span + span,
+
+.form-txt-line .txt + br + span + span,
+.form-txt-line .txt + br + span + span + span,
+.form-txt-line .txt + br + span + span + span + span,
+
+.form-txt2-line .txt2 + br + span + span,
+.form-txt2-line .txt2 + br + span + span + span,
+.form-txt2-line .txt2 + br + span + span + span + span
+
+
+
+
+
+
+.form-txt .txt + br + span,
+.form-txt .txt + br + span + span,
+.form-txt .txt + br + span + span + span,
+.form-txt .txt + br + span + span + span + span
+{ white-space:nowrap; background:#cc0000; border:1px solid #cc0000; border-radius:3px; box-shadow:0 0 2px rgba(0,0,0,0.1); height:30px; line-height:30px; padding:0 20px 0 10px; color:#FFF !important; }
+
+.form-select-line .select + br + span + span:before,
+.form-select-line .select + br + span + span + span:before,
+.form-select-line .select + br + span + span + span + span:before,
+
+.form-select2-line .select2 + br + span + span:before,
+.form-select2-line .select2 + br + span + span + span:before,
+.form-select2-line .select2 + br + span + span + span + span:before,
+
+.form-txt-line .txt + br + span + span:before,
+.form-txt-line .txt + br + span + span + span:before,
+.form-txt-line .txt + br + span + span + span + span:before,
+
+.form-txt2-line .txt2 + br + span + span:before,
+.form-txt2-line .txt2 + br + span + span + span:before,
+.form-txt2-line .txt2 + br + span + span + span + span:before
+{ content:""; position:absolute; left:-12px; top:8px; width:0; height:0; border:6px solid transparent; border-right-color:#cc0000; }
+
+
+*/
+
+
+
+
+
+
+
+
+
+
+
+

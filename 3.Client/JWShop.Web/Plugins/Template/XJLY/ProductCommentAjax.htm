@@ -1,0 +1,50 @@
+﻿<html:namespace name="JWShop.Entity" />
+<html:namespace name="JWShop.Business" />
+<html:namespace name="JWShop.Common" />
+<html:namespace name="SkyCES.EntLib" />
+
+    <%
+if (productCommentList.Count>0){
+            foreach(var productComment in productCommentList){
+             OrderActionInfo ord=OrderActionBLL.ReadLast(productComment.OrderId,(int)OrderStatus.HasShipping);
+            
+           DateTime endTime1  = productComment.PostDate;
+           DateTime beginTime1 = ord.Date;
+            TimeSpan ts = endTime1-beginTime1  ;	
+            UserInfo tempUser=UserBLL.Read(productComment.UserId);
+            string userGradeName=UserGradeBLL.Read(UserGradeBLL.ReadByMoney(tempUser.MoneyUsed).Id).Name;
+            string userPhoto = tempUser.Photo;
+            if (userPhoto == string.Empty)
+            {
+                userPhoto = "/Admin/Images/Nopic.gif";
+            }
+            else
+            {
+                userPhoto = userPhoto.Replace("Original", "70-70");
+            }
+    %>
+    <div class="item clearfix">
+        <div class="column1 fl">
+        <%
+        string star="star star"+productComment.Rank;
+         %>
+            <span class="<$star$>"></span><span>收货<$ts.Days$>天后评论<br />
+                <$productComment.PostDate$>
+        
+        </div>
+        <div class="column2 fl">
+            <$productComment.Content$>
+        </div>
+        <div class="column3 fr">
+            <img src="<$userPhoto$>" alt="" /><$tempUser.UserName$>
+        </div>
+    </div>
+    <%} %>
+    <div class="clear">
+    </div>
+    <%=ajaxPagerClass.ShowPage()%>
+    <%}else{ %>
+    暂无商品评论！
+    <%} %>
+    <div class="clear">
+    </div>

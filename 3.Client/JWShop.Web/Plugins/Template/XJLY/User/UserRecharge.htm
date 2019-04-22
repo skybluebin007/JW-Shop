@@ -1,0 +1,125 @@
+﻿<html:namespace name="JWShop.Entity" />
+<html:namespace name="JWShop.Business" />
+<html:namespace name="JWShop.Common" />
+<html:namespace name="SkyCES.EntLib" />
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <html:include file="/_Head.htm" />
+</head>
+<body>
+    <html:include file="/Topper.htm" />
+    <html:include file="/Top.htm" />
+    <div class="wrapper" id="wrapper">
+        <html:include file="/User/UserLeft.htm" />
+        <div class="content">
+            <html:include file="//User/UserTop.htm" />
+            <div class="orderList" id="userTab">
+                <div class="tab">
+                    <a href="javascript:;" class="item cur">在线充值</a> <a href="javascript:;" class="item">
+                        充值记录</a>
+                    <div class="clear">
+                    </div>
+                </div>
+                <div class="container">
+                    <div class="conIndex">
+                        <form action="/User/UserRecharge.html" method="post" name="form">
+                        <table cellpadding="0" cellspacing="0" border="0" width="70%" class="tableThemes_3"
+                            id="rechargeForm">
+                            <tr class="odd">
+                                <td width="100" align="right" height="35" class="tit">
+                                    用户：
+                                </td>
+                                <td>
+                                    <$base.UserName$>
+                                </td>
+                            </tr>
+                            <tr class="even">
+                                <td align="right" height="35" class="tit">
+                                    余额：
+                                </td>
+                                <td>
+                                    <$moneyLeft$> 元
+                                </td>
+                            </tr>
+                            <tr class="odd">
+                                <td align="right" height="35" class="tit">
+                                    充值金额：
+                                </td>
+                                <td>
+                                    <input type="text" value="" name="Money" class="txt_120 money" maxlength="9" id="Money" />
+                                    元 <span class="rechargeTip">充值金额必须是合法的资金格式 例如：100 或者0.01</span>
+                                </td>
+                            </tr>
+                            <tr class="even">
+                                <td align="right" height="35" class="tit">
+                                    支付方式：
+                                </td>
+                                <td>
+                                    <%int i=0; %>
+                                    <html:foreach expression="PayPluginsInfo payPlugins in payPluginsList">
+                                <input type="radio" class="radio" name="PayKey" value="<$payPlugins.Key$>" <%if(i==0){%>checked="checked"<%} %>/><$payPlugins.Name$>
+                                <%i++; %>
+                                </html:foreach>
+                                </td>
+                            </tr>
+                            <tr class="odd">
+                                <td align="right" height="35" class="tit">
+                                </td>
+                                <td>
+                                    <input type="submit" value="确定" class="submit submit_red_themes_1" /><input type="hidden"
+                                        name="Action" value="PostBack" />
+                                </td>
+                            </tr>
+                        </table>
+                        </form>
+                    </div>
+                    <div class="conIndex hidden">
+                        <table cellpadding="0" cellspacing="0" border="0" width="100%" class="tableThemes_2">
+                            <thead>
+                                <tr>
+                                    <td align="center" width="150" height="35">
+                                        流水号
+                                    </td>
+                                    <td align="center" width="">
+                                        金额（元）
+                                    </td>
+                                    <td align="center" width="130">
+                                        充值时间
+                                    </td>
+                                    <td align="center" width="100">
+                                        支付方式
+                                    </td>
+                                    <td align="center" width="100">
+                                        状态
+                                    </td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <html:foreach expression="UserRechargeInfo userRecharge in userRechargeList">
+                            <tr class="even">
+                                <td align="center" height="35" class="link"><span><$userRecharge.Number $></span></td>
+                                <td align="center" class="money">￥ <$userRecharge.Money $></td>
+                                <td align="center" ><$userRecharge.RechargeDate $></td>
+                                <td align="center" ><$userRecharge.PayName $></td>
+                                <td align="center" ><font color="red"><html:if expression="userRecharge.IsFinish==1">成功<html:else>失败</html:if></font></td>
+                            </tr>
+                            </html:foreach>
+                            </tbody>
+                        </table>
+                        <$ajaxPagerClass.ShowPage()$>
+                        <div class="clear">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="clear">
+        </div>
+    </div>
+    <html:include file="/_Foot.htm" />
+    <div class="hidden" title="codes">
+    </div>
+</body>
+</html>

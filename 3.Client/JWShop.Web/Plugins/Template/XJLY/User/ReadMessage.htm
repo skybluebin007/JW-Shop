@@ -1,0 +1,87 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <html:include file="/_Head.htm" />
+</head>
+<body>
+    <html:include file="/Topper.htm" />
+    <html:include file="/Top.htm" />
+    <div class="wrapper" id="wrapper">
+        <html:include file="/User/UserLeft.htm" />
+        <div class="content">
+            <html:include file="//User/UserTop.htm" />
+            <div class="orderList" id="userTab">
+                <div class="tab">
+                    <a href="javascript:;" class="item cur">短信息</a>
+                    <div class="clear">
+                    </div>
+                </div>
+                <div class="container">
+                    <form action="/User/ReadMessage.html" method="post" name="form">
+                    <input type="hidden" class="input" name="ID" value="<$receiveMessage.ID$>" />
+                    <table cellpadding="0" cellspacing="0" border="0" width="100%" class="tableThemes_6">
+                        <tr>
+                            <td align="right" width="120" height="40">
+                                发件人：
+                            </td>
+                            <td align="left">
+                                <html:if expression="receiveMessage.IsAdmin==1">系统消息<html:else><$receiveMessage.FromUserName $></html:if>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right" width="120" height="40">
+                                时间：
+                            </td>
+                            <td align="left">
+                                <$receiveMessage.Date$>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right" width="120" height="40">
+                                主题：
+                            </td>
+                            <td align="left">
+                                <$receiveMessage.Title$>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right" width="120" height="40">
+                                正文：
+                            </td>
+                            <td align="left">
+                                <$receiveMessage.Content$>
+                            </td>
+                        </tr>
+                        <html:if expression="receiveMessage.IsAdmin==0">
+                        <tr>
+                            <td align="right" width="120" height="40">
+                                回复：
+                            </td>
+                            <td align="left">
+                                <textarea style="width:420px;height:80px" class="input" name="Content" id="Content"></textarea>
+                            </td>
+                        </tr>
+                         <tr>
+                            <td align="right" width="120" height="40">
+
+                            </td>
+                            <td align="left">
+                                <input class="button" value="回复" type="submit" /><input type="hidden" name="Action" value="PostBack" />
+                            </td>
+                        </tr>
+                         </html:if>
+                    </table>
+                    </form>
+                </div>
+                <div class="clear">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="clear">
+    </div>
+    </div>
+    <html:include file="/Foot.htm" />
+</body>
+</html>

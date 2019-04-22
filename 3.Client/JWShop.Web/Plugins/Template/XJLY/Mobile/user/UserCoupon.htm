@@ -1,0 +1,62 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<html:include file="/Mobile/Head.htm" />
+</head>
+<body>
+<header class="header-min clearfix" id="header">
+    <div class="back" ig-back></div>
+    <h2>我的优惠券</h2>
+    
+            
+   <br />
+    <html:include file="/Mobile/TopLink.htm" />
+</header>
+<section class="wrapper user" id="wrapper">    
+<div class="user-order">
+    	<ul class="tabbed clearfix">
+            <li <%if(string.IsNullOrEmpty(type)){%>class="current"<%} %>><a href="/Mobile/User/UserCoupon.html" >全部</a></li>       
+            <li <%if(type=="1"){%>class="current"<%} %>><a href="?type=1" >未使用</a></li>
+            <li <%if(type=="2"){%>class="current"<%} %>><a href="?type=2" >已使用</a></li>
+            <li <%if(type=="3"){%>class="current"<%} %>><a href="?type=3" >已过期</a></li>
+        </ul>
+        <%if(userCouponList.Count>0){%>
+    	<dl class="list">
+            <html:foreach expression="UserCouponInfo userCoupon in userCouponList">
+                    <html:csharp>
+                    CouponInfo coupon=CouponBLL.ReadCouponByCouponList(couponList,userCoupon.CouponId);
+                    OrderInfo tmpOrder=OrderBLL.Read(userCoupon.OrderId); 
+                   </html:csharp>
+        	<dd class="item">
+            	<div class="head">                
+                    <div class="status status-doing" style="left:0.1rem;">编号：<$userCoupon.Number$>&nbsp;&nbsp;面值（元）:<$coupon.Money$></div>
+                </div>             
+                <div class="main">                    
+                    <h3 style="height: 0.4rem;">单次最低消费（元）:<$coupon.UseMinAmount$></h3>
+                    <h3 style="height: 0.4rem;">有效时间:<$coupon.UseStartDate.ToString("yyyy-MM-dd")$> 到 <$coupon.UseEndDate.ToString("yyyy-MM-dd")$></h3>
+                    <h3 style="height: 0.4rem;">消费状态:<html:if expression="userCoupon.IsUse==1">已消费<html:else>未消费</html:if></h3>
+                </div>
+           <%if(userCoupon.IsUse==(int)BoolType.True){%>
+                <div class="foot">
+                	<span class="fee">消费日期：<%=tmpOrder.PayDate.ToString("yyyy-MM-dd")%></span> 
+                    <span class="fee">订单号：<a href="/mobile/user/orderdetail.html?id=<%=userCoupon.OrderId%>" title="查看订单"><%=tmpOrder.OrderNumber%></a></span>                    
+                </div>
+             <%}%>   
+            </dd>            
+            </html:foreach>
+        </dl>
+        
+                        <$commonPagerClass.ShowPage()$>
+                        <div class="clear">
+                        </div>
+        <%}else{%>
+                        暂时没有相关信息。
+                        <%}%>
+    </div>
+</section>
+
+    <html:include file="/Mobile/Foot.htm" />
+    <html:include file="/Mobile/FootScript.htm" />
+    <script language="javascript" type="text/javascript" src="<html:templatePath>/Mobile/Js/UserAccountRecord.js"></script>
+</body>
+</html>

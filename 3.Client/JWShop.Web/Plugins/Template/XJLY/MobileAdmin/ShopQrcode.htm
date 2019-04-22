@@ -1,0 +1,32 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <html:include file="/MobileAdmin/_Head.htm" />
+</head>
+<body>
+    <header class="header" id="header">
+        <a class="goBack icon" href="/mobileadmin/info.html" ig-back=""></a>
+        <h2>门店二维码</h2>
+    </header>
+    <section class="downimg">
+        <img src="<%=ShopConfig.ReadConfigInfo().LittlePrgCode%>" alt="小程序二维码" id="DemoImg" class="codeimg"/>
+        <%if(!RequestHelper.IsMicroMessenger()){%><a class="savebtn" href="javascript:" download="小程序二维码">保存二维码</a><%}else{%>
+        <p class="wx">长按保存二维码</p>
+        <%}%>
+        <p>用户使用微信APP扫码该二维码,就可以进入您的店铺并下单哦!抓住机会,抢占先机,让微信小程序为你赚取更多流量!</p>
+        <form id="form1" method="Post" style="display:none;">
+            <input type="hidden" name="image" value="<%=ShopConfig.ReadConfigInfo().LittlePrgCode%>" />
+            <input type="hidden" name="Action" value="PostBack"/>
+            <input type="submit" value="submit"/>
+        </form>
+    </section>
+
+
+    <script type="text/javascript" src="<html:templatePath>/mobileadmin/js/app.js"></script>
+ <script>
+     $(".savebtn").click(function () {
+         $("#form1").submit()
+     })
+ </script>
+</body>
+</html>

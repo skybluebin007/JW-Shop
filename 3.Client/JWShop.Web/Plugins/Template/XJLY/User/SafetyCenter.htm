@@ -1,0 +1,102 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <html:include file="/_Head.htm" />
+</head>
+<body>
+    <!--top start-->
+    <html:include file="/_UTop.htm" />
+    <!--header start-->
+    <!--nav start-->
+    <!--main content start-->
+    <div id="myOrder">
+        <div class="w1210 clearfix">
+            <html:include file="/User/UserLeft.htm" />
+            <div id="right" class="fr">
+                <div id="myBLH_1" class="clearfix">
+                    <div class="myBLH_1_left fl">
+                        <img src="<$ShopCommon.ShowImage(UserBLL.ReadUserPhoto())$>" class="img fl" alt="用户头像" />
+                        <div class="vip">
+                            <s class="icon"></s><span style="font-size: 20px; color: #c81623; font-weight: bold;"><$base.UserName$></span>
+                        </div>
+                        <h2 class="orange"><$base.UserGrade$></h2>
+                        <div class="b">
+                            <a href="/User/UserAdd.html" title="">个人信息</a> <a href="/User/LogOut.html" title="">安全退出</a>
+                        </div>
+                    </div>
+                    <div class="myBLH_1_right fr">
+                        <div class="p1">
+                            <a href="/User/UserAddress.html" >我的收货地址</a></div>
+                        <div class="p2">
+                            <a class="pa1" href="/User/OrderList.html?type=1" title="" ><s class="mymebicon"></s>待付款<span class="orange"><%=arrT[1] %></span></a> 
+                            <a class="pa2" href="/User/OrderList.html?type=3" title=""><s class="mymebicon"></s>待发货<span class="orange"><%=arrT[2] %></span></a> 
+                            <a class="pa3" href="/User/OrderList.html?type=4" title="" ><s class="mymebicon"></s>待收货<span class="orange"><%=arrT[3] %></span></a> 
+                            <a class="pa4" href="/User/OrderList.html?type=2" title=""><s class="mymebicon"></s>待审核<span class="orange"><%=arrT[4] %></span></a> 
+                            <a class="pa5" href="/User/OrderList.html?type=5" title=""><s class="mymebicon"></s>无效<span class="orange"><%=arrT[5] %></span></a>
+                        </div>
+                    </div>
+                </div>
+                <div id="myBLH_2" class="clearfix">
+                    <div class="myBLH_2_left fl">
+                        <div class="myBLH_2_left_1 saftPage" style="width:990px;">
+                            <h3 class="title">安全中心</h3>
+                            <div class="ddList_tit">
+                                <span class="tit">安全级别：</span>
+                                <div class="saft_rankCon">
+                                    <div class="saft_rank">
+                                        <div class="rank rank<%=base.safetyGrade%>"></div>
+                                    </div>
+                                    <span class="span<%=base.safetyGrade%>"><%=base.safetyGradeName%></span>
+                                </div>
+                                <%if(safetyGrade<3){%><span class="saft_jy">建议您启动全部安全设置，以保障账户及个人信息安全。</span><%}else{%>你已启动全部安全设置，您的账户非常安全。<%}%>
+                            </div>                          
+                            <div class="ddList saftddList_pass clearfix">
+                                <div class="ddListLeft fl">
+                                    <span class="saftIcon saftCorrect">√</span>登录密码
+                                </div>
+                                <div class="ddListCenter fl">
+                                    <span class="warnRed">互联网账号存在被盗风险，建议您定期更改密码以保护账户安全。</span>
+                                </div>
+                                <div class="ddListRight fr">
+                                    <a href="/User/ChangePassword.html">修改</a>
+                                </div>
+                            </div>
+                            <div class="ddList clearfix">
+                                <div class="ddListLeft fl">
+                                    <%if(string.IsNullOrEmpty(CurrentUser.Email)){%><span class="saftIcon saftWarn">X</span><%}else{%><span class="saftIcon saftCorrect">√</span><%}%>邮箱验证
+                                </div> 
+                                <div class="ddListCenter fl">  
+                                    <%if(string.IsNullOrEmpty(CurrentUser.Email)){%><span class="warnRed">您尚未验证邮箱，请及时验证以保护账户安全</span><%}else{%>您验证的邮箱： 
+                                        <%if(CurrentUser.Email.Split('@').Length>1){%>
+                                        <%=GetStarString(CurrentUser.Email.Split('@')[0])+"@"+CurrentUser.Email.Split('@')[1]%>
+                                        <%}else{%>
+                                        <%=GetStarString(CurrentUser.Email)%>
+                                        <%}%>
+                                        <%}%></span>
+                                </div>
+                                <div class="ddListRight fr">
+                                    <a href="/user/updateemail.html"><%if(string.IsNullOrEmpty(CurrentUser.Email)){%><span class="spanbtn">立即验证</span><%}else{%>修改<%}%></a>
+                                </div>
+                            </div>
+                            <div class="ddList clearfix" style="border-bottom:0px;">
+                                <div class="ddListLeft fl">
+                                    <span><%if(string.IsNullOrEmpty(CurrentUser.Mobile)){%><span class="saftIcon saftWarn">X</span><%}else{%><span class="saftIcon saftCorrect">√</span><%}%></span>手机验证
+                                </div>
+                                <div class="ddListCenter fl">
+                                    <%if(string.IsNullOrEmpty(CurrentUser.Mobile)){%><span class="warnRed">您尚未验证手机，请及时验证以保护账户安全</span><%}else{%>您验证的手机： <%=GetStarString(CurrentUser.Mobile)%>若已丢失或停用，请立即更换以保护账户安全<%}%>
+                                </div>
+                                <div class="ddListRight fr">
+                                     <a href="/User/updatemobile.html"><%if(string.IsNullOrEmpty(CurrentUser.Mobile)){%><span class="spanbtn">立即验证</span><%}else{%>修改<%}%></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- footer start -->
+    <html:include file="/_Foot.htm" />
+
+</body>
+</html>

@@ -1,0 +1,1143 @@
+﻿/**全局设置**/
+
+
+body, ul, ol, li, dd, dl, dt, p, img, h1, h2, h3, h4, h5, h6, div, span, a, textarea
+{
+    margin: 0px;
+    padding: 0px;
+    list-style: none;
+    border: 0px;
+    vertical-align: top;
+}
+
+body, input, textarea, form, select
+{
+    font-size: 12px;
+    color: #555;
+    font-family: "微软雅黑";
+}
+
+input, textarea, form, select
+{
+    outline: none;
+    padding: 0px;
+    margin: 0px;
+}
+
+a
+{
+    color: #555;
+    text-decoration: none;
+}
+
+    a:hover
+    {
+        color: #3889b4;
+    }
+
+/*
+body,form,input,button,h1,h2,h3,h4,h5,h6,h7,p,ul,ol,dl,dt,dd,div,textarea {
+	 padding:0; margin:0; font-family:'微软雅黑';font-size: 12px;
+color: #555;
+}*/
+ul, ol, li
+{
+    list-style-type: none;
+}
+/*
+a {
+	color: #4C5A62; text-decoration: none; 
+}
+a:hover {
+	color: #0097CC; text-decoration: none;
+}*/
+em
+{
+    color: #FF8F00;
+    font-weight: bold;
+    font-style: normal;
+}
+
+img
+{
+    border: 0px;
+}
+
+.clear
+{
+    clear: both;
+}
+
+.input
+{
+    height: 17px;
+    font-size: 12px;
+    padding: 3px 2px 0px;
+    border-width: 1px;
+    border-style: solid;
+    border-color: #808080 #D4D0C8 #D4D0C8 #808080;
+    width: 90px;
+    border: 1px solid #cadde4;
+}
+
+.button
+{
+    border: none;
+    font-size: 12px;
+    height: 23px;
+    margin: 0;
+    background: #FFF url(images/button_bg.png) top left repeat-x;
+    line-height: 21px;
+    color: #FFF;
+    padding: 1px;
+    width: 60px;
+}
+
+.uploadFile
+{
+    border: 1px solid #B6CEE6;
+    font-size: 12px;
+    height: 20px;
+    margin: 0;
+    background: #FFF;
+    line-height: 18px;
+    color: #666;
+    padding: 1px;
+}
+/**顶部**/
+.head
+{
+    background-color: #f5fafe;
+    height: 85px;
+    width: 100%;
+    margin: 0 auto;
+    overflow: hidden;
+}
+
+    .head .top
+    {
+        height: 54px;
+        line-height: 54px;
+        width: 100%;
+        margin: 0px;
+        padding: 0px;
+        overflow: hidden;
+    }
+
+        .head .top .logo
+        {
+            float: left;
+            margin: 0px;
+            padding: 2px;
+        }
+
+        .head .top .welcome
+        {
+            margin-left: 10px;
+            height: 20px;
+            line-height: 20px;
+            margin-top: 3px;
+            text-align: right;
+        }
+
+            .head .top .welcome a
+            {
+                color: #006699;
+            }
+
+    .head .channel
+    {
+        height: 30px;
+        overflow: hidden;
+        
+
+        position: absolute;
+        top: 25px;
+        left: 280px;
+background: url(../images/nav-bj.gif) repeat-x 0 -60px;
+    }
+
+        .head .channel li
+        {
+            
+            width: 70px;
+height: 30px;
+float: left;
+        }
+.head .channel li.navleft {
+width: 6px;
+background: url(../images/nav-bj.gif) repeat-x 0 0px;
+}
+.head .channel li.navright {
+width: 6px;
+background: url(../images/nav-bj.gif) repeat-x 0 -30px;
+}
+.head .channel li a
+{
+	width: 70px;
+display: block;
+line-height: 30px;
+height: 30px;
+text-align: center;
+background: url(../images/nav-b.gif) no-repeat 69px 0;
+}/*
+.head  .channel .on a
+{
+	width:94px;background-image:url(/Admin/Style/Images/channelOn.gif); color: #4C5A62;display: block; 
+}
+.head  .channel .on a:hover
+{
+	width:94px;background-image:url(/Admin/Style/Images/channelOn.gif); color: #0097CC;display: block; 
+}*/
+        .head .channel .on
+        {
+            
+background: url(../images/nav-bj.gif) repeat-x 0 0px;
+        }
+
+            .head .channel .on a
+            {
+                color: #fff;
+background: url(../images/nav-hover.gif);
+            }
+
+    .head .menu
+    {
+        background-image: url(/Admin/Style/Images/menu.gif);
+        background-repeat: repeat-x;
+        height: 30px;
+        line-height: 30px;
+        width: 100%;
+        padding-right: 10px;
+        border-top: 1px solid #cadde4;
+    }
+
+        .head .menu .text
+        {
+            float: left;
+            width: 100px;
+            text-align: right;
+            line-height: 30px;
+            color: #006699;
+            font-weight: 800;
+            font-size: 13px;
+        }
+
+        .head .menu ul
+        {
+            float: right;
+        }
+
+            .head .menu ul li
+            {
+                float: right;
+            }
+
+                .head .menu ul li a
+                {
+                    width: 65px;
+                    text-align: center;
+                    display: block;
+                }
+/**中间主体**/
+.body
+{
+    width: 100%;
+    overflow: hidden;
+}
+
+    .body .leftFrame
+    {
+        width: 151px;
+        height: 100%;
+        float: left;
+        overflow: hidden;
+    }
+
+    .body .rightFrame
+    {
+        height: 100%;
+        overflow: hidden;
+    }
+/**左边**/
+#middleLeft
+{
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 2px;
+    bottom: 0;
+    padding: 0;
+    margin: 0;
+    +width:100%;
+    +height: 100%;
+    overflow: hidden;
+    background: #f5fafe;
+    border-right: #ACB5BE 1px solid;
+    width: 150px;
+}
+
+#menu
+{
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: 0;
+    padding: 0;
+    zoom: 1;
+    +width: 100%;
+    +height: 100%;
+    -position: relative;
+}
+
+.menuBody
+{
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    +width: 100%;
+    +height: 100%;
+    padding: 0 0 10px;
+    zoom: 1;
+}
+
+    .menuBody ul li
+    {
+        height: 23px;
+        line-height: 23px;
+        padding-left: 15px;
+        margin-top: 4px;
+        margin-bottom: 2px;
+        padding-top: 0px !important;
+        padding-top: 5px;
+    }
+
+    .menuBody ul .foot
+    {
+        height: 1px;
+        line-height: 1px;
+        margin: 0px;
+        padding: 0px;
+        border-bottom: 1px #A6AFB1 solid;
+        overflow: hidden;
+        margin-bottom: 0px !important;
+        margin-bottom: -7px;
+    }
+
+    .menuBody ul li img
+    {
+        vertical-align: middle;
+        margin-right: 10px;
+    }
+
+    .menuBody div
+    {
+        height: 30px;
+        line-height: 30px;
+        background-image: url(/Admin/Style/Images/leftMenuOff.png);
+        padding-left: 20px;
+        cursor: pointer;
+        padding-top: 0px !important;
+        padding-top: 5px;
+    }
+
+    .menuBody .on
+    {
+        height: 30px;
+        line-height: 30px;
+        background-image: url(/Admin/Style/Images/leftMenuOn.png);
+        padding-left: 20px;
+    }
+
+    .menuBody div img
+    {
+        vertical-align: middle;
+        margin-right: 10px;
+    }
+
+    .menuBody ul .smallOn
+    {
+        background-image: url(/Admin/Style/Images/leftSmallMenuBgOn.png);
+    }
+
+/**右边主体**/
+.mainBody
+{
+    margin: 10px 10px 0 10px;
+}
+
+.position
+{
+    width: 100%;
+    height: 30px;
+    line-height: 20px;
+    padding-top: 5px;
+    background-repeat: repeat-x;
+    overflow: hidden;
+    text-indent: 20px;
+    margin-bottom: 10px;
+    background-image: url(/Admin/Style/Images/PositionBg.png);
+    color: #006699;
+    font-weight: bold;
+}
+
+    .position img
+    {
+        margin-right: 10px;
+        vertical-align: middle;
+    }
+
+.search
+{
+    margin-bottom: 10px;
+    border: #9EC8F8 1px solid;
+    padding: 3px;
+}
+
+    .search li
+    {
+        line-height: 30px;
+        margin-left: 15px;
+    }
+
+.listBlock
+{
+    width: 100%;
+    height: 21px;
+}
+
+    .listBlock ul
+    {
+        margin-bottom: -1px;
+        position: absolute;
+    }
+
+        .listBlock ul li
+        {
+            line-height: 22px;
+            background-image: #f5fbff;
+            padding-left: 10px;
+            padding-right: 10px;
+            float: left;
+            margin-left: 10px;
+            text-align: center;
+            cursor: pointer;
+            border: 1px solid #cadde4;
+        }
+
+    .listBlock .listOn
+    {
+        color: #006699;
+        font-weight: 800;
+        background: #DFEFFE;
+    }
+
+.listHead
+{
+    width: auto;
+    background-color: #DFEFFE;
+    height: 25px;
+    line-height: 25px;
+    border: #DFEFFE solid 1px;
+    border-top: #A5D5F5 solid 1px;
+    overflow: hidden;
+}
+
+    .listHead li
+    {
+        float: left;
+        text-align: center;
+        color: #006699;
+        font-weight: 800;
+    }
+
+.listMain
+{
+    width: auto;
+    height: 25px;
+    line-height: 25px;
+    border-bottom: #E9E9E9 1px solid;
+    overflow: hidden;
+    border-left: #E9E9E9 solid 1px;
+    border-right: #E9E9E9 solid 1px;
+}
+
+    .listMain li
+    {
+        float: left;
+        text-align: center;
+        border-right: #EEEEEE 1px solid;
+        margin-right: -1px;
+        padding-top: 1px;
+    }
+
+        .listMain li input
+        {
+            margin-top: 5px;
+            *margin-top: 0px;
+            _margin-top: 0px;
+        }
+
+.listTable
+{
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 2px;
+}
+
+.listTableHead
+{
+    width: 100%;
+    background-color: #DFEFFE;
+    height: 25px;
+    line-height: 25px;
+    border: #DFEFFE solid 1px;
+    border-top: #A5D5F5 solid 1px;
+}
+
+    .listTableHead td
+    {
+        text-align: center;
+        color: #006699;
+        font-weight: 800;
+        border-top: #A5D5F5 solid 1px;
+        overflow: hidden;
+    }
+
+.listTableMain
+{
+    width: 100%;
+    height: 25px;
+    line-height: 25px;
+    overflow: hidden;
+}
+
+    .listTableMain td
+    {
+        text-align: center;
+        border-right: #EEEEEE 1px solid;
+        border-bottom: #EEEEEE 1px solid;
+        border-left: #EEEEEE 1px solid;
+        overflow: hidden;
+    }
+
+.listPage
+{
+    margin-top: 5px;
+    width: 100%;
+    height: 25px;
+}
+/*分页控件样式*/
+.pageCss
+{
+    margin-right: 2px;
+    float: right;
+}
+
+    .pageCss .disCount, .pageCss .prenextType, .pageCss .numType, .pageCss .listType
+    {
+        border: none;
+        margin: 0px;
+        padding: 0px;
+        width: auto;
+        height: auto;
+        float: left;
+    }
+
+        .pageCss .disCount li, .pageCss .prenextType li, .pageCss .numType li, .pageCss .listType li
+        {
+            border: solid 1px #CCE7FD;
+            margin: 1px;
+            float: left;
+            padding: 1px 5px 1px 5px;
+            line-height: 20px;
+            overflow: hidden;
+        }
+
+    .pageCss a
+    {
+        text-decoration: none;
+        color: #4C5A62;
+    }
+
+    .pageCss select
+    {
+        height: 18px;
+    }
+
+#currentPage
+{
+    background-color: #CCE7FD;
+}
+
+.action
+{
+    margin-top: 5px;
+    border-top: #A5D5F5 2px solid;
+    padding: 3px;
+    text-align: center;
+}
+
+.line
+{
+    height: 2px;
+    background-color: #A5D5F5;
+    overflow: hidden;
+    clear: both;
+    margin-top: 2px;
+}
+
+.add
+{
+    margin-bottom: 10px;
+}
+
+    .add ul
+    {
+        background: #fff;
+        border: 1px solid #eee;
+        padding: 0;
+        margin-top: -1px;
+        list-style: none;
+        overflow: hidden;
+        zoom: 1;
+    }
+
+        .add ul li
+        {
+            float: left;
+            padding-top: 5px;
+            padding-left: 0;
+            padding-right: 0;
+            padding-bottom: 1005px;
+            margin-bottom: -1000px;
+            zoom: 1;
+            overflow: hidden;
+        }
+
+        .add ul .left
+        {
+            width: 120px;
+            text-align: right;
+            padding-right: 10px;
+            padding-top: 8px;
+            margin-top: 1px;
+            margin-right: 1px;
+            /*font-weight: 800;*/
+            border-right: 1px solid #fff;
+            border-left: 1px solid #fff;
+        }
+
+        .add ul .right
+        {
+            width: auto;
+            border-left: 1px solid #eee;
+            padding-left: 10px;
+            margin-left: -1px;
+            overflow: hidden;
+        }
+
+    .add .foot
+    {
+        width: 100%;
+        background: #FCFCFC;
+        margin-top: -1px;
+        border-top: 1px solid #eee;
+        text-align: center;
+        zoom: 1;
+    }
+
+.powerBox
+{
+    border: 0px;
+    padding: 0;
+    margin: 0 auto 20px;
+}
+
+    .powerBox .powerHead
+    {
+        text-align: center;
+        color: #006699;
+        font-weight: 800;
+        height: 25px;
+        overflow: hidden;
+        line-height: 25px;
+        background-color: #DBEDFE;
+        margin-top: -1px;
+    }
+/**Righ.aspx页面**/
+.red
+{
+    font-weight: bold;
+    color: #FF0000;
+    font-size: 14px;
+}
+
+.rightBlock
+{
+    margin-bottom: 10px;
+    width: 800px;
+    overflow: hidden;
+}
+
+.rightLeft
+{
+    width: 600px;
+    float: left;
+    overflow: hidden;
+}
+
+    .rightLeft .add
+    {
+        line-height: 25px;
+        margin-left: 25px;
+    }
+
+        .rightLeft .add .left
+        {
+            width: 120px;
+            text-align: right;
+            padding-right: 10px;
+            padding-top: 8px;
+            margin-top: 1px;
+            margin-right: 1px;
+            font-weight: 800;
+        }
+
+.rightRight
+{
+    float: left;
+    width: 190px;
+    overflow: hidden;
+    margin-left: 10px;
+    line-height: 25px;
+}
+
+    .rightRight .help li
+    {
+        padding-left: 8px;
+    }
+
+.boldTitle
+{
+    text-align: left;
+    font-weight: bold;
+    color: #006699;
+    line-height: 30px;
+}
+
+.version
+{
+    background-color: #DFEFFE;
+    padding: 5px;
+    border: #A5D5F5 1px solid;
+    margin-bottom: 10px;
+}
+
+.bottom
+{
+    overflow: hidden;
+    width: 100%;
+    height: 34px;
+    line-height: 34px;
+    background-image: url(/Admin/Style/Images/bottom.gif);
+    margin-top: 40px;
+}
+
+    .bottom .foot
+    {
+        overflow: hidden;
+        text-align: center;
+        height: 34px;
+        line-height: 34px;
+        font-size: 11px;
+    }
+
+
+
+
+/*提示文字样式*/
+.messagetext
+{
+    overflow: hidden;
+    zoom: 1;
+    margin: 0;
+    border-left: 1px solid #000;
+    border-right: 1px solid #000;
+    padding: 0 10px;
+    text-align: left;
+    background: #ffffe1;
+    word-break: break-all;
+    letter-break: break-all;
+}
+
+    .messagetext img
+    {
+        float: left;
+        margin: 0 3px 3px 3px;
+    }
+
+.hintbox
+{
+    display: none;
+    position: absolute;
+    z-index: 500;
+}
+
+.hintboxdiv
+{
+    position: absolute;
+    visibility: visible;
+    width: 271px;
+    z-index: 501;
+}
+
+.hintframe
+{
+    position: absolute;
+    z-index: 100;
+    width: 266px;
+    scrolling: no;
+}
+
+/*登陆*/
+.loginbody
+{
+    padding: 0px;
+    background-image: url(/Admin/Style/Images/loginBg.jpg);
+    background-position: 0 60px;
+    background-repeat: no-repeat;
+    margin: 50px 0 0 0;
+    width: 750px;
+}
+
+    .loginbody .logo
+    {
+        padding-top: 8px;
+        float: left;
+    }
+
+    .loginbody .loginTable
+    {
+        border: 1px solid #d0dde5;
+        width: 250px;
+        background-color: #FFFFFF;
+        padding: 15px;
+        margin-right: 30px;
+        float: right;
+        line-height: 25px;
+    }
+
+        .loginbody .loginTable .title
+        {
+            border-bottom: 1px solid #eee;
+            font-size: 12px;
+            font-weight: bold;
+            color: #666;
+            text-align: left;
+            padding-left: 10px;
+        }
+
+        .loginbody .loginTable .lable
+        {
+            padding-top: 12px;
+        }
+
+        .loginbody .loginTable .blank
+        {
+            margin-left: 50px;
+        }
+
+        .loginbody .loginTable .lable2
+        {
+            padding-top: 6px;
+            border-top: 1px dotted #999;
+            margin-top: 12px;
+            text-align: center;
+        }
+
+.footer
+{
+    border-top: 1px solid #CCC;
+    margin-top: 40px;
+    padding-top: 10px;
+    padding-bottom: 20px;
+    text-align: center;
+}
+/**其他页面**/
+.right .themeActivityPhoto
+{
+    width: 70px;
+    height: 95px;
+    float: left;
+    text-align: center;
+    line-height: 30px;
+    border: 1px solid #EEEEEE;
+    margin: 5px;
+    overflow: hidden;
+}
+
+.themeActivityBlock
+{
+    margin-top: 15px;
+    display: block;
+}
+
+.right .giftGroupPhoto
+{
+    width: 70px;
+    height: 115px;
+    float: left;
+    text-align: center;
+    line-height: 30px;
+    border: 1px solid #EEEEEE;
+    margin: 5px;
+    overflow: hidden;
+}
+
+.right .exchangeAwardPhoto
+{
+    width: 110px;
+    height: 180px;
+    float: left;
+    text-align: center;
+    line-height: 30px;
+}
+
+    .right .exchangeAwardPhoto div
+    {
+        border: 1px solid #EEEEEE;
+        width: 95px;
+        height: 95px;
+    }
+
+    .right .exchangeAwardPhoto span img
+    {
+        border: 0px;
+    }
+
+.searchProduct
+{
+    margin: 10px;
+}
+
+    .searchProduct span
+    {
+        width: 180px;
+        overflow: hidden;
+        float: left;
+        margin: 2px;
+    }
+
+.searchUser
+{
+    margin: 10px;
+    text-align: left;
+    padding: 5px;
+}
+
+    .searchUser span
+    {
+        width: 23%;
+        overflow: hidden;
+        float: left;
+        margin: 2px;
+        line-height: 20px;
+    }
+
+.clear
+{
+    overflow: hidden;
+    clear: both;
+    width: 100%;
+}
+
+.add .search
+{
+    padding-top: 15px;
+    padding-left: 10px;
+}
+
+.search .productPhoto
+{
+    width: 110px;
+    height: 180px;
+    float: left;
+    text-align: center;
+    line-height: 30px;
+}
+
+    .search .productPhoto div
+    {
+        border: 1px solid #EEEEEE;
+        width: 95px;
+        height: 95px;
+    }
+
+    .search .productPhoto span img
+    {
+        border: 0px;
+    }
+
+.orderBlock
+{
+    color: #006699;
+    font-weight: bold;
+    text-indent: 40px;
+    background-color: #DBEDFE;
+    width: 100%;
+}
+
+.orderMoney
+{
+    color: #BF0000;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.tableList
+{
+    border-collapse: collapse;
+}
+
+    .tableList td
+    {
+        border: 1px solid #EEEEEE;
+        text-align: center;
+        height: 25px;
+    }
+
+    .tableList .tableHead td
+    {
+        text-align: center;
+        color: #006699;
+        font-weight: 800;
+    }
+
+.orderGiftPack li
+{
+    width: 100%;
+    float: left;
+    list-style-type: decimal;
+    list-style-position: inside;
+}
+
+.standardTitle
+{
+    color: #006699;
+    font-weight: bold;
+    text-align: center;
+    background-color: #DBEDFE;
+    width: 100%;
+}
+
+.pageMark
+{
+    width: 100%;
+    border-top: #A5D5F5 solid 1px;
+    text-align: center;
+    height: 1px;
+    margin-top: 2px;
+}
+
+.statisticsSearch
+{
+    margin-bottom: 10px;
+    padding: 4px;
+    text-align: left;
+    background-color: #DBEDFE;
+    line-height: 25px;
+}
+
+.note
+{
+    line-height: 25px;
+    width: 100%;
+    float: left;
+    margin: 0px;
+    text-align: left;
+}
+
+    .note ul
+    {
+        width: 700px;
+        margin: auto;
+    }
+
+    .note .title
+    {
+        font-weight: bold;
+        margin-top: 10px;
+    }
+
+.saleStopTable .listTableHead td
+{
+    text-align: center;
+    color: #006699;
+    font-weight: 800;
+    border: #A5D5F5 solid 1px;
+    overflow: hidden;
+}
+/**HardDisk.aspx**/
+.filePath
+{
+    line-height: 35px;
+    margin-top: 5px;
+}
+
+    .filePath span
+    {
+        color: #ff0000;
+        font-weight: bold;
+    }
+
+.fileBlock
+{
+    width: 90px;
+    height: 90px;
+    overflow: hidden;
+    float: left;
+    text-align: center;
+    margin: 5px;
+    padding: 5px;
+    line-height: 25px;
+    border: #ece9d8 1px solid;
+}
+
+    .fileBlock .name
+    {
+        line-height: 22px;
+        height: 22px;
+        overflow: hidden;
+    }
+
+.nameBlock
+{
+    width: 23%;
+    float: left;
+    height: 23px;
+    line-height: 23px;
+    border: 1px dashed #ccc;
+    overflow: hidden;
+    background-color: #F5FAFE;
+    margin: 4px;
+    padding: 3px;
+}
+
+    .nameBlock img
+    {
+        vertical-align: text-bottom;
+        cursor: pointer;
+    }
+
+.rowFlagDisplay .default { color:#0E90D2 }
+.rowFlagDisplay .secondary { color:#3BB4F2 }
+.rowFlagDisplay .success { color:#5EB95E }
+.rowFlagDisplay .warning { color:#F37B1D }
+.rowFlagDisplay .danger { color:#DD514C }
+
+.upload-tag { display: inline-block; border: 1px solid #F00; color: #F00; padding: 0 5px; font-size: 12px;}

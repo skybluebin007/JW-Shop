@@ -1,0 +1,73 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <html:include file="/_Head.htm" />
+</head>
+<body>
+   <html:include file="/_UTop.htm" />
+    <div id="myOrder">
+        <div class="w1210 clearfix">
+            <html:include file="/User/UserLeft.htm" />
+            <div id="right" class="content fr">
+                <html:include file="/User/UserTop.htm" />
+                <div class="orderList" id="orderList">
+                    <div class="tab">
+                        <a href="javascript:;" class="item cur" value="">缺货登记</a>
+                        <div class="clear">
+                        </div>
+                    </div>
+                    <div class="container">
+                        <table cellpadding="0" cellspacing="0" border="0" width="100%" class="tableThemes_2">
+                            <thead>
+                                <tr>
+                                    <td align="center" width="50">
+                                        商品名称
+                                    </td>
+                                    <td align="center" width="" height="35">
+                                        联系人
+                                    </td>
+                                    <td align="center" width="100">
+                                        电话
+                                    </td>
+                                    <td align="center" width="80">
+                                        Email
+                                    </td>
+                                    <td align="center" width="80">
+                                        登记时间
+                                    </td>
+                                    <td align="center" width="80">
+                                        处理
+                                    </td>
+                                    <td align="center" width="130" style="display:none;">
+                                        查看
+                                    </td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <html:foreach expression="BookingProductInfo bookingProduct in bookingProductList">
+                                    <tr class="even">
+                                        <td align="center" style="width:300px;"><a href="/ProductDetail-I<$bookingProduct.ProductID$>.html" target="_blank"><$bookingProduct.ProductName$></a></td>
+                                        <td align="center"><$bookingProduct.RelationUser $></td>
+                                        <td align="center"><$bookingProduct.Tel $></td>
+                                        <td align="center"><$bookingProduct.Email $></td>
+                                        <td align="center"><$bookingProduct.BookingDate $></td>
+                                        <td align="center"><html:if expression="bookingProduct.IsHandler==1">是<html:else>否</html:if></td>
+                                        <td align="center" style="display:none;"><a href="/User/ProductBookingDetail.html?ID=<$bookingProduct.ID $>" target="_blank"/>查看</a></td>
+                                    </tr>                                 
+                                </html:foreach>
+                            </tbody>
+                        </table>
+                        <$commonPagerClass.ShowPage()$>
+                            <div class="clear">
+                            </div>
+                        </$commonPagerClass.ShowPage()$>
+                    </div>
+                </div>
+            </div>
+            <div class="clear">
+            </div>
+            </div>
+        </div>
+    <html:include file="/_Foot.htm" />
+</body>
+</html>

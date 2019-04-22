@@ -1,0 +1,90 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <html:include file="/MobileAdmin/_Head.htm" />
+    <link rel="stylesheet" href="<html:templatePath>/mobileadmin/css/jquery-ui.min.css">
+</head>
+<body>
+    <header class="header" id="header">
+        <a class="goBack icon" href="/mobileadmin/business.html" ig-back=""></a>
+        <h2>输入提货码</h2>
+    </header>
+    <section class="Write_off">
+        <form id="form1">
+            <div class="item clearfix hide">
+                <span class="tit fl">验证码类型</span>
+                <div class="txt fr">
+                    <s></s>
+                    <h3>电子卡券核销码</h3>
+                    <ul class="list">
+                        <li>电子卡券核销码</li>
+                        <li>优惠券码</li>
+                        <li>到店提货码</li>
+                        <li>虚拟商品兑换码</li>
+                        <li>手机号</li>
+                        <li>会员卡号</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="item clearfix">
+                <span class="tit fl">提货码</span>
+                <p class="txt fr">
+                    <input type="text" name="pickUpCode" id="pickCode" value="" placeholder="请输入提货码" />
+                </p>
+            </div>
+            <input type="hidden" name="action" value="writeoff" />
+            <input type="button" value="验证" class="btnok" />
+        </form>
+
+        <div class="yzliuc">
+            <h3>验证流程：</h3>
+            <div class="box">
+                <p><em></em>请买家出示提货码</p>
+                <p><em></em>商家输入提货码</p>
+                <p><em></em>验证提货码是否有效</p>
+                <p><em></em>验证完成，查看使用结果</p>
+            </div>
+        </div>
+
+    </section>
+    <html:include file="/MobileAdmin/_Foot.htm" />
+    <script>
+        /*********************表单提交*********************/
+        $(".btnok").bind('click', function () {
+
+            //正整数
+            var reg = /^[|+\\-]*[\\d|\\.|,]+$/;
+
+            if ($("#pickCode").val() == "") {
+                Msg("请输入提货码");
+                $("#pickCode").focus();
+                return false;
+            }
+            if (!reg.test($("#pickCode").val())) {
+                Msg("提货码全为数字");
+                $("#pickCode").focus();
+                return false;
+            }
+            $.ajax({
+                url: '/mobileadmin/ajax.html',
+                type: 'Get',
+                data: $("#form1").serialize(),
+                dataType: 'Json',
+                cache: false,
+                async: false,
+                success: function (res) {
+                    if (res.ok) {
+                        window.location.href = "/mobileadmin/orderdetail.html?id=" + res.order.Id;
+                    }
+                    else {
+                        Msg(res.msg);
+                    }
+                },
+                error: function () {
+                    alertMessage("系统忙，请稍后重试");
+                }
+            })
+        })
+    </script>
+</body>
+</html>

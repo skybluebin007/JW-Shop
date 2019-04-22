@@ -1,0 +1,27 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<html:include file="/Mobile/Head.htm" />
+<link rel="stylesheet" href="<html:templatePath>/Mobile/static/css/style.css" />
+</head>
+<body>
+<header class="header-min clearfix" id="header">
+    <div class="back" ig-back></div>
+
+</header>
+<section class="banner" id="banner">
+	<ul class="list clearfix">
+ <html:foreach expression="ProductPhotoInfo productPhoto in productPhotoList">
+     <li><img src="<$ShopCommon.ShowImage(productPhoto.ImageUrl.Replace("75-75","Original"))$>" alt="<%=productPhoto.Name%>" /></li> 
+ </html:foreach>
+    </ul>
+        <div class="num"></div>
+    <div class="tip"></div>
+</section>
+
+<html:include file="/Mobile/Foot.htm" />
+
+    <section class="ig-top" ig-top=""></section>
+<script src="<html:templatePath>/Mobile/static/js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,40 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<html:include file="/Mobile/Head.htm" />
+</head>
+<body>
+<header class="header-min clearfix" id="header">
+    <div class="back" ig-back></div>
+    <h2>我的关注</h2>
+    <html:include file="/Mobile/TopLink.htm" />
+</header>
+<section class="wrapper user" id="wrapper">
+    <dl class="user-favo">
+        <%if(productCollectList.Count<=0){%>
+    	<dd class="null">暂无相关数据</dd>
+        <%}else{%>
+        <html:foreach expression="ProductCollectInfo productCollect in productCollectList">
+                <html:csharp>ProductInfo product=ProductBLL.Read(productCollect.ProductId);</html:csharp> 
+        <dd class="item">
+            <div class="head">
+                <h2>关注时间：<$productCollect.Tm$></h2>
+                <a href="?Action=Delete&ID=<$productCollect.Id$>" onclick="return deleteRecord(this);" class="del">删除</a>
+            </div>
+            <div class="main"><a href="/Mobile/ProductDetail-I<$productCollect.ProductId$>.html">
+                <figure><img src="<$ShopCommon.ShowImage(product.Photo.Replace("Original","90-90"))$>" title="<$product.Name$>" alt="<$product.Name$>" /></figure>
+                <h3><$product.Name$></h3>
+            </a></div>
+        </dd>
+        </html:foreach>
+        <%}%>
+    </dl>
+    <$commonPagerClass.ShowPage()$>  
+                    <div class="clear">
+                    </div>
+</section>
+
+    <html:include file="/Mobile/Foot.htm" />
+    <html:include file="/Mobile/FootScript.htm" />
+</body>
+</html>

@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <html:include file="/Shop/_Head.htm" />
+    <link href="<html:templatePath>/Shop/css/jquery.validator.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+    <html:include file="/Shop/_Top.htm" />
+    <div id="checkOut" class="w990">
+        <div class="check_box">
+            <div class="head yahei">
+                <div class="fl mt20">
+                    <span>填写并核对订单信息</span>
+                </div>
+                <!--<ul class="progress-2 fr">
+                    <li class="s1"><b></b>1.我的购物车</li>
+                    <li class="s2"><b></b>2.填写核对订单信息</li>
+                    <li class="s3">3.成功提交订单</li>
+                </ul>-->
+            </div>
+            <div class="checkout">
+                <div class="box">
+                    <!--收货人信息 start-->
+                    <div class="address">
+                        <div class="c-title">
+                            <a class="fr orange" href="javascript:displayAddress();">新增收货地址</a>收货人信息 <i></i>
+                        </div>
+                        <div class="con">
+                            <div class="dist_info address js-address-list">
+                                <html:foreach expression="var item in addressList">
+                                <div class="conitem" data-address="<%=item.Id%>">
+                                    <div class="js-select-address-div">
+                                    	<div class="fr">
+                                         
+                                        <a class="first hidden select-address">选择</a>
+                                        <a class="hidden edit-address">编辑</a>
+                                        <a class="hidden del-address">删除</a>
+                                        </div>
+                                        <strong class="tt js-select-address-tt">
+                                        <s class="icon"></s><%=item.Consignee%> </strong><%=item.Tel%><%=RegionBLL.RegionNameList(item.RegionId)%> <%=item.Address%> <%=item.Mobile%>
+                                        <input type="hidden" name="name" value="<$item.Id$> " />
+                                    </div>
+                                </div>
+                            </html:foreach>
+                            </div>
+                            <div class="moreAddress">
+                                更多地址<s class="icon"></s></div>
+                            <div class="con <%if(addressList.Count > 0){%>hidden<%}%> js-address-edit">
+                                <form id="fmAddress">
+                                <input type="hidden" id="address-update-id" name="updateId" />
+                                <div class="form">
+                                    <div class="list">
+                                        <span class="label"><em>*</em>收货人：</span>
+                                        <div class="field">
+                                            <input type="text" name="consignee" class="textbox" />
+                                        </div>
+                                    </div>
+                                    <div class="list">
+                                        <span class="label"><em>*</em>所在地区：</span>
+                                        <div class="field">
+                                            <span class="fl unlimit">
+                                                <%=singleUnlimitClass.ShowContent()%>
+                                            </span><span class="form-tip">&nbsp;&nbsp;</span>
+                                        </div>
+                                    </div>
+                                    <div class="list full-address">
+                                        <span class="label"><em>*</em>详细地址：</span>
+                                        <div class="field">
+                                            <input type="text" name="address" class="textbox" />
+                                        </div>
+                                    </div>
+                                    <div class="list">
+                                        <span class="label"><em>*</em>手机号码：</span>
+                                        <div class="field">
+                                            <div class="phone fl">
+                                                <input type="text" name="mobile" class="textbox" />
+                                                <em>或</em> <span class="fl">固定电话：</span>
+                                                <input type="text" maxlength="20" name="tel" class="textbox" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="list">
+                                        <span class="label"></span>
+                                        <div class="field">
+                                            <input type="hidden" id="updateId" />
+                                            <input type="submit" value="保存" />
+                                            <input type="button" value="取消" />
+                                        </div>
+                                    </div>
+                                </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <!--收货人信息 end-->
+                    <form id="fmCheckOut">
+                    <!--支付方式 start-->
+                    <div class="address payways">
+                        <div class="c-title">
+                            支付方式</div>
+                        <div class="con">
+                            <!--<html:foreach expression="var item in payPluginsList">
+                                <div class="list">
+                                    <div class="field">
+                                        <input type="radio" id="pay_<%=item.Key %>" name="pay" class="radio" value="<%=item.Key %>" <%if(payPluginsList.IndexOf(item) == 0){%> checked="checked" <%} %>/>&nbsp;<label for="pay_<%=item.Key%>"><%=item.Name %> <%=item.Description%></label>
+                                    </div>
+                                </div>
+                            </html:foreach>-->
+                            <html:foreach expression="var item in payPluginsList">
+						<div class="tt">
+							<s class="icon"></s>
+							<%=item.Name %>
+							<div class="qmark-tip"></div>
+							<div class="tip"><%=item.Description%></div>
+                            <input type="hidden" name="pay" value="<%=item.Key %>"  id="pay"/>
+						</div>
+						</html:foreach>
+                        </div>
+                    </div>
+                    <!--支付方式 end-->
+                    <!--配送方式 start-->
+                    <!--<div class="address">
+                    <div class="c-title">
+                        配送方式</div>
+                    <div class="con">
+                        <div class="list">
+                                <div class="field">
+                                    <input type="radio" class="radio" id="shipping" name="Shipping" value="1" checked="checked"/>&nbsp;
+                                    <label for="shipping">送货上门</label>
+                                </div>
+                            </div>
+                        <div id="ShippingListAjax">
+                        </div>
+                    </div>
+                </div>-->
+                    <!--配送方式 end-->
+                    <!--购买清单 start-->
+                    <div class="order">
+                        <div class="c-title">
+                            确认订单信息 <span class="fr"></span>
+                        </div>
+                        <div class="con">
+                            <div class="review">
+                                <table border="0" cellspacing="0" cellpadding="0">
+                                    <thead>
+                                        <tr>
+                                            <th style="width: 20%; text-align: left;">
+                                                <a class="blue" href="/cart.html">返回购物车修改</a>
+                                            </th>
+                                            <th style="width: 17%">
+                                                单价(元)
+                                            </th>
+                                            <th style="width: 17%">
+                                                数量
+                                            </th>
+                                            <th style="width: 18%">
+                                                小计(元)
+                                            </th>
+                                            <th style="width: 17%">
+                                                配送方式
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <html:foreach expression="var item in cartList">
+                                                <tr class="spxx">
+                                                    <td>
+                                                        <div class="img">
+									                        <a href="/detail/<%=item.ProductId%>.html" target="_blank" title="<%=item.ProductName%>">
+										                        <img alt="<%=item.ProductName %>" src="<%=ShopCommon.ShowImage(item.Product.Photo.Replace("Original","75-75"))%>" />
+									                        </a>
+											            </div>
+											            <div class="name">
+												            <p>
+                                                                <a title="<%=item.ProductName %>" class="cart_goods_t" style="white-space: normal;" href="/ProductDetail-I<%=item.ProductId %>.html" target="_blank"><%=item.ProductName%></a>
+												            </p>
+											            </div>
+                                                        <div style="font-size: 12px; text-align: left; color: #888;">
+                                                            <html:foreach expression="var standard in item.Standards">
+                                                                <div><%=standard.Name%>：<%=item.StandardValueList.Split(';')[item.Standards.IndexOf(standard)]%></div>
+                                                            </html:foreach>
+                                                        </div>
+                                                    </td>
+                                                    <td><%=item.Price%></td>
+                                                    <td>
+                                                    	<div class="choose_num">
+									                        <input type="text" name="" maxlength="5" id="BuyCount"  value="1" />
+									                        <a href="javascript:;" title="" class="plus">+</a> 
+									                        <a href="javascript:;" title="" class="less">-</a>
+									                    </div>
+									                    	
+									                    <!--<%=item.BuyCount%>-->
+                                                    </td>
+                                                    <td><span class="orange"><%=(item.Price * item.BuyCount)%></span></td>
+                                                    <td id="ShippingListAjax">
+                                                    	
+                                                    	
+                                                    </td>
+                                                </tr>
+                                            </html:foreach>
+                                        <tr class="liuyan">
+                                            <td colspan="5" style="text-align: right">
+                                                留言：
+                                                <input type="text" class="textbox" placeholder="选填，可填您期望发货的时间等" style="width: 40%;"
+                                                    name="userMessage" />
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <!--购买清单 end-->
+                </div>
+                <!--结算 start-->
+                <div class="summary">
+                    <div class="statistic fr">
+                        <html:csharp>var _productMoney = cartList.Sum(k => k.BuyCount * k.Price);</html:csharp>
+                        <input type="hidden" id="CheckCart" name="CheckCart" value="<%=checkCart %>" />
+                        <input type="hidden" id="address_id" name="address_id" value="<%=(addressList.Count > 0 ? addressList[0].Id : 0)%>" />
+                        <input type="hidden" id="product_money" value="<%=_productMoney%>" />
+                        <input type="hidden" id="shipping_money" />
+                        <div class="list">
+                            <em class="price">
+                                <%=_productMoney.ToString("C")%></em> <span><em class="red">
+                                    <%=cartList.Count%></em> 件商品，总商品金额：</span>
+                        </div>
+                        <div class="list">
+                            <em class="price" id="check_data_shippingmoney"></em><span>运费：</span>
+                        </div>
+                        <!--使用积分 start-->
+                        <div class="text_r buy-use-point" id="usePoint" style="display: none">
+                            <div class="buy-point-discharge ">
+                                <p class="price g_price">
+                                    <span>¥</span><em class="style-middle-bold-black" id="M_pointTotalDischarge">0.00</em>
+                                </p>
+                            </div>
+                            <div class="userPoint M_UserPoint">
+                                <input type="checkbox" id="M_UsePoint" class="userPoint-togglePoint" name="UsePoint">
+                                <label for="M_UsePoint">
+                                    使用积分</label>
+                                <span class="point-ips point-input-box M-hide M-point-hide hidden">
+                                    <input name="costPoint" type="text" class="text userPoint-usePoint M_MakePoint c2c-text-default"
+                                        value="0" id="M_pointToUse" _old="0">个 </span>
+                                <div class="userPoint-useTip M-hide M-point-hide hidden">
+                                    （你有 <em id="M_AvailablePoint">
+                                        <%=pointLeft%></em> 个，可用 <em class="point-available" id="M_MaxUsablePoint">
+                                            <%=pointCanUse%></em> 个）
+                                </div>
+                                <div class="msg M-msg M-piont-msg hidden">
+                                    <p class="error" id="u-point-msg">
+                                        您本次最多可使用<%=pointCanUse%>积分</p>
+                                </div>
+                            </div>
+                        </div>
+                        <!--使用积分 end-->
+                    </div>
+                </div>
+                <div class="butaddress" id="butaddress">
+                    寄送至： 湖南 长沙市 岳麓区 城区 汽车西站（南区）11栋三单元
+                    <br />
+                    收货人：某某 188****7635
+                </div>
+                <div class="button">
+                    <input type="submit" class="btn" value="提交订单" />
+                    <span class="total">应付总额：<strong class="orange" id="check_data_totalmoney"></strong>元
+                    </span>
+                </div>
+                <!--结算 end-->
+                </form>
+            </div>
+            <div class="clear">
+            </div>
+        </div>
+    </div>
+    <html:include file="/Shop/_Foot.htm" />
+    <script type="text/javascript" src="<html:templatePath>/Shop/js/common.js"></script>
+    <script type="text/javascript" src="<html:templatePath>/Shop/js/jquery.validator.js"></script>
+    <script type="text/javascript" src="<html:templatePath>/Shop/js/zh-CN.js"></script>
+    <script type="text/javascript" src="<html:templatePath>/Shop/js/jquery.tmpl.min.js"></script>
+    <script type="text/javascript" src="<html:templatePath>/Shop/js/UnlimitClass.js"></script>
+    <script type="text/javascript" src="<html:templatePath>/Shop/js/checkout.js"></script>
+    <script id="genAddress" type="text/x-jquery-tmpl">
+        <div data-address="${$data.id}">
+            <span>
+                ${consignee}  ${mobile},${tel} ${address}
+                <a class="first hidden select-address">选择</a>
+                <a class="hidden edit-address">编辑</a>
+                <a class="hidden del-address">删除</a>
+            </span>
+        </div>
+    </script>
+</body>
+</html>

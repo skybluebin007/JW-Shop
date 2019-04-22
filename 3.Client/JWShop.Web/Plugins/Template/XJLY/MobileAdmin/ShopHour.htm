@@ -1,0 +1,47 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <html:include file="/MobileAdmin/_Head.htm" />
+</head>
+<body>
+	<header class="header" id="header">
+        <a class="goBack icon" href="/mobileadmin/shopinfo.html" ig-back=""></a>
+        <h2>营业时间</h2>
+    </header>
+    <div class="hourbox">
+        <input type="text" id="hour" name="hour" value="<%=ShopConfig.ReadConfigInfo().BusinessHours%>" maxlength="40" class="hour"/>
+        <input type="button" id="btnsave" value="保存"  class="btnsave"/>
+    </div>
+    <script type="text/javascript" src="<html:templatePath>/mobileadmin/js/app.js"></script>
+    <script>
+        $("#btnsave").bind('click', function () {
+            var shoptitle = $("#hour").val();
+            if (shoptitle == undefined || shoptitle == null || shoptitle == '') {
+                Msg("请输入营业时间");
+                $("#hour").focus();
+                return false;
+            }
+            $.ajax({
+                url: '/mobileadmin/ajax.html',
+                type: 'Post',
+                data: { action: 'shopconfig', shophour: shoptitle, param: 'hour' },
+                dataType: 'Json',
+                cache: false,
+                async: false,
+                success: function (res) {
+                    if (res.ok) {
+                        Msg("保存成功");
+                       setTimeout(window.location.href = '/mobileadmin/shopinfo.html',5000);
+                    }
+                    else {
+                        Msg(res.msg);
+                    }
+                },
+                error: function (res) {
+                    Msg("系统忙，请稍后重试");
+                }
+            })
+        })
+    </script>
+</body>
+</html>

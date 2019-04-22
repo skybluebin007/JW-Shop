@@ -1,0 +1,117 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <html:include file="/_Head.htm" />
+</head>
+<body>
+    <!--top start-->
+    <html:include file="/_Top.htm" />
+    <!--header start-->
+    <!--nav start-->
+    <!--main content start-->
+    <div class="index">
+        <div id="floor_1_main">
+            <div id="floor_1" class="w1210 clearfix">
+                <!--banner start-->
+                <div id="banner_main" class="banner fl">
+                    <ul class="list clearfix">
+                        <%List<AdImageInfo> flashList=AdImageBLL.ReadList(1,3);
+    foreach(var flash in flashList){%>
+                        <li><a <%if(!String.IsNullOrEmpty(flash.LinkUrl)){%>href="<$flash.LinkUrl$>" target="_blank"
+                            <%}%>>
+                            <img src="<$ShopCommon.ShowImage(flash.ImageUrl)$>" title="<$flash.Title$>" alt="<$flash.Title$>" />
+                        </a></li>
+                        <%}%>
+                        <!--<li style="display: none;"><img src="uploadfile/banner.jpg" alt="" /></li>-->
+                    </ul>
+                    <div class="tip">
+                    </div>
+                </div>
+                <ul id="floor_1_2" class="fr">
+                    <%int ri=1;
+   List<AdImageInfo> flashListRight=AdImageBLL.ReadList(3,3);
+    foreach(var flash in flashListRight){%>
+                    <li <%if(ri==3){%>class="a3" <%}%>><a <%if(!String.IsNullOrEmpty(flash.LinkUrl)){%>href="<$flash.LinkUrl$>"
+                        target="_blank" <%}%>>
+                        <img src="<$ShopCommon.ShowImage(flash.ImageUrl)$>" title="<$flash.Title$>" alt="<$flash.Title$>" />
+                    </a></li>
+                    <%ri++;}%>
+                    <!--	<li><a href="" title="" target="_blank"><img src="uploadfile/floor_1_3img1.jpg" alt="" title=""/></a></li>
+				<li><a href="" title="" target="_blank"><img src="uploadfile/floor_1_3img2.jpg" alt="" title=""/></a></li>
+				<li class="a3"><a href="" title="" target="_blank"><img src="uploadfile/floor_1_3img3.jpg" alt="" title=""/></a></li>-->
+                </ul>
+            </div>
+        </div>
+        <div id="floor_2_main" class="w1210">
+            <div id="floor_2" class="clearfix">
+                <a class="title fl">
+                    <img src="<html:templatePath>/images/floor_2_imgtit.jpg" alt="推荐产品" title="推荐产品" /></a>
+                <ul class="floor_2_body fl">
+                    <%List<AdImageInfo> flashListTJ=AdImageBLL.ReadList(5,4);
+    foreach(var flash in flashListTJ){%>
+                    <li><a <%if(!String.IsNullOrEmpty(flash.LinkUrl)){%>href="<$flash.LinkUrl$>" target="_blank"
+                        <%}%>>
+                        <img src="<$ShopCommon.ShowImage(flash.ImageUrl)$>" title="<$flash.Title$>" alt="<$flash.Title$>" />
+                    </a></li>
+                    <%}%>
+                    <!--<li><a href="" title="" target="_blank"><img src="uploadfile/floor_2_img4.jpg" alt="" title=""/></a></li>-->
+                </ul>
+            </div>
+        </div>
+        <!--楼层展示-->
+        <%int fi=1;%>
+        <html:foreach expression="var item in ProductClassList.Where(k => k.ParentId == 0).Take(9)">
+	<div class="floor_3_main">
+		<div class="floor_3 w1210">
+			<div class="indexTit clearfix">
+				<div class="more fr"><a href="/list.html?cat=<%=item.Id%>" title="<%=item.Name%>">更多选择</a></div>
+				<span class="circle fl c<%=fi%>"><%=fi%>F</span>
+				<h2 class="fl"><strong><%=item.Name%></strong><span><%=item.EnClassName%></span></h2>
+				<s class="icon fl"></s>
+			</div>
+			<div class="floor_3_body clearfix">
+				<a class="floor_3_1 fl" href="/list.html?cat=<%=item.Id%>" title="<%=item.Name%>"><img src="<%=ShopCommon.ShowImage(item.Photo)%>" alt="<%=item.Name%>" title="<%=item.Name%>"/></a>
+     <%flashList=AdImageBLL.ReadList(4);
+          var _hotAdList = flashList.Where(k => k.ClassId == item.Id);
+         foreach(var flash in _hotAdList){%>
+<a class="floor_3_2 fl" <%if(!String.IsNullOrEmpty(flash.LinkUrl)){%>href="<$flash.LinkUrl$>" target="_blank"<%}%> title="<$flash.Title$>"><img src="<$ShopCommon.ShowImage(flash.ImageUrl)$>" alt="<$flash.Title$>" title="<$flash.Title$>" style="height: 450px;    width: 481px;" /></a>
+    <%}%>
+				<ul class="floor_3_3 fl">
+     <html:csharp>
+                        int _count = 0;
+                        var _dataList = ProductBLL.SearchList(1, 6, new ProductSearchInfo { ClassId = "|" + item.Id + "|", IsHot = (int)BoolType.True, IsSale = (int)BoolType.True }, ref _count);
+                    </html:csharp>
+    <html:if expression="_dataList.Count>0">
+       <html:foreach expression="var product in _dataList">
+					<li>
+						<a href="/ProductDetail-I<$product.Id$>.html" title="<$product.Name$>" target="_blank">
+							<div class="img"><img src="<$ShopCommon.ShowImage(product.Photo.Replace("Original","150-150"))$>" alt="<$product.Name$>" title="<$product.Name$>"/></div>
+							<h3> <$StringHelper.Substring(product.Name,15)$></h3>
+							<span class="price">￥<$ProductBLL.GetCurrentPrice(product.SalePrice,base.GradeID)$></span>
+						</a>
+					</li>
+		</html:foreach>
+    <html:else><li>暂无相关信息...</li></html:if>
+				</ul>
+			</div>
+		</div>
+	</div>
+        <%fi++;%>
+	</html:foreach>
+    </div>
+    <!-- footer start -->
+    <html:include file="/_Foot.htm" />
+    <div id="elevator" class="elevator">
+        <ul class="fixul">
+        <%int louceng=1; %>
+        <html:foreach expression="var item in ProductClassList.Where(k => k.ParentId == 0).Take(9)">
+		<li>
+			<a href="javascript:;" title="" class=""><$louceng$>F</a>
+			<span><$item.Name$></span>
+		</li>
+        <%louceng++; %>
+		</html:foreach>
+	</ul>
+    </div>
+</body>
+</html>

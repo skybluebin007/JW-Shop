@@ -1,0 +1,104 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <html:include file="/Mobile/Head.htm" />
+</head>
+<body>
+<header class="header-min clearfix" id="header">
+    <div class="back" ig-back></div>
+    <h2>个人中心</h2>
+    <html:include file="/Mobile/TopLink.htm" />
+</header>
+<section class="wrapper user" id="wrapper">
+    <div class="user-head">
+
+    	<div class="avatar"><img src="<$ShopCommon.ShowImage(UserBLL.ReadUserPhoto())$>" title="<$base.UserName$>" alt="<$base.UserName$>" /></div>
+        <div class="name"><$base.UserName$></div>
+        <div class="lv"><$base.UserGrade$></div>
+    </div>
+    <ul class="user-order-quite clearfix">
+        <li><a href="/Mobile/User/UserAccountRecord.html"><b><$CurrentUser.PointLeft$></b><span>积分</span></a></li>
+        <li><a href="/Mobile/User/UserCoupon.html"><b><$CurrentUser.CouPonLeft$></b><span>优惠券</span></a></li>
+    </ul>
+    <ul class="user-order-quite clearfix">
+    	<li><a href="/Mobile/User/Index.html?type=1" ><b><%=arrT[2] %></b><span>待付款</span></a></li>
+        <li><a href="/Mobile/User/Index.html?type=4" ><b><%=arrT[3] %></b><span>待收货</span></a></li>
+    </ul>
+    <html:include file="/Mobile/user/Nav.htm" />
+    <div class="user-order">
+    	<ul class="tabbed clearfix">
+        	<li <%if(string.IsNullOrEmpty(type)){%>class="current"<%} %>><a href="/Mobile/User/Index.html" >全部订单</a></li>
+            <li <%if(type=="2"){%>class="current"<%} %>><a href="/Mobile/User/Index.html?type=2" >待审核</a></li>
+            <li <%if(type=="3"){%>class="current"<%} %>><a href="/Mobile/User/Index.html?type=3" >待发货</a></li>
+            <li <%if(type=="4"){%>class="current"<%} %>><a href="/Mobile/User/Index.html?type=4" >待收货</a></li>
+        </ul>
+        <%if(orderList.Count>0)
+                            {%>
+    	<dl class="list">
+            <html:foreach expression="OrderInfo order in orderList">
+        	<dd class="item">
+            	<div class="head">
+                	<h2></h2>
+                    <div class="status status-doing"><$OrderBLL.ReadOrderStatus(order.OrderStatus,order.IsDelete)$>&nbsp;&nbsp;订单号：<$order.OrderNumber$></div>
+                </div>
+                <%List<OrderDetailInfo> orderdetaillist = OrderDetailBLL.ReadList(order.Id); %>
+                                <% foreach(OrderDetailInfo orderdetail in orderdetaillist){  %>
+                                <% ProductInfo product = ProductBLL.Read(orderdetail.ProductId); %>
+                <div class="main">
+                    <a href="/Mobile/User/OrderDetail.html?ID=<$order.Id$>">
+                	<figure><img src="<%=ShopCommon.ShowImage(product.Photo.Replace("Original","90-90"))%>" title="<$orderdetail.ProductName$>" alt="<$orderdetail.ProductName$>" /></figure>
+                    <h3><%=StringHelper.Substring(orderdetail.ProductName,46)%></h3>
+                </a></div>
+                    <% } %>
+                <div class="foot">
+                	<span class="fee">实际付款：￥<$(order.ProductMoney-order.FavorableMoney+order.ShippingMoney+order.OtherMoney)$></span>                    
+                </div>
+                <div class="foot">                	
+                    <div class="btn">
+                        <a href="/Mobile/User/OrderDetail.html?ID=<$order.Id$>" class="blue">查看</a>
+                            <!--订单退款 start-->
+                            <html:if expression="JWRefund.CanRefund(order).CanRefund">
+                                <a href="/Mobile/user/orderrefundapply.html?orderid=<%=order.Id%>" class="red">退款</a>
+                            </html:if>
+                            <!--订单退款 end-->
+                            <$OrderBLL.ReadOrderUserOperate2(order.Id,order.OrderStatus,order.PayKey)$>
+                        <html:if expression="order.OrderStatus!=(int)OrderStatus.HasDelete && order.IsDelete!=(int)BoolType.True"> 
+                                  <a href="javascript:void(0)" onclick="deleteOrder(<$order.Id$>,<$base.UserId$>)" class="red">删除</a> 
+                            </html:if>              
+                    </div>
+                </div>
+            </dd>            
+            </html:foreach>
+        </dl>
+        
+                        <$commonPagerClass.ShowPage()$>
+                        <div class="clear">
+                        </div>
+        <%}else{%>
+                        暂时没有相关信息。
+                        <%}%>
+    </div>
+</section>
+
+    <html:include file="/Mobile/Foot.htm" />
+    <html:include file="/Mobile/FootScript.htm" />
+    <script language="javascript" type="text/javascript" src="<html:templatePath>/Js/Order.js"></script>
+      <script type="text/ecmascript">
+
+          function deleteOrder(orderID, userID) {
+              if (window.confirm("确定要删除该订单？")) {
+                  var url = "/Ajax.aspx?Action=DeleteOrder&OrderID=" + orderID + "&UserID=" + userID;
+                  Ajax.requestURL(url, dealDeleteOrder);
+              }
+          }
+          function dealDeleteOrder(data) {
+              if (data == "ok") {
+                  reloadPage();
+              }
+              else{
+                  app.jMsg("data");
+              }
+          }
+    </script>
+</body>
+</html>

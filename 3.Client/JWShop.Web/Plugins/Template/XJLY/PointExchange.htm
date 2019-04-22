@@ -1,0 +1,97 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <html:include file="/_Head.htm" />
+    <link rel="stylesheet" href="<html:templatePath>/css/jquery.validator.css">
+    <style type="text/css">
+        .messpshow li .dt{ width: 100px;}
+        .messpshow li .dd input[type="text"]{ height: 22px; width: 250px;}
+        .messpshow li .dd select{ height: 22px; width:80px;}
+    </style>
+</head>
+
+<body>
+    <html:include file="/_Top.htm" />
+
+    <div class="w1210 showshop jifengPage">
+        <!--path-->
+        <div class="path">
+            <div class="pathb">
+                当前位置：<i class="icon"></i>
+                <span class="path_item"><a href="/">首页</a></span>> 
+                <span class="path_item"><a href="/pointproduct.html">积分兑换</a></span>>
+                <span class="path_item">
+                    <a href="/pointdetail-i<%=gift.Id %>.html"
+                        title="<%=gift.Name %>">
+                        <%=StringHelper.Substring(gift.Name,20) %></a>
+                </span>
+            </div>
+        </div>
+
+        <div class="showshopcomt clearfix">
+            <div class="pshow">
+                <div class="preview fl" style="margin-right: 20px;">
+                    <div id="tp_img" style="border: none">
+                        <a href="/pointdetail-i<%=gift.Id %>.html" target="_blank" title="<%=gift.Name%>">
+                            <img src="<%=gift.Photo.Replace("Original","400-300")%>" title="<%=gift.Name%>" alt="<%=gift.Name%>" />
+                        </a>
+                    </div>
+                </div>
+
+                <div class="previewri fl">
+                    <form>
+                        <input type="hidden" name="updateId" value="<%=gift.Id%>" />
+                        <div class="messpshow" style="background: none; margin:0;">
+                            <ul>                                
+                                <li>
+                                    <div class="dt">剩余数量：</div>
+                                    <div class="dd"><%=(gift.TotalStorageCount - gift.SendCount)%>件</div>
+                                </li>
+                                <li>
+                                    <div class="dt">兑换积分：</div>
+                                    <div class="dd"><%=gift.Point%>分</div>
+                                </li>
+                                <li>
+                                    <div class="dt">我当前的积分：</div>
+                                    <div class="dd"><%=userPoint%>分</div>
+                                </li>
+                                <li>
+                                    <div class="dt">收货人姓名：</div>
+                                    <div class="dd"><input type="text" name="username" value="<%=currentUser.UserName%>" /></div>
+                                </li>
+                                <li>
+                                    <div class="dt">手机：</div>
+                                    <div class="dd"><input type="text" name="mobile" value="<%=currentUser.Mobile%>" /></div>
+                                </li>
+                                <li>
+                                    <div class="dt">地址：</div>
+                                    <div class="dd">
+                                        <%=singleUnlimitClass.ShowContent()%> 
+                                        
+                                        <input type="text" name="address" value="<%=currentUser.Address%>" />
+                                    </div>
+                                </li>
+                                <li style="padding: 10px 0;">
+                                    <div class="dt">&nbsp;</div>
+                                    <div class="dd">
+                                        <input class="ui-abtn" value="确定兑换" type="submit" />
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </form>
+                </div>
+                <div class="clear"></div>
+            </div>
+        </div>
+    </div>
+    <html:include file="/_Foot.htm" />
+   <!-- <script type="text/javascript">
+        $("#UnlimitClass1").hide();
+    </script>-->
+    <script type="text/javascript" src="<html:templatePath>/js/UnlimitClass.js"></script>
+    <script type="text/javascript" src="<html:templatePath>/js/jquery.validator.js"></script>
+    <script type="text/javascript" src="<html:templatePath>/js/zh-CN.js"></script>
+    <script type="text/javascript" src="<html:templatePath>/js/pointproduct.js"></script>
+</body>
+</html> 

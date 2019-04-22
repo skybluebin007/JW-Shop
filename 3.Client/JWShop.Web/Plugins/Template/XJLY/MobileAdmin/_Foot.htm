@@ -1,0 +1,34 @@
+﻿    <!--navBar-->
+<section class="navBar" id="navBar">
+    <ul>
+        <li <%if(topNav == 0){%>class="hover"<%}%>><a href="/mobileadmin/index.html?orderstatus=2"><span class="icon"><%if(base.GetOrderCount(2)>0 || base.GetOrderCount(4)>0){%> <em><%=(base.GetOrderCount(2)+base.GetOrderCount(4))%></em><%}%></span>待处理</a></li>
+        <li <%if(topNav == 1){%>class="hover"<%}%>><a href="/mobileadmin/order.html?orderPeriod=1"><span class="icon"></span>订单管理</a></li>
+        <li <%if(topNav == 2){%>class="hover"<%}%>><a href="/mobileadmin/business.html"><span class="icon"><!--<s></s>--></span>门店运营</a></li>
+        <li <%if(topNav == 3){%>class="hover"<%}%>><a href="/mobileadmin/info.html"><span class="icon"></span>我的</a></li>
+    </ul>
+</section>
+<div id="musicbox" class="hidden"><audio src="/Upload/media/win.mp3" controls="controls" preload id="music" hidden></audio></div>
+<script type="text/javascript" src="<html:templatePath>/mobileadmin/js/app.js"></script>
+ <!--signalr-->
+<script src="/admin/Scripts/jquery.signalR-1.2.2.min.js"></script>
+<script src="/Signalr/Hubs"></script>
+<script>
+    // 引用自动生成的集线器代理
+    var pushHub = $.connection.pushHub;
+
+
+    // 定义服务器端调用的客户端sendMessage来显示新消息
+
+    pushHub.client.sendMessage = function (data) {
+        console.log(data);
+        if (parseInt(data) > 0) {
+            //alert("music");
+            //$("#musicbox").html("<audio controls='controls' id='audio_player'  autoplay='autoplay'><source src = '/Upload/media/win.mp3' type = 'audio/mp3' ></audio>");
+            var audio = document.getElementById('music');
+            audio.play();// 播放 
+        }
+    };
+    $.connection.hub.logging = true;
+    $.connection.hub.start();
+</script>
+    <!--signalr-->

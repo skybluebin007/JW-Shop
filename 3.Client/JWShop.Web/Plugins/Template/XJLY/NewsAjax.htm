@@ -1,0 +1,32 @@
+﻿<html:namespace name="JWShop.Business" />
+<html:namespace name="JWShop.Entity" />
+<html:namespace name="SkyCES.EntLib" />
+<html:namespace name="JWShop.Common" />
+<div class="sitepath">
+    <strong>当前位置：</strong><a href="/">首页</a> <i class="crumbs-arrow">&gt; </i> <a href="/News.html"><%=ArticleClassBLL.Read(64).Name%></a> <%if(id>0 && id!=64){%><i class="crumbs-arrow">&gt; </i> <a href="javascript:;" onclick="readNews('<$curArticleClass.Id$>');"><$curArticleClass.Name$></a><%}%>
+</div>
+<div class="helpCon">
+    <!--h2><%=curArticleClass.Name%></h2-->
+    <div class="clear">
+    </div>
+    <div class="helpContent newsImglist">
+<html:if expression="articleList.Count>0">
+        <ul>
+            <html:foreach expression="ArticleInfo article in articleList">
+                <li>
+            	<a target="_blank" href="<%if(string.IsNullOrEmpty(article.Url)){ %> /newsDetail.html?id=<$article.Id$>  <%}else{%><$article.Url$> <%} %>" title="<$article.Title$>">
+                	<img src="<$ShopCommon.ShowImage(article.Photo.Replace("Original","320-240"))$>" alt="<$article.Title$>" title="<$article.Title$>" class="fl" />
+                	<h3><span class="time fr"><$article.Date$></span><$article.Title$></h3>
+                    <div class="txt"><$StringHelper.Substring(article.Summary,100)$></div>                                                                                                                                                                                     
+            	</a>
+            </li>
+          </html:foreach>
+        </ul>
+        <$ commonPagerClass.ShowPage() $>
+        <div class="clear">
+        </div>
+    <html:else>
+    暂无相关信息...
+</html:if>
+    </div>
+</div>

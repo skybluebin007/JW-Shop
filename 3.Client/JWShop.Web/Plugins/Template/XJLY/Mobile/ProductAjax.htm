@@ -1,0 +1,25 @@
+﻿<html:namespace name="JWShop.Entity" />
+<html:namespace name="JWShop.Business" />
+<html:namespace name="JWShop.Common" />
+<html:namespace name="SkyCES.EntLib" />
+
+<%if(productList.Count>0){%>
+
+<html:foreach expression="ProductInfo product in productList">    
+    <dd class="list-row"><a href="/Mobile/ProductDetail-I<$product.Id$>.html">
+        	<figure><img src="<$ShopCommon.ShowImage(product.Photo.Replace("Original","150-150"))$>" title="<$product.Name$>" alt="<$product.Name$>" /></figure>
+            <h3><$StringHelper.Substring(product.Name,20)$></h3>
+            <div class="price">
+            	<span class="fee">￥<$ProductBLL.GetCurrentPrice(product.SalePrice,base.GradeID)$></span>
+            </div>
+            <div class="comment">
+            	<span>好评<$product.PerPoint*20$>%</span>
+                <span><$product.CommentCount$>条评价</span>
+            </div>
+        </a></dd>                      
+</html:foreach>#<$productList.Count$>	
+			
+            
+<%}else{%>
+    <dd ig-null>没有相关数据</dd>#0
+<%}%>

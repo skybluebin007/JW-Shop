@@ -1,0 +1,188 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <html:include file="/Mobile/Head.htm" />
+</head>
+<body>
+    <header class="header-min" id="header">
+        <a class="back" href="javascript:;" ig-back>返回</a>
+        <h2><$thisClass.Name$></h2>
+        <html:include file="/Mobile/TopLink.htm" />
+    </header>
+    <section class="wrapper" id="wrapper">
+        <section class="cateContent pageshowNews">
+            <article class="">
+                <h1><$article.Title$></h1>
+                <aside class="mark">
+                    <span class="time">时间：<$article.RealDate.ToString("yyyy-MM-dd")$>
+                        &nbsp;&nbsp;
+                      来源：<%if(!string.IsNullOrEmpty(article.Resource)){%><$article.Resource$><%}else{%>本站<%}%> 
+                    &nbsp;&nbsp;
+                         作者：<%if(!string.IsNullOrEmpty(article.Author)){%><$article.Author$><%}else{%>原创<%}%>
+                       
+                    </span>
+                </aside>
+                <div class="contxt">
+                     <$(!String.IsNullOrEmpty(article.AddCol2)?article.AddCol2:!String.IsNullOrEmpty(article.Content)?article.Content:"资料添加中...")$>
+                </div>
+
+                <div class="reLink clearFix">
+                    <%=NextNewsM%>
+                    <%=PreNewsM%>
+
+                </div>
+            </article>
+            <div class="part2">
+		            友情提示：<br />为保障您的权益，如遇到紧急问题请您致<br />电客服：<span style="color:#fc7250"><$ShopConfig.ReadConfigInfo().Tel$> </span>感谢您的支持。
+                <a id="getn">获取网络类型</a>
+                <br />
+                <a id="getmap">微信地图</a>
+		        </div>
+        </section>
+    </section>
+
+    <html:include file="/Mobile/FootScript.htm" />
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=PZR7nEhG5cUHouZPOVKEohGuaZIyT7Iu"></script>
+    <script src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        var dataForWeixin = {
+            appId: "<%=ShopConfig.ReadConfigInfo().AppID%>",
+            MsgImg: "<%=WeChatImg%>",
+            TLImg: "<%=WeChatImg%>",
+            url: "<%=url%>",
+            title: "<%=title%>",
+            desc: "<%=desc%>",
+            timestamp: '<%=timestamp%>',
+            nonceStr: '<%=nonce%>',
+            signature: '<%=signature%>',
+            jsApiList: ['onMenuShareTimeline', 'onMenuShareAppMessage', 'onMenuShareQQ', 'onMenuShareWeibo', 'chooseImage', 'getNetworkType', 'getLocation', 'openLocation'],
+            fakeid: "",
+            callback: function () { }
+        };
+        wx.config({
+            debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+            appId: dataForWeixin.appId, // 必填，公众号的唯一标识
+            timestamp: dataForWeixin.timestamp, // 必填，生成签名的时间戳
+            nonceStr: dataForWeixin.nonceStr, // 必填，生成签名的随机串
+            signature: dataForWeixin.signature,// 必填，签名，见附录1
+            jsApiList: dataForWeixin.jsApiList  // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+        });
+        wx.ready(function () {
+            //在此输入各种API
+            //分享到朋友圈
+            wx.onMenuShareTimeline({
+                title: dataForWeixin.title, // 分享标题
+                link: dataForWeixin.url, // 分享链接
+                imgUrl: dataForWeixin.MsgImg, // 分享图标
+                success: function () {
+                    alert("分享成功");
+                    // 用户确认分享后执行的回调函数
+                },
+                cancel: function () {
+                    // 用户取消分享后执行的回调函数
+                }
+            });
+            //分享给朋友
+            wx.onMenuShareAppMessage({
+                title: dataForWeixin.title, // 分享标题
+                desc: dataForWeixin.desc, // 分享描述
+                link: dataForWeixin.url, // 分享链接
+                imgUrl: dataForWeixin.TLImg, // 分享图标
+                type: '', // 分享类型,music、video或link，不填默认为link
+                dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+                success: function () {
+                    alert("分享成功");
+                    // 用户确认分享后执行的回调函数
+                },
+                cancel: function () {
+                    // 用户取消分享后执行的回调函数
+                }
+            });
+            //QQ
+            wx.onMenuShareQQ({
+                title: dataForWeixin.title, // 分享标题
+                desc: dataForWeixin.desc, // 分享描述
+                link: dataForWeixin.url, // 分享链接
+                imgUrl: dataForWeixin.MsgImg,// 分享图标
+                success: function () {
+                    // 用户确认分享后执行的回调函数
+                },
+                cancel: function () {
+                    // 用户取消分享后执行的回调函数
+                }
+            });
+            //QQ微博
+            wx.onMenuShareWeibo({
+                title: dataForWeixin.title, // 分享标题
+                desc: dataForWeixin.desc, // 分享描述
+                link: dataForWeixin.url, // 分享链接
+                imgUrl: dataForWeixin.TLImg, // 分享图标
+                success: function () {
+                    // 用户确认分享后执行的回调函数
+                },
+                cancel: function () {
+                    // 用户取消分享后执行的回调函数
+                }
+            });
+            // config信息验证后会执行ready方法，所有接口调用都必须在config接口获得结果之后，config是一个客户端的异步操作，
+            //所以如果需要在页面加载时就调用相关接口，则须把相关接口放在ready函数中调用来确保正确执行。对于用户触发时才调用的接口，则可以直接调用，不需要放在ready函数中。
+        });
+        wx.error(function (res) {
+            //alert(res);
+            // config信息验证失败会执行error函数，如签名过期导致验证失败，具体错误信息可以打开config的debug模式查看，也可以在返回的res参数中查看，对于SPA可以在这里更新签名。
+        });
+
+        // 获取网络状态接口
+        $("#getn").click(function () {
+            wx.getNetworkType({
+                success: function (res) {
+                    var networkType = res.networkType; // 返回网络类型2g，3g，4g，wifi
+                    alert(networkType);
+                }
+            });
+        })
+        
+        //$("#getmap").click(function () {
+        $(function () {
+            setTimeout(function(){
+            var _latitude = 0, _longitude = 0;
+            //获取地理位置接口
+            wx.getLocation({
+                type: 'wgs84', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
+                success: function (res) {
+                    _latitude = res.latitude; // 纬度，浮点数，范围为90 ~ -90
+                    _longitude = res.longitude; // 经度，浮点数，范围为180 ~ -180。
+                    var speed = res.speed; // 速度，以米/每秒计
+                    var accuracy = res.accuracy; // 位置精度
+
+                    alert("转换前:" + _longitude + "," + _latitude);
+                    //使用百度地图显示附近诊所
+                    var ggPoint = new BMap.Point(_longitude, _latitude);
+                    var convertor = new BMap.Convertor();
+                    var pointArr = [];
+                    pointArr.push(ggPoint);
+                    //坐标转换完之后的回调函数
+                    convertor.translate(pointArr, 1, 5, function (data) {
+                        if (data.status === 0) {
+                            var point = data.points[0];
+                            alert("转换后:" + point.lng + "," + point.lat);
+                        }
+                    });                   
+                   
+                }
+            });
+
+            //使用微信内置地图查看位置接口
+            //wx.openLocation({
+            //    latitude: '28.2075700000', // 纬度，浮点数，范围为90 ~ -90
+            //    longitude: '112.8864600000', // 经度，浮点数，范围为180 ~ -180。
+            //    name: 'local', // 位置名
+            //    address: 'local position', // 地址详情说明
+            //    scale: 15, // 地图缩放级别,整形值,范围从1~28。默认为最大
+            //    infoUrl: 'http://www.baidu.com' // 在查看位置界面底部显示的超链接,可点击跳转
+            //});
+        },2000)
+        })
+</script>
+</body>
+</html>

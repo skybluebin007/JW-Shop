@@ -1,0 +1,6 @@
+﻿<html:namespace name="JWShop.Entity" />
+<html:csharp>int i=0;</html:csharp>
+<html:foreach expression="ShippingInfo shipping in shippingList">
+<li><input type="radio" name="ShippingID" value="<$shipping.Id$>" onclick="selectShipping()" <html:if expression="i==0"> checked="checked"</html:if>  /> <$shipping.Name$> <span><$shipping.Description$></span></li>
+<html:csharp>i++;</html:csharp>
+</html:foreach>

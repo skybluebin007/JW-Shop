@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <html:include file="/_Head.htm" />
+    <link href="<html:templatePath>/css/jquery.validator.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+    <html:include file="/_Top.htm" />
+    <div id="checkOut" class="w990">
+        <div class="check_box">
+            <div class="head yahei">
+                <div class="fl mt20">
+                    <span>填写并核对订单信息</span>
+                </div>
+                <!--<ul class="progress-2 fr">
+                    <li class="s1"><b></b>1.我的购物车</li>
+                    <li class="s2"><b></b>2.填写核对订单信息</li>
+                    <li class="s3">3.成功提交订单</li>
+                </ul>-->
+            </div>
+            <div class="checkout">
+                <div class="box">
+                    <!--收货人信息 start-->
+                    <div class="address">
+                        <div class="c-title">
+                            <a class="fr blue" href="javascript:displayAddress();">新增收货地址</a>收货人信息 <i></i>
+                        </div>
+                        <div class="con">
+                            <div class="dist_info address js-address-list">
+                         <html:foreach expression="var item in addressList">
+                                <div class="conitem" data-address="<%=item.Id%>">
+                                    <div class="js-select-address-div">
+                                    	<div class="fr">
+                                         
+                                        <!--<a class="first hidden select-address">选择</a>-->
+                                        <a class="hidden edit-address">编辑</a>
+                                        <a class="hidden del-address">删除</a> 
+                                        </div>
+                                        <strong class="tt js-select-address-tt">
+                                        <s class="icon"></s><%=item.Consignee%> </strong><%=item.Tel%><%=RegionBLL.RegionNameList(item.RegionId)%> <%=item.Address%> <%=item.Mobile%>
+                                        <input type="hidden" name="name" value="<$item.Id$> " />
+                                    </div>
+                                </div>
+                            </html:foreach>
+                            </div>
+                            <div class="moreAddress">
+                                更多地址<s class="icon"></s></div>
+                            <div class="con <%if(addressList.Count > 0){%>hidden<%}%> js-address-edit">
+                                <form id="fmAddress">
+                                <input type="hidden" id="address-update-id" name="updateId" />
+                                <div class="form">
+                                    <div class="list">
+                                        <span class="label"><em>*</em>收货人：</span>
+                                        <div class="field">
+                                            <input type="text" name="consignee" class="textbox" />
+                                        </div>
+                                    </div>
+                                    <div class="list">
+                                        <span class="label"><em>*</em>所在地区：</span>
+                                        <div class="field">
+                                            <span class="fl unlimit">
+                                                <%=singleUnlimitClass.ShowContent()%>
+                                            </span><span class="form-tip">&nbsp;&nbsp;</span>
+                                        </div>
+                                    </div>
+                                    <div class="list full-address">
+                                        <span class="label"><em>*</em>详细地址：</span>
+                                        <div class="field">
+                                            <input type="text" name="address" class="textbox" />
+                                        </div>
+                                    </div>
+                                    <div class="list">
+                                        <span class="label"><em>*</em>手机号码：</span>
+                                        <div class="field">
+                                            <div class="phone fl">
+                                                <input type="text" name="mobile" class="textbox" />
+                                                <em>或</em> <span class="fl">固定电话：</span>
+                                                <input type="text" maxlength="20" name="tel" class="textbox" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="list">
+                                        <span class="label"></span>
+                                        <div class="field">
+                                            <input type="hidden" id="updateId" />
+                                            <input type="submit" value="保存" />
+                                            <input type="button" value="取消" />
+                                        </div>
+                                    </div>
+                                </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <!--收货人信息 end-->
+                  </div>
+                  <form id="fmCheckOut">
+                        <div class="box">
+                    <!--支付方式 start-->
+                    <div class="address payways" id="payways">
+                        <div class="c-title">
+                            支付方式</div>
+                        <div class="con">
+                        <html:foreach expression="var item in payPluginsList">
+                            <%if(item.Key!="MobileAliPay"){%>
+						<div class="tt" id="<$item.Key$>">
+							<%=item.Name %>
+							<div class="qmark-tip"></div>
+							<div class="tip"><%=item.Description%></div>
+						</div>
+                            <%}%>
+						</html:foreach>
+                            <input type="hidden" name="pay" value="<%if(payPluginsList.Count>0){%><%=payPluginsList[0].Key%><%}%>" id="pay" />
+                        </div>
+                    </div>
+                    <!--支付方式 end-->
+                        <!--其他信息-->
+                            <div class="address bookItem">
+                                <h3 class="c-title">使用优惠券<span style="font-size: 12px; color: #999; margin-left:10px;">(优惠券使用后,用户取消订单，退换货，退款,系统均不退还)：</span></h3>
+                                <ul class="paydo">
+                                    <li>
+                                        <select id="UserCoupon" name="UserCoupon" onchange="selectUserCoupon()">
+                                            <option value="0|0">请选择优惠券...</option>
+                                            <html:foreach expression="UserCouponInfo userCoupon in userCouponList">
+                            <option value="<$userCoupon.Id$>|<$CouponBLL.Read(userCoupon.CouponId).Money$>">编号：<$userCoupon.Number$>（<$CouponBLL.Read(userCoupon.CouponId).Money$> 元）</option>
+                            </html:foreach>
+                                        </select>
+                                        <span class="c">您也可以点此添加“线下优惠券”
+                                <input type="checkbox" class="checkbox" name="" id="paydo1" style="margin-right:5px;" /><label for="paydo1"
+                                    onclick="fillUserCoupon(this.checked)"><b class="orange" style="font-weight:normal;">输入优惠券号码</b></label></span>
+                                    </li>
+                                    <li class="hidden" style="padding-top:20px;"><span class="e"></span>
+                                        <div class="youhitem"><label class="youhtitle">
+                                            卡号：</label>
+                                        <input type="text" value="" name="Number" id="Number" class="txt_100" /></div>
+                                       <div class="youhitem"><label class="youhtitle">
+                                            密码：</label>
+                                        <input type="text" value="" name="Password" class="txt_100" id="Password" /></div>
+                                        <input type="button" value="添加" name="" class="addCoupons" onclick="addUserCoupon()" />
+                                    </li>
+
+                                </ul>
+                            </div>
+                        <!--其他信息end-->
+                    <!--发票 start 如果后台开启了提供发票才显示-->
+    <html:if expression="ShopConfig.ReadConfigInfo().Invoicing==1">
+                    <div class="invoice-step address payways">
+                        <div class="c-title">
+                            发票信息
+                        </div>
+                        <p style="padding-left: 20px;">
+                            如果您需要发票，请点击
+                            <input type="checkbox" name="" id="invoiceBtn" value="" /><label class="orange" for="invoiceBtn">索要发票</label></p>
+                        <div class="invoiceBox hidden">
+                            <div class="invoItem clearfix">
+                                <h3 class="fl">
+                                    发票抬头：</h3>
+                                <input class="taitou fl" type="text" name="InvoiceTitle" id="InvoiceTitle" value="" />
+                            </div>
+                            <div class="invoItem clearfix">
+                                <h3 class="fl">
+                                    发票内容：</h3>
+                                <div class="con fl">
+                                    <div class="tt" id="">
+                                        商品明细</div>
+                                    <div class="tt" id="">
+                                        办公用品</div>
+                                    <input type="hidden" name="InvoiceContent" id="InvoiceContent" value="" />
+                                </div>
+                            </div>
+                            <!--<input type="button" name="" id="" value="保存" />-->
+                        </div>
+                    </div>
+    </html:if>
+                    <!--发票  end-->
+
+                    <!--购买清单 start-->
+                    <div class="order">
+                        <div class="c-title">
+                            确认订单信息 <span class="fr"></span>
+                        </div>
+                        <div class="con">
+                            <div class="review">
+                                <table border="0" cellspacing="0" cellpadding="0">
+                                    <thead>
+                                        <tr>
+                                            <th style="width: 20%; text-align: left;">
+                                                <a class="blue" href="/cart.html">返回购物车修改</a>
+                                            </th>
+                                            <th style="width: 17%">
+                                                单价(元)
+                                            </th>
+                                            <th style="width: 17%">
+                                                数量
+                                            </th>
+                                            <th style="width: 18%">
+                                                小计(元)
+                                            </th>
+                                            <th style="width: 17%">
+                                                配送方式
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <%int shopid=0; %>
+                                        <html:foreach expression="var item in cartList">
+                                                <tr class="spxx">
+                                                    <td>
+                                                        <div class="img">
+									                        <a href="/productDetail-I<%=item.ProductId%>.html" target="_blank" title="<%=item.ProductName%>">
+										                        <img alt="<%=item.ProductName %>" src="<%=ShopCommon.ShowImage(item.Product.Photo.Replace("Original","90-90"))%>" />
+									                        </a>
+											            </div>
+											            <div class="name">
+												            <p>
+                                                                <a title="<%=item.ProductName %>" class="cart_goods_t" style="white-space: normal;" href="/ProductDetail-I<%=item.ProductId %>.html" target="_blank"><%=item.ProductName%></a>
+												            </p>
+											            </div>
+                                                        <div style="font-size: 12px; text-align: left; color: #888;">
+                                                            <html:foreach expression="var standard in item.Standards">
+                                                                <div><%=standard.Name%>：<%=item.StandardValueList.Split(';')[item.Standards.IndexOf(standard)]%></div>
+                                                            </html:foreach>
+                                                        </div>
+                                                    </td>
+                                                    <td><%=item.Price%></td>
+                                                    <td>
+                                                    	<div class="choose_num" style="border: none;">
+                                                        <$item.BuyCount$>
+									                        <!--<input type="text" name="" maxlength="5" id="BuyCount"  value="<$item.BuyCount$>" />
+									                        <a href="javascript:;" title="" class="plus">+</a> 
+									                        <a href="javascript:;" title="" class="less">-</a>-->
+									                    </div>
+									                    	
+									                    <!--<%=item.BuyCount%>-->
+                                                    </td>
+                                                    <td><span class="orange"><%=(item.Price * item.BuyCount)%></span></td>
+                                                    <%if(shopid==0){ %>
+                                                    <td class="tdlast" rowspan="<$cartList.Count$>" id="ShippingListAjax">
+                                                    	
+                                                    	
+                                                    </td>
+                                                    <%} shopid++;%>
+                                                </tr>
+                                            </html:foreach>
+                                        <!--商品优惠start-->
+                                        <html:if expression="productFavorableActivityList.Count>0">
+                                        <tr class="spxx">
+                                            <td colspan="5">
+                                                
+                                                
+    <%int pf=0;%>
+    <div class="dist_info" style="text-align:left; " >
+商品优惠：<br />
+        <div style="height: auto;">
+    <html:foreach expression="var favor in productFavorableActivityList">
+          <input type="radio" name="ProductFavorableActivity" value="<%=favor.Id%>" id="ProductFavor<%=favor.Id%>" onclick="selectProductFavor()" <html:if expression="pf==0"> checked="checked"</html:if>  /> 
+            <label for="ProductFavor<%=favor.Id%>">
+                <%=favor.Name%>:<%=favor.Content%>
+            </label><br/>
+<%pf++;%>
+    </html:foreach>
+            </div>
+        </div>
+
+                                            </td>
+                                        </tr>
+                                            <!--商品优惠end-->
+                                        </html:if>
+                                        <tr class="liuyan">
+                                            <td colspan="5" style="text-align: right">
+                                                留言：
+                                                <input type="text" class="textbox" placeholder="选填，可填您期望发货的时间等" style="width: 40%;"
+                                                    name="userMessage" id="userMessage" />
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>              
+                    <!--购买清单 end-->
+                    <!--订单优惠活动 START-->
+                        <div class="bookItem" id="FavorList">
+                        </div>
+                    <!--订单优惠活动 END-->
+                            <!--礼品信息 START-->
+                            <div class="bookItem"  id="giftlist" style="display:none;">
+                                <h3 style="font-size:14px; padding-top:20px; margin-bottom:10px;">礼品信息：</h3>
+                                <div class="giftList clearfix">
+                                   
+                                </div>
+                            </div>
+         <!--礼品信息 End-->
+                    </div>
+                <!--结算 start-->
+                        <div class="summary">
+                            <div class="statistic">
+                                <html:csharp>var _productMoney = cartList.Sum(k => k.BuyCount * k.Price);</html:csharp>
+                                <input type="hidden" id="CheckCart" name="CheckCart" value="<%=checkCart %>" />
+                                <input type="hidden" id="address_id" name="address_id" value="<%=(addressList.Count > 0 ? addressList[0].Id : 0)%>" />
+                                <input type="hidden" id="product_money" value="<%=_productMoney%>" />
+                                <input type="hidden" id="shipping_money"  value="0" />
+                                <input type="hidden" id="point" name="point" value="0" />
+                                <input type="hidden" id="pointLeft" value="<%=pointLeft%>" />
+                                <input type="hidden" id="pointRate" value="<%=ShopConfig.ReadConfigInfo().PointToMoney%>" />
+                                <input type="hidden" id="pointMoney" value="0" />
+                                <input type="hidden" id="favorableMoney" name="favorableMoney" value="0" />
+                                <input type="hidden" id="orderfavorableMoney" name="orderfavorableMoney" value="0" />
+                                <input type="hidden" id="productfavorableMoney" name="productfavorableMoney" value="0" />
+                              
+                                <div class="list clearfix">
+                                    <em class="price">
+                                        <%=_productMoney.ToString("C")%></em> <span><em class="red">
+                                            <%=cartList.Count%></em> 件商品，总商品金额：</span>
+                                </div>
+                      
+                                <div class="list clearfix">
+                                    <em class="price" id="check_data_shippingmoney"></em><span>运费：</span>
+                                </div>
+                                <div class="list clearfix">
+                                    <em class="price" id="CouponMoney">￥0</em><span>优惠券：</span>
+                                </div>
+                                 <div class="list clearfix">
+                                    <em class="price" id="check_data_favorablemoney">￥0</em><span>优惠活动：</span>
+                                </div>
+                                <!--如果设置了开启积分抵现功能  使用积分 start-->
+                                <html:if expression="ShopConfig.ReadConfigInfo().EnablePointPay==1">
+                                <div class="text_r buy-use-point clearfix" id="usePoint" >
+                                    <div class="buy-point-discharge ">
+                                        <p class="price g_price">
+                                            <span>¥</span><em class="style-middle-bold-black" id="M_pointTotalDischarge">0.00</em>
+                                        </p>
+                                    </div>
+                                    <div class="userPoint M_UserPoint">
+                                        <input type="checkbox" id="M_UsePoint" class="userPoint-togglePoint" name="UsePoint">
+                                        <label for="M_UsePoint">
+                                            使用积分</label>
+                                        <span class="point-ips point-input-box M-hide M-point-hide hidden">
+                                            <input name="costPoint" type="text" class="text userPoint-usePoint M_MakePoint c2c-text-default"
+                                                value="0" id="M_pointToUse" _old="0">个 </span>
+                                        <div class="userPoint-useTip M-hide M-point-hide hidden">
+                                            （您现有<em id="M_AvailablePoint">
+                                                <%=pointLeft%></em> 积分）
+                                        </div>
+                                        <div class="msg M-msg M-piont-msg hidden">
+                                            <p class="error" id="u-point-msg">
+                                                您本次最多可使用<%=pointLeft%>积分</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                    </html:if>
+                                <!--使用积分 end-->
+                            </div>
+                        </div>
+                        <div class="butaddress" id="butaddress">
+                 
+                        </div>
+                        <div class="button">
+                            <input type="submit" class="btn" value="提交订单" />
+                            <span class="total">应付总额：<strong class="orange" id="check_data_totalmoney"></strong>元
+                            </span>
+                        </div>
+                <!--结算 end-->
+                 </form>
+            </div>
+            <div class="clear">
+            </div>
+        </div>
+    </div>
+    <html:include file="/_FootOrd.htm" />
+    <script type="text/javascript" src="<html:templatePath>/js/jquery.validator.js"></script>
+    <script type="text/javascript" src="<html:templatePath>/js/zh-CN.js"></script>
+    <script type="text/javascript" src="<html:templatePath>/js/jquery.tmpl.min.js"></script>
+    <script type="text/javascript" src="<html:templatePath>/js/UnlimitClass.js"></script>
+    <script type="text/javascript" src="<html:templatePath>/js/checkout.js"></script>
+    <script id="genAddress" type="text/x-jquery-tmpl">
+      <div class="conitem newitem" data-address="${$data.id}">
+            <div class="js-select-address-div">
+                <div class="fr">
+                                         
+                <a class="first hidden select-address">选择</a>
+                <a class="hidden edit-address">编辑</a>
+                <a class="hidden del-address">删除</a>
+                </div>
+                <strong class="tt js-select-address-tt">
+                <s class="icon"></s>${consignee}  </strong> ${tel} ${address}  ${mobile}
+                <input type="hidden" name="name" value="${$data.id}" />
+            </div>
+        </div>
+    </script>
+</body>
+</html>

@@ -1,0 +1,63 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+ <html:include file="/Mobile/Head.htm" />
+  <link rel="stylesheet" href="<html:templatePath>/mobile/static/css/jquery.validator.css">
+</head>
+<body>
+<header class="header-min header-jf" id="header">
+	<p style="padding-right:1rem;">当前积分有：<span><%=userPoint%></p>
+	<s class="icon"></s>兑换商品
+        <html:include file="/Mobile/TopLink.htm" />
+</header>
+<div class="jfListbox">
+    <form>
+         <input type="hidden" name="updateId" value="<%=gift.Id%>" />
+	<div class="jfContent">
+		<img class="img" src="<%=gift.Photo.Replace("Original", "400-300") %>" alt="<%=gift.Name %>" />
+		<h3 class="title"><%=gift.Name %></h3>
+		<p class="jf">需要积分：<span><%=gift.Point %></span></p>	
+	</div>
+
+               <div class="order-note">
+                <div class="order-note-title">　收货人：</div>
+                <div class="order-note-content">
+                    <input type="text" name="username" placeholder="收货人姓名" />
+                </div>
+            </div>
+            <div class="order-note">
+                <div class="order-note-title">手机号码：</div>
+                <div class="order-note-content">
+                    <input type="tel" name="mobile" placeholder="收货人手机号码" />
+                </div>
+            </div>
+            <div class="order-note">
+                <div class="order-note-title">所在地区：</div>
+                <div class="order-note-content">
+                  <$singleUnlimitClass.ShowContent()$>                 
+                </div>
+            </div>
+            <div class="order-note">
+                <div class="order-note-title">详细地址：</div>
+                <div class="order-note-content">
+                    <input type="text" name="address" placeholder="建议填写详细收货地址" />
+                </div>
+            </div>
+       <div class="jfContent">
+        <input class="btn" type="submit" value="立即兑换" />
+             </div>
+    </form>
+</div>
+
+
+ <html:include file="/Mobile/Foot.htm" />
+ <html:include file="/Mobile/FootScript.htm" />
+     <script type="text/javascript" src="<html:templatePath>/js/UnlimitClass.js"></script>
+   <!--  <script type="text/javascript">
+         $("#UnlimitClass1").hide();
+    </script>-->
+    <script type="text/javascript" src="<html:templatePath>/mobile/static/js/jquery.validator.js"></script>
+   <script src="<html:templatePath>/mobile/static/js/zh-CN.js"></script>
+    <script type="text/javascript" src="<html:templatePath>/mobile/js/pointproduct.js"></script>
+</body>
+</html>

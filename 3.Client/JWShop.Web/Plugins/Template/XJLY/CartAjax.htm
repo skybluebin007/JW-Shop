@@ -1,0 +1,82 @@
+﻿<html:namespace name="JWShop.Entity" />
+<html:namespace name="JWShop.Business" />
+<html:namespace name="JWShop.Common" />
+<html:namespace name="SkyCES.EntLib" />
+
+<ul class="title clearfix">
+    <li class="colum1">
+        <input type="checkbox" class="checkAll" onclick="chooseAll(this);" /><label>全 选</label></li>
+    <li class="colum2">商品</li>
+    <li class="colum3">单价(元)</li>
+    <li class="colum4">数量</li>
+    <li class="colum5">小计(元)</li>
+    <li class="colum6">操作</li>
+</ul>
+<div class="cartList_body">
+    <%if(cartList.Count==0){%>
+    <ul class="clearfix">
+        &nbsp;&nbsp;暂无商品...</ul>
+    <%} %>
+    <html:foreach expression="var cartInfo in cartList"> 
+       <html:csharp>            
+            ProductInfo product = ProductBLL.Read(cartInfo.ProductId);
+            decimal curPrice=Convert.ToDecimal(GetPrice(product.Id,product.SalePrice,cartInfo.StandardValueList));
+        </html:csharp>
+<html:if expression="product.IsSale!=1">
+    <!--如果已下架-->
+    <ul class="clearfix">
+        <li class="colum1">
+            <span style="color:red;">无效</span></li>
+        <li class="colum2"><a href="javascript:alert('此商品已下架');" title="<$cartInfo.ProductName$>">
+            <img src="<$ShopCommon.ShowImage(product.Photo.Replace("Original","90-90"))$>" alt="<$cartInfo.ProductName$>" /><$cartInfo.ProductName$></a></li>
+        <li class="colum3"><$curPrice$></li>
+        <li class="colum4">
+            <div class="choose_num">
+                <input type="text" value="<$cartInfo.BuyCount$>" disabled id="Text1" class="txt" maxlength="4" />
+                 <input type="hidden" id="BuyCount<$cartInfo.Id$>" value="<$cartInfo.BuyCount$>" />
+            </div>
+            <span style="color:red;">此商品已下架</span>
+        </li>
+        <li class="colum5" id="Li1"><$curPrice*cartInfo.BuyCount$></li>        
+        <li class="colum6"> <a href="javascript:;" class="del" onclick="deleteOrderProduct('<$cartInfo.Id$>',<$curPrice$>,this)">删除</a></li>
+    </ul>
+<html:else>
+ <!--如果没下架-->
+    <ul class="clearfix">
+        <li class="colum1">
+            <input type="checkbox" name="checkbox"  class="checkbox" id="cb_<$cartInfo.Id$>" value="<$cartInfo.Id$>" onclick="chooseCB(this);" pr="<$product.SalePrice$>" we="<$product.Weight$>"/></li>
+        <li class="colum2"><a href="/ProductDetail-I<$product.Id$>.html" title="<$cartInfo.ProductName$>" target="_blank">
+            <img src="<$ShopCommon.ShowImage(product.Photo.Replace("Original","90-90"))$>" alt="<$cartInfo.ProductName$>" /><$cartInfo.ProductName$></a></li>
+        <li class="colum3"><$curPrice$><input type="hidden" id="price<$cartInfo.Id$>" value="<$curPrice$>" /></li>
+        <li class="colum4">
+            <div class="choose_num">
+                <input type="text" value="<$cartInfo.BuyCount$>" id="BuyCountval<$cartInfo.Id$>" class="txt" maxlength="4" onblur="changeOrderProductBuyCount('<$cartInfo.Id$>',this,<$curPrice$>,1,<$cartInfo.LeftStorageCount$>,<$product.Weight$>)"/>
+                <a href="javascript:;" class="plus" id="Jia<$cartInfo.Id$>" onclick="Jia('<$cartInfo.Id$>',<$curPrice$>,1,<$cartInfo.LeftStorageCount$>,<$product.Weight$>)">+</a>
+                <a href="javascript:;" class="less" id="Jian<$cartInfo.Id$>" onclick="Jian('<$cartInfo.Id$>',<$curPrice$>,1,<$cartInfo.LeftStorageCount$>,<$product.Weight$>)">-</a>
+              
+                <input type="hidden" id="BuyCount<$cartInfo.Id$>" value="<$cartInfo.BuyCount$>" />
+            </div>
+             库存：<$cartInfo.LeftStorageCount$>
+        </li>
+        <li class="colum5" id="CartProductPrice<$cartInfo.Id$>"><$curPrice*cartInfo.BuyCount$></li>
+         <input type="hidden" id="ProductWeight<$cartInfo.Id$>" value="<$product.Weight$>" />
+        <li class="colum6"> <a href="javascript:;" class="del" onclick="deleteOrderProduct('<$cartInfo.Id$>',<$curPrice$>,this)">删除</a></li>
+    </ul>
+</html:if>    
+    </html:foreach>
+</div>
+<div class="cartList_bottom clearfix">
+    <div class="colum1 fl">
+       <input type="checkbox" class="checkAll" onclick="chooseAll(this);" />全选</div>
+    <div class="colum2 fl">
+        <a href="/List.html" title="">继续购物</a>
+        <a href="javascript:;" onclick="clearCart();" title="">清空购物车</a> 
+        <a href="javascript:;" onclick="delChoose();" title="">删除选中的商品</a>
+    </div>
+    <div class="colum3 fr">
+        <a href="javascript:;" class="go fr" onclick="goToPay()">去结算</a>
+        <div class="allprice fr">
+            总价(不包含运费): <span class="price" id="ProductTotalPrice">￥0.00</span></div>
+    </div>
+</div>
+<input type="hidden" name="cartProductCount" id="cartProductCount" value="<%=Sessions.ProductBuyCount%>" />

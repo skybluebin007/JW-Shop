@@ -1,0 +1,28 @@
+﻿<html:namespace name="JWShop.Entity" />
+<html:namespace name="JWShop.Business" />
+<html:namespace name="JWShop.Common" />
+<html:namespace name="SkyCES.EntLib" />         
+
+
+<dl class="user-feedbook">
+    <%if(userMessageList.Count<=0){%>
+    	<dd class="null">暂无相关数据</dd>
+    <%}else{%>
+        <html:foreach expression="UserMessageInfo userMessage in userMessageList">
+        <dd class="item">
+        	<div class="head">
+            	<h2 ig-cut><$userMessage.Title $></h2>
+                <div class="type type-warm"><$UserMessageBLL.ReadMessageType(userMessage.MessageClass)$></div>
+            </div>
+            <div class="main">
+            	<$userMessage.Content$>
+            </div>
+            <div class="foot">
+            	<div class="time">留言时间：<$userMessage.PostDate$></div>
+                <div class="status status-on"><html:if expression="userMessage.IsHandler==1">已处理<html:else>未处理</html:if></div>
+            </div>
+        </dd>
+        </html:foreach> 
+    <%}%>
+    </dl>
+<$ajaxPagerClass.ShowPage()$>

@@ -1,0 +1,53 @@
+﻿<html:namespace name="JWShop.Entity" />
+<html:namespace name="JWShop.Business" />
+<html:namespace name="JWShop.Common" />
+<html:namespace name="SkyCES.EntLib" />
+<html:namespace name="System.Linq" />
+
+<title><$Title$></title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta content="<$Keywords$>" name="keywords"/>
+<meta content="<$Description$>" name="description"/>
+<meta content="<$Copyright$>" name="copyright"/>
+<meta content="<$Author$>" name="author"/>
+<%if(!String.IsNullOrEmpty(ShopConfig.ReadConfigInfo().IcoAddress)){%>
+<link rel="Shortcut Icon" href="<$ShopConfig.ReadConfigInfo().IcoAddress$>" type="image/x-icon">
+<%}%>
+<script>
+    window.location.href = "http://z.hnjing.com";
+</script>
+<link rel="stylesheet" type="text/css" href="<html:templatePath>/css/style.css" />
+<!--<link rel="stylesheet" type="text/css" href="<html:templatePath>/css/base.css" />
+<link rel="stylesheet" type="text/css" href="<html:templatePath>/css/list.css" />
+<link rel="stylesheet" type="text/css" href="<html:templatePath>/css/user.css" />
+<link rel="stylesheet" type="text/css" href="<html:templatePath>/css/single.css" />-->
+<link rel="stylesheet" type="text/css" href="<html:templatePath>/css/jquery.autocomplete.css" />
+    <script type="text/javascript" src="<html:templatePath>/js/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="/admin/js/common.js"></script>
+<script>
+    var host = window.location.host;
+    var hrefs = window.location.href;
+    var system = {
+        win: false,
+        mac: false,
+        xll: false
+    };
+    //检测平台
+    var p = navigator.platform;
+    system.win = p.indexOf("Win") == 0;
+    system.mac = p.indexOf("Mac") == 0;
+    system.x11 = (p == "X11") || (p.indexOf("Linux") == 0);
+    if (system.win || system.mac || system.xll) {
+    } else {
+        var urlsprit = hrefs.replace("http://" + host, "");
+
+        //window.location.href = "http://" + host + "/mobile" + urlsprit;
+        window.location.href = "http://" + host + "/mobile";
+    }
+</script>
+<!--[if IE 6]>
+<script type="text/javascript" src="<html:templatePath>/js/DD_belatedPNG_0.0.8a-min.js"></script>
+<script type="text/javascript">
+DD_belatedPNG.fix('.pngfix');
+</script>
+<![endif]-->

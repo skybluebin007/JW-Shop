@@ -1,0 +1,514 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <html:include file="/_Head.htm" />
+</head>
+<body>
+    <!--top start-->
+    <html:include file="/_Top.htm" />
+    <!--main content start-->
+    <div class="index">
+        <div id="floor_1_main">
+            <div id="floor_1" class="w1210 clearfix">
+                <!--banner start-->
+                <div id="banner_main" class="banner fl">
+                    <ul class="list clearfix">
+                        <%List<AdImageInfo> flashList=AdImageBLL.ReadList(1,6);
+    foreach(var flash in flashList){%>
+                        <li><a <%if(!String.IsNullOrEmpty(flash.LinkUrl)){%>href="<$flash.LinkUrl$>" target="_blank"
+                            <%}%>>
+                            <img src="<$ShopCommon.ShowImage(flash.ImageUrl)$>" alt="<$flash.Title$>" title="<$flash.Title$>" />
+                        </a></li>
+                        <%} %>
+                    </ul>
+                    <div class="tip">
+                    </div>
+                </div>
+                <div id="floor_1_2" class="fr">
+                    <div class="floor_1_news">
+                        <div class="title">
+                            <a href="" class="more fr">更多></a>
+                            <h2>
+                                竞网快报</h2>
+                        </div>
+                        <ul>
+                            <li><a href="" title="" target="_blank"><span>[特惠]</span>iPhone新品发布</a></li>
+                            <li><a href="" title="" target="_blank"><span>[公告]</span>iPhone新品发布</a></li>
+                            <li><a href="" title="" target="_blank"><span>[特惠]</span>iPhone新品发布</a></li>
+                            <li><a href="" title="" target="_blank"><span>[特惠]</span>iPhone新品发布</a></li>
+                            <li><a href="" title="" target="_blank"><span>[特惠]</span>iPhone新品发布</a></li>
+                        </ul>
+                    </div>
+                    <div class="item a1">
+                        <a href="" title="" target="_blank">
+                            <img class="imghOpacity" src="<html:templatePath>/uploadfile/floor_1_3img1.jpg" alt=""
+                                title="" /></a></div>
+                    <div class="item a2">
+                        <a href="" title="" target="_blank">
+                            <img class="imghOpacity" src="<html:templatePath>/uploadfile/floor_1_3img2.jpg" alt=""
+                                title="" /></a></div>
+                </div>
+            </div>
+        </div>
+        <div id="floor_2_main" class="w1210">
+            <div id="floor_2" class="clearfix">
+                <a class="title fl" title="">
+                    <img src="<html:templatePath>/uploadfile/floor_2_imgtit.jpg" alt="" title="" /></a>
+                <ul class="floor_2_body fl">
+                    <li><a href="" title="" target="_blank">
+                        <img class="imghOpacity" src="<html:templatePath>/uploadfile/floor_2_img1.jpg" alt=""
+                            title="" /></a></li>
+                    <li><a href="" title="" target="_blank">
+                        <img class="imghOpacity" src="<html:templatePath>/uploadfile/floor_2_img2.jpg" alt=""
+                            title="" /></a></li>
+                    <li><a href="" title="" target="_blank">
+                        <img class="imghOpacity" src="<html:templatePath>/uploadfile/floor_2_img3.jpg" alt=""
+                            title="" /></a></li>
+                    <li><a href="" title="" target="_blank">
+                        <img class="imghOpacity" src="<html:templatePath>/uploadfile/floor_2_img4.jpg" alt=""
+                            title="" /></a></li>
+                </ul>
+            </div>
+        </div>
+        <div id="floor_3_main" class="w1210">
+            <div class="title">
+                竞网 · 品质生活</div>
+            <div class="floor_3_body clearfix">
+                <div class="item item1 fl">
+                    <a class="hovr-light" href="" title="">
+                        <img src="<html:templatePath>/uploadfile/indexfloor_3img1.jpg" alt="" title="" /></a>
+                </div>
+                <div class="item item2 fl">
+                    <div class="itemTit">
+                        好物100</div>
+                    <a class="a1" href="" title="">
+                        <img class="imghOpacity" src="<html:templatePath>/uploadfile/indexfloor_3img2.jpg"
+                            alt="" title="" /></a> <a class="a2" href="" title="">
+                                <img class="imghOpacity" src="<html:templatePath>/uploadfile/indexfloor_3img3.jpg"
+                                    alt="" title="" /></a>
+                </div>
+                <div class="item item3 fl">
+                    <div class="itemTit">
+                        品牌街</div>
+                    <a class="a1 fl" href="" title="">
+                        <img class="imghOpacity" src="<html:templatePath>/uploadfile/indexfloor_3img4.jpg"
+                            alt="" title="" /></a> <a class="a2 fl" href="" title="">
+                                <img class="imghOpacity" src="<html:templatePath>/uploadfile/indexfloor_3img3.jpg"
+                                    alt="" title="" /></a> <a class="a3 fl" href="" title="">
+                                        <img class="imghOpacity" src="<html:templatePath>/uploadfile/indexfloor_3img3.jpg"
+                                            alt="" title="" /></a>
+                </div>
+                <div class="coopeList fl">
+                    <a class="c1" href="" title="" target="">
+                        <img src="<html:templatePath>/uploadfile/indexcoopimg1.jpg" alt="" title="" />
+                        <div class="txt">
+                            <span>特布天天</span>折扣折扣
+                        </div>
+                    </a><a class="c2" href="" title="" target="">
+                        <img src="<html:templatePath>/uploadfile/indexcoopimg1.jpg" alt="" title="" />
+                        <div class="txt">
+                            <span>特布天天</span>折扣折扣
+                        </div>
+                    </a><a class="c3" href="" title="" target="">
+                        <img src="<html:templatePath>/uploadfile/indexcoopimg1.jpg" alt="" title="" />
+                        <div class="txt">
+                            <span>特布天天</span>折扣折扣
+                        </div>
+                    </a><a class="c4" href="" title="" target="">
+                        <img src="<html:templatePath>/uploadfile/indexcoopimg1.jpg" alt="" title="" />
+                        <div class="txt">
+                            <span>特布天天</span>折扣折扣
+                        </div>
+                    </a><a class="c5" href="" title="" target="">
+                        <img src="<html:templatePath>/uploadfile/indexcoopimg1.jpg" alt="" title="" />
+                        <div class="txt">
+                            <span>特布天天</span>折扣折扣
+                        </div>
+                    </a><a class="c6" href="" title="" target="">
+                        <img src="<html:templatePath>/uploadfile/indexcoopimg1.jpg" alt="" title="" />
+                        <div class="txt">
+                            <span>特布天天</span>折扣折扣
+                        </div>
+                    </a><a class="c7" href="" title="" target="">
+                        <img src="<html:templatePath>/uploadfile/indexcoopimg1.jpg" alt="" title="" />
+                        <div class="txt">
+                            <span>特布天天</span>折扣折扣
+                        </div>
+                    </a><a class="c8" href="" title="" target="">
+                        <img src="<html:templatePath>/uploadfile/indexcoopimg1.jpg" alt="" title="" />
+                        <div class="txt">
+                            <span>特布天天</span>折扣折扣
+                        </div>
+                    </a><a class="c9" href="" title="" target="">
+                        <img src="<html:templatePath>/uploadfile/indexcoopimg1.jpg" alt="" title="" />
+                        <div class="txt">
+                            <span>特布天天</span>折扣折扣
+                        </div>
+                    </a><a class="c10" href="" title="" target="">
+                        <img src="<html:templatePath>/uploadfile/indexcoopimg1.jpg" alt="" title="" />
+                        <div class="txt">
+                            <span>特布天天</span>折扣折扣
+                        </div>
+                    </a><a class="c11" href="" title="" target="">
+                        <img src="<html:templatePath>/uploadfile/indexcoopimg1.jpg" alt="" title="" />
+                        <div class="txt">
+                            <span>特布天天</span>折扣折扣
+                        </div>
+                    </a><a class="c12" href="" title="" target="">
+                        <img src="<html:templatePath>/uploadfile/indexcoopimg1.jpg" alt="" title="" />
+                        <div class="txt">
+                            <span>特布天天</span>折扣折扣
+                        </div>
+                    </a><a class="c13" href="" title="" target="">
+                        <img src="<html:templatePath>/uploadfile/indexcoopimg1.jpg" alt="" title="" />
+                        <div class="txt">
+                            <span>特布天天</span>折扣折扣
+                        </div>
+                    </a><a class="c14" href="" title="" target="">
+                        <img src="<html:templatePath>/uploadfile/indexcoopimg1.jpg" alt="" title="" />
+                        <div class="txt">
+                            <span>特布天天</span>折扣折扣
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <!--广告位-->
+        <div class="indexXbanner" class="w1210">
+            <img src="<html:templatePath>/images/floor_4_mainimg.jpg" />
+        </div>
+        <!--3F 4F 5F  可循环 注意  ipro*-->
+        <!--3F-->
+        <!--4F-->
+        <%int i=1; %>
+        <html:foreach expression="var item in ProductClassList.Where(k => k.ParentId == 0).Take(9)">
+          <!---修改此部分---->
+        <div class="indexWrap ipro2 w1210">
+            <div class="indexTit clearfix">
+                <h2 class="fl">
+                    <span><$i$>F</span><$item.Name$></h2>
+                <ul class="tab fr">
+                    <li class="tab-item"><a href="" title="">大牌</a><span></span></li>
+                    <li class="tab-item"><a href="" title="">大牌</a><span></span></li>
+                    <li class="tab-item"><a href="" title="">奢品</a><span></span></li>
+                    <li class="tab-item"><a href="" title="">奢品</a><span></span></li>
+                    <li class="tab-item"><a href="" title="">奢礼</a><span></span></li>
+                    <li class="tab-item"><a href="" title="">礼品</a><span></span></li>
+                    <li class="tab-item"><a href="" title="">大牌</a><span></span></li>
+                </ul>
+            </div>
+            <div class="floorCon floor3 clearfix">
+                <div class="floor_1 fl">
+                    <div class="leftAd">
+                        <a href="" class="img">
+                            <img src="<html:templatePath>/uploadfile/detailimg1.jpg" alt="" /></a>
+                        <div class="list">
+                            <ul class="clearfix">
+                              <!--  <li class="t1"><a href="" title=""><s style="background-image: url(<html:templatePath>/images/clothesiconimg1.png);">
+                                </s>男装装男</a></li>
+                                <li class="t2"><a href="" title=""><s style="background-image: url(<html:templatePath>/images/clothesiconimg1.png);">
+                                </s>男装</a></li>-->
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="floorConList">
+                    <div class="floor_2 fl">
+                        <div class="floor_2_t clearfix">
+                            <div class="indexImglist fl">
+                                <ul class="list">
+                                    <li><a href="" title="">
+                                        <img src="<html:templatePath>/uploadfile/detailimg1.jpg" alt="" title="" /></a></li>
+                                    <li><a href="" title="">
+                                        <img src="<html:templatePath>/uploadfile/detailimg1.jpg" alt="" title="" /></a></li>
+                                    <li><a href="" title="">
+                                        <img src="<html:templatePath>/uploadfile/detailimg1.jpg" alt="" title="" /></a></li>
+                                </ul>
+                                <div class="tip">
+                                </div>
+                            </div>
+                            <div class="xlist fl">
+                                <a class="x1" href="" title="">
+                                    <img class="imghOpacity" src="<html:templatePath>/uploadfile/floor_1_3img2.jpg" alt=""
+                                        title="" /></a> <a class="x2" href="" title="">
+                                            <img class="imghOpacity" src="<html:templatePath>/uploadfile/floor_1_3img2.jpg" alt=""
+                                                title="" /></a> <a class="x3" href="" title="">
+                                                    <img class="imghOpacity" src="<html:templatePath>/uploadfile/floor_1_3img2.jpg" alt=""
+                                                        title="" /></a> <a class="x4" href="" title="">
+                                                            <img class="imghOpacity" src="<html:templatePath>/uploadfile/floor_1_3img2.jpg" alt=""
+                                                                title="" /></a>
+                            </div>
+                        </div>
+                        <div class="floor_2_b indexProlist clearfix">
+                            <div class="item a1">
+                                <a href="" title="" target="_blank">
+                                    <h3>
+                                        306度完美哈</h3>
+                                    <h4 class="red">
+                                        开发销售快来</h4>
+                                    <div class="img">
+                                        <img src="<html:templatePath>/uploadfile/proimg2.jpg" alt="" title="" /></div>
+                                </a>
+                            </div>
+                            <div class="item a2">
+                                <a href="" title="" target="_blank">
+                                    <h3>
+                                        306度完美哈</h3>
+                                    <h4 class="red">
+                                        开发销售快来</h4>
+                                    <img src="<html:templatePath>/uploadfile/proimg2.jpg" alt="" title="" />
+                                </a>
+                            </div>
+                            <div class="item a3">
+                                <a href="" title="" target="_blank">
+                                    <h3>
+                                        306度完美哈</h3>
+                                    <h4 class="red">
+                                        开发销售快来</h4>
+                                    <img src="<html:templatePath>/uploadfile/proimg2.jpg" alt="" title="" />
+                                </a>
+                            </div>
+                            <div class="item a4">
+                                <a href="" title="" target="_blank">
+                                    <h3>
+                                        306度完美哈</h3>
+                                    <h4 class="red">
+                                        开发销售快来</h4>
+                                    <img src="<html:templatePath>/uploadfile/proimg2.jpg" alt="" title="" />
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="floorConList hidden">
+                    <div class="indexAddImgList clearfix">
+                        <div class="item">
+                            <a href="" title="" target="_blank">
+                                <div class="img">
+                                    <img src="<html:templatePath>/uploadfile/proimg2.jpg" alt="" title="" /></div>
+                                <h3>
+                                    306度完美06度06度哈完完哈哈哈哈完哈哈哈</h3>
+                                <span class="price">￥245.00</span> </a>
+                        </div>
+                        <div class="item">
+                            <a href="" title="" target="_blank">
+                                <div class="img">
+                                    <img src="<html:templatePath>/uploadfile/proimg2.jpg" alt="" title="" /></div>
+                                <h3>
+                                    306度完美06度06度哈完完哈哈哈哈完哈哈哈</h3>
+                                <span class="price orange">￥245.00</span> </a>
+                        </div>
+                        <div class="item">
+                            <a href="" title="" target="_blank">
+                                <div class="img">
+                                    <img src="<html:templatePath>/uploadfile/proimg2.jpg" alt="" title="" /></div>
+                                <h3>
+                                    306度完美06度06度哈完完哈哈哈哈完哈哈哈</h3>
+                                <span class="price">￥245.00</span> </a>
+                        </div>
+                        <div class="item">
+                            <a href="" title="" target="_blank">
+                                <div class="img">
+                                    <img src="<html:templatePath>/uploadfile/proimg2.jpg" alt="" title="" /></div>
+                                <h3>
+                                    306度完美06度06度哈完完哈哈哈哈完哈哈哈</h3>
+                                <span class="price orange">￥245.00</span> </a>
+                        </div>
+                        <div class="item">
+                            <a href="" title="" target="_blank">
+                                <div class="img">
+                                    <img src="<html:templatePath>/uploadfile/proimg2.jpg" alt="" title="" /></div>
+                                <h3>
+                                    306度完美06度06度哈完完哈哈哈哈完哈哈哈</h3>
+                                <span class="price">￥245.00</span> </a>
+                        </div>
+                        <div class="item">
+                            <a href="" title="" target="_blank">
+                                <div class="img">
+                                    <img src="<html:templatePath>/uploadfile/proimg2.jpg" alt="" title="" /></div>
+                                <h3>
+                                    306度完美06度06度哈完完哈哈哈哈完哈哈哈</h3>
+                                <span class="price orange">￥245.00</span> </a>
+                        </div>
+                        <div class="item">
+                            <a href="" title="" target="_blank">
+                                <div class="img">
+                                    <img src="<html:templatePath>/uploadfile/proimg2.jpg" alt="" title="" /></div>
+                                <h3>
+                                    306度完美06度06度哈完完哈哈哈哈完哈哈哈</h3>
+                                <span class="price">￥245.00</span> </a>
+                        </div>
+                        <div class="item">
+                            <a href="" title="" target="_blank">
+                                <div class="img">
+                                    <img src="<html:templatePath>/uploadfile/proimg2.jpg" alt="" title="" /></div>
+                                <h3>
+                                    306度完美06度06度哈完完哈哈哈哈完哈哈哈</h3>
+                                <span class="price orange">￥245.00</span> </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="indexCoop">
+                <ul class="clearfix">
+                    <li><a href="" title="">
+                        <img src="<html:templatePath>/uploadfile/indexcoopimg1.jpg" alt="" title="" /></a></li>
+                    <li><a href="" title="">
+                        <img src="<html:templatePath>/uploadfile/indexcoopimg1.jpg" alt="" title="" /></a></li>
+                    <li><a href="" title="">
+                        <img src="<html:templatePath>/uploadfile/indexcoopimg1.jpg" alt="" title="" /></a></li>
+                    <li><a href="" title="">
+                        <img src="<html:templatePath>/uploadfile/indexcoopimg1.jpg" alt="" title="" /></a></li>
+                    <li><a href="" title="">
+                        <img src="<html:templatePath>/uploadfile/indexcoopimg1.jpg" alt="" title="" /></a></li>
+                    <li><a href="" title="">
+                        <img src="<html:templatePath>/uploadfile/indexcoopimg1.jpg" alt="" title="" /></a></li>
+                    <li><a href="" title="">
+                        <img src="<html:templatePath>/uploadfile/indexcoopimg1.jpg" alt="" title="" /></a></li>
+                    <li><a href="" title="">
+                        <img src="<html:templatePath>/uploadfile/indexcoopimg1.jpg" alt="" title="" /></a></li>
+                    <li><a href="" title="">
+                        <img src="<html:templatePath>/uploadfile/indexcoopimg1.jpg" alt="" title="" /></a></li>
+                    <li><a href="" title="">
+                        <img src="<html:templatePath>/uploadfile/indexcoopimg1.jpg" alt="" title="" /></a></li>
+                </ul>
+            </div>
+        </div>
+        <!---------修改此部分结束------------------->
+        <%i++; %>
+        </html:foreach>
+        <!--5F-->
+        <!--广告位-->
+        <div class="indexXbanner" class="w1210">
+            <img src="<html:templatePath>/images/floor_4_mainimg.jpg" />
+        </div>
+    </div>
+    <!-- footer start -->
+    <div id="footer_main">
+        <ul id="footer_1_main" class="slogen w1210 clearfix">
+            <li class="a1"><strong>品质保证</strong>品质护航 购物无忧</li>
+            <li class="a2"><strong>七天无理由退换货</strong>为您提供售后无忧保障</li>
+            <li class="a3"><strong>特色服务体验</strong>为您呈现不一样的服务</li>
+            <li class="a4"><strong>帮助中心</strong>您的购物指南</li>
+        </ul>
+        <div id="footer_2_main" class="w1210 clearfix">
+            <div class="footer_2_1 fl">
+                <div class="item">
+                    <h3>
+                        购物指南</h3>
+                    <ul>
+                        <li><a href="" title="">帐户自助服务</a></li>
+                        <li><a href="" title="">新用户注册</a></li>
+                        <li><a href="" title="">怎样下订单</a></li>
+                        <li><a href="" title="">怎样下订单</a></li>
+                    </ul>
+                </div>
+                <div class="item">
+                    <h3>
+                        支付方式</h3>
+                    <ul>
+                        <li><a href="" title="">支付方式</a></li>
+                        <li><a href="" title="">在线支付介绍</a></li>
+                    </ul>
+                </div>
+                <div class="item">
+                    <h3>
+                        配送说明</h3>
+                    <ul>
+                        <li><a href="" title="">运费说明</a></li>
+                        <li><a href="" title="">配送方式</a></li>
+                        <li><a href="" title="">配送范围</a></li>
+                    </ul>
+                </div>
+                <div class="item">
+                    <h3>
+                        购物指南</h3>
+                    <ul>
+                        <li><a href="" title="">帐户自助服务</a></li>
+                        <li><a href="" title="">新用户注册</a></li>
+                        <li><a href="" title="">怎样下订单</a></li>
+                        <li><a href="" title="">怎样下订单</a></li>
+                    </ul>
+                </div>
+                <div class="item">
+                    <h3>
+                        购物指南</h3>
+                    <ul>
+                        <li><a href="" title="">帐户自助服务</a></li>
+                        <li><a href="" title="">新用户注册</a></li>
+                        <li><a href="" title="">怎样下订单</a></li>
+                        <li><a href="" title="">怎样下订单</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer_2_2 fr">
+                <div class="qrcode">
+                    <img src="<html:templatePath>/uploadfile/qrcode.jpg" alt="扫描二维码进入手机端" title="扫描二维码进入手机端" /></div>
+            </div>
+        </div>
+        <div id="footer_3_main">
+            <div id="footer_3" class="w1210">
+                <div class="bottomNav">
+                    <a href="" title="">网站首页</a><span>|</span> <a href="" title="">关于安华</a><span>|</span>
+                    <a href="" title="">安华公益</a><span>|</span> <a href="" title="">安华照护</a><span>|</span>
+                    <a href="" title="">安华资讯</a><span>|</span> <a href="" title="">会员中心</a>
+                </div>
+                <div class="copyright">
+                    Copyright © 2015-2016 安华银发 版权所有 湘B2-00000000
+                </div>
+                <ul class="list">
+                    <li><a href="" title="" target="_blank">
+                        <img src="<html:templatePath>/uploadfile/footercximg.png" alt="" /></a></li>
+                    <li><a href="" title="" target="_blank">
+                        <img src="<html:templatePath>/uploadfile/footercximg.png" alt="" /></a></li>
+                    <li><a href="" title="" target="_blank">
+                        <img src="<html:templatePath>/uploadfile/footercximg.png" alt="" /></a></li>
+                    <li><a href="" title="" target="_blank">
+                        <img src="<html:templatePath>/uploadfile/footercximg.png" alt="" /></a></li>
+                    <li><a href="" title="" target="_blank">
+                        <img src="<html:templatePath>/uploadfile/footercximg.png" alt="" /></a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div id="elevator" class="elevator">
+        <ul class="fixul">
+            <%int louceng=1;%>
+            <html:foreach expression="var item in ProductClassList.Where(k => k.ParentId == 0).Take(9)">
+            <li><a href="javascript:;" title="" class=""><$louceng$>F</a> <span><$item.Name$></span> </li>
+            <%louceng++; %>
+            </html:foreach>
+        </ul>
+    </div>
+    <div class="toolbar_wrap" id="toolbar">
+        <div class="toolbar">
+            <div class="toolbar_tabs">
+                <div class="toolbar_tab tab_cart" onclick="javascript:window.location.href='/Cart.aspx'">
+                    <i class="tab_ico"></i><em class="tab_text">购物车 </em><span class="tab_sub J-count hidden">
+                        0</span>
+                </div>
+                <div class="toolbar_tab tab_follow" onclick="javascript:window.location.href='/Cart.aspx'">
+                    <i class="tab_ico"></i><em class="tab_text">会员中心 </em>
+                </div>
+                <div class="toolbar_tab tab_history" onclick="javascript:window.location.href='/Cart.aspx'">
+                    <i class="tab_ico"></i><em class="tab_text">我的订单 </em>
+                </div>
+                <div class="toolbar_tab tab_kf">
+                    <a target="_blank" href=""><i class="tab_ico"></i><em class="tab_text">在线客服</em>
+                    </a>
+                </div>
+            </div>
+            <div class="toolbar_footer">
+                <div class="toolbar_tab tab_top">
+                    <i class="tab_ico"></i><em class="tab_text">顶部 </em>
+                </div>
+                <div class="toolbar_tab tab_feedback hidden">
+                    <i class="tab_ico"></i><em class="tab_text">反馈 </em>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript" src="<html:templatePath>js/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="<html:templatePath>js/app.js"></script>
+</body>
+</html>

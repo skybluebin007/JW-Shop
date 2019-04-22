@@ -1,0 +1,223 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <html:include file="/_Head.htm" />
+    <script language="javascript" type="text/javascript" src="/Admin/Js/Calendar.js" ></script>
+    <script language="javascript" type="text/javascript" src="/Admin/Js/UnlimitClass.js" ></script>
+    </head>
+<body>
+<html:include file="/_UTop.htm" />
+    <div id="myOrder">
+        <div class="w1210 clearfix">
+           
+	<html:include file="/User/UserLeft.htm" />
+    <div id="right" class="content fr">
+    	<html:include file="/User/UserTop.htm" />
+        <div class="orderList">
+        	<div class="tab">
+            	<a href="javascript:;" class="item cur">收货地址</a>
+            	<div class="clear"></div>
+            </div>
+            <div class="container addressMain">
+              
+
+  <html:if expression="userAddressList.Count<20">             
+<a class="add_btn" href="/User/UserAddress.html#add">新增收货地址</a>
+</html:if> 
+<p style="color: #999; display: inline-block; *display: inline; zoom: 1;">您已创建<span style="color: #71b247;"><%=userAddressList.Count%></span>个收货地址，最多可创建<span style="color: #71b247;">20</span>个</p>
+            <div id="addressList">
+                 <html:foreach expression="UserAddressInfo tempUserAddress in userAddressList">
+                <div class="item">
+                   <p><$tempUserAddress.Consignee$><%if(tempUserAddress.IsDefault>0){%><span class="ftx-04 ml10">默认地址</span><%}%></p>
+                    <span>收货人：</span><$tempUserAddress.Consignee$>
+                    <br />
+                    <span>所在地区：</span><$RegionBLL.RegionNameList(tempUserAddress.RegionId)$>
+                    <br />
+                     <span>详细地址：</span><$tempUserAddress.Address$>
+                    <br />
+                      <span>手机号码：</span><$tempUserAddress.Mobile$>
+                    <br />
+                    <span>固定电话：</span><$tempUserAddress.Tel$>
+                    <br />
+                     <span>邮编：</span><$tempUserAddress.ZipCode$>
+                    <br />
+                  <div class="itemcz fr"><%if(tempUserAddress.IsDefault<=0){%><a href="javascript:" onclick="SetDefault(<$tempUserAddress.Id$>)">设为默认</a><%}%>
+                      <a href="UserAddress.html?Action=Update&ID=<$tempUserAddress.Id$>#add">编辑</a>
+                    <a class="adressdelet" href="?Action=Delete&ID=<$tempUserAddress.Id$>" onclick="return deleteRecord(this);">删除</a></div>
+                </div>
+                 </html:foreach>
+</div>
+                <html:if expression="userAddressList.Count<20 || RequestHelper.GetQueryString<string>("Action")=="Update"">
+                <div class="conIndex createAddr">
+                <form action="/User/UserAddress.html" method="post" name="form">
+                    <input type="hidden" class="input"  name="ID" value="<$userAddress.Id$>"/>
+                    <table cellpadding="0" cellspacing="0" border="0" width="100%" class="tableThemes_6" id="createAddr">
+                        <thead><tr><td class="addarea" colspan="2"><%if(RequestHelper.GetQueryString<string>("Action")=="Update"){%>修改收货地址<%}else{%>新增收货地址<%}%></td></tr>
+                            <a name="add"></a>
+                        </thead>
+                        <tr valign="bottom">
+                            <td align="right" width="100" height="40">默认地址：</td>
+                            <td align="left" width="">
+                            	<input type="radio" name="IsDefault" value="0" <html:if expression="userAddress.IsDefault==0">checked="checked"</html:if> /><label style="margin-right: 10px;">否</label><input type="radio" name="IsDefault" value="1" <html:if expression="userAddress.IsDefault==1">checked="checked"</html:if>/><label>是</label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right" height="40">收货人：</td>
+                            <td align="left"><input type="text" name="Consignee" id="Consignee" value="<$userAddress.Consignee$>" maxlength="10" class="txt_300 addrName" /> <b class="red">*</b><span class="tipalet">不能为空</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right" height="40">手机号码：</td>
+                            <td align="left">
+                                <input type="text" name="Mobile" id="Mobile" value="<$userAddress.Mobile$>" maxlength="11" class="txt_300 addrPhone" />
+                                <b class="red">*</b><span class="tipalet"></span></td>
+                        </tr>
+                        <tr>
+                            <td align="right" height="40">固定电话：</td>
+                            <td align="left">
+                                <input type="text" name="Tel" id="Tel" value="<$userAddress.Tel$>" maxlength="20" class="txt_300 addrTel" /></td>
+                        </tr>
+                        <tr>
+                            <td align="right" height="40">邮编：</td>
+                            <td align="left"><input type="text" name="ZipCode" id="ZipCode" value="<$userAddress.ZipCode$>" maxlength="6" class="txt_300 addrZip" /></td>
+                        </tr>
+
+
+                        <tr>
+                            <td align="right" height="40">所在地区：</td>
+                            <td align="left">
+                            	<div class="worldCity" id="worldCity">
+                                    <$singleUnlimitClass.ShowContent()$><b class="red">*</b><span class="tipalet"></span>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right" height="40">详细地址：</td>
+                            <td align="left"><input type="text" name="Address" id="Address" value="<$userAddress.Address$>" class="txt_300 smsTitle" /><b class="red">*</b><span class="tipalet"></span></td>
+                        </tr>
+                        <tr valign="middle">
+                            <td align="right" height="40"></td>
+                            <td align="left"><input type="submit" value="确定" name="" class="submit" /><input type="hidden" name="Action" value="PostBack" /></td>
+                        </tr>
+                    </table>
+                </form>
+                </div>
+                </html:if>
+                <div class="clear"></div>
+            </div>
+        </div>
+    </div>
+    <div class="clear"></div>
+    </div>
+</div>
+<html:include file="/_Foot.htm" />
+<div class="hidden" title="codes"></div>
+            <script type="text/javascript">
+                $(".submit").click(function () {
+                    if ($("#Consignee").val() == "") {
+                        alertMessage("请填写收货人", 500);
+                        $("#Consignee").focus();
+                        return false;
+                    }
+                    if ($("#Mobile").val() == "") {
+                        alertMessage("请填写手机号码", 500);
+                        $("#Mobile").focus();
+                        return false;
+                    }
+                    if (!Validate.isMobile($("#Mobile").val())) {
+                        alertMessage("手机号码错误", 500);
+                        $("#Mobile").focus();
+                        return false;
+                    }
+                    if ($("#Tel").val() != "" && !Validate.isTel($("#Tel").val())) {
+                        alertMessage("固定电话错误", 500);
+                        $("#Tel").focus();
+                        return false;
+                    }
+                    if ($("#ZipCode").val() != "" && !Validate.isNumber($("#ZipCode").val())) {
+                        alertMessage("邮编错误", 500);
+                        $("#ZipCode").focus();
+                        return false;
+                    }                   
+                    
+                    if ($("#UnlimitClass3").length <= 0) {
+                        alertMessage("请选择完整的地区信息", 500);
+                        return false;
+                    }
+                    else
+                    {
+                        if ($("#UnlimitClass3").find("option:selected").val() == "0") {
+                            $("#UnlimitClass3").focus();
+                            alertMessage("请选择完整的地区信息", 500);
+                            return false;
+                        }
+
+                    }
+                    if ($("#Address").val() == "") {
+                        alertMessage("请填写详细地址", 500);
+                        $("#Address").focus();
+                        return false;
+                    }
+
+                })
+                
+                // 设为默认
+                function SetDefault(addressId) {
+                    console.log(addressId);
+                    if (addressId <= 0) {
+                        alertMessage("无效的收货地址", 500);
+                        return false;
+                    }
+                    $.ajax({
+                        url: '/User/UserAddress.html?Action=SetDefaultAddress&addressId='+addressId,
+                        type: 'GET',
+                        //data: $("form").serialize(),
+                        dataType: "JSON",
+                        success: function (result) {
+                          
+                            if (result.flag == "ok") {
+                                alertMessage("设置成功", 500);
+                                //window.location.reload();
+                                ReadAddresssList();
+                            }
+                            else {
+                                alertMessage(arr[1], 500);
+                            }
+                        }
+                    });
+                }
+                //读取地址列表
+                function ReadAddresssList() {
+                    $.ajax({
+                        url: '/User/UserAddress.html?Action=ReadAddressList',
+                        type: 'GET',
+                        //data: $("form").serialize(),
+                        dataType: "JSON",
+                        success: function (result) {
+                       
+                            if (result.flag == "ok") {
+                                var htmlString = "";
+                                for (var i in result.dataList) {
+                                    var item = result.dataList[i];
+                                    var defaultaddress = "";
+                                    var setdefault = "";
+                                    if (item.IsDefault > 0) defaultaddress = "<span class='ftx-04 ml10'>默认地址</span>";
+                                    else setdefault = "<a href='javascript:' onclick='SetDefault(" + item.Id + ")'>设为默认</a>";
+
+                                    htmlString += "<div class='item'><p>" + item.Consignee +defaultaddress + "</p><span>收货人：</span>" + item.Consignee + "<br /><span>所在地区：</span>" + item.RegionId + "<br /><span>详细地址：</span>" + item.Address + "<br /><span>手机号码：</span>" + item.Mobile + "<br /><span>固定电话：</span>" + item.Tel + "<br /><span>邮编：</span>" + item.ZipCode + "<br /><div class='itemcz fr'>" + setdefault + "<a href='UserAddress.html?Action=Update&ID=" + item.Id + "#add'>编辑</a><a class='adressdelet' href='?Action=Delete&ID=" + item.Id + " onclick='return deleteRecord(this);'>删除</a></div></div>";
+                                }
+                              
+                                $("#addressList").html(htmlString);
+                            }
+                            else {
+                                alertMessage(result.msg, 500);
+                            }
+                        }
+                    });
+                }
+                //隐藏区域“中国”选项
+                if ($("#UnlimitClass1").length > 0) { $("#UnlimitClass1").hide(); }
+</script>
+</body>
+</html>

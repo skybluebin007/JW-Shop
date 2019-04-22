@@ -1,0 +1,70 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<html:include file="/Mobile/Head.htm" />
+</head>
+<body>
+<header class="header-min" id="header">
+	<a class="back" href="javascript:;" ig-back>返回</a>
+	<h2>账号登录</h2>
+</header>
+<section class="logreg">
+	<form action="/Mobile/User/Login.html?RedirectUrl=<$redirectUrl$>" method="post" id="loginForm"  name="loginForm">
+    	<div class="logreg-wram" id="logregWram"></div>
+    	<div class="row">
+        	<input type="text" class="txt"  name="UserName" id="UserName" value="" placeholder="用户名" maxlength="20" null="请输入用户名" />
+        </div>
+        <div class="row">
+        	<input type="password" class="txt" name="UserPassword" id="UserPassword" value="" placeholder="密码" maxlength="<$ShopConfig.ReadConfigInfo().PasswordMaxLength$>" null="请输入密码" />
+            <label class="btn-password btn-on"></label>
+        </div>
+        <div class="row" style="display:none;">
+        	<input type="text" class="txt"  name="SafeCode" id="SafeCode" value="" placeholder="验证码" maxlength="10" null="请输入验证码" />
+            <label class="btn-code"><img src="CheckCode.ashx" onclick="this.src='CheckCode.ashx?t=' + new Date();" style="cursor:pointer" alt="点击刷新验证码" align="absmiddle" /></label>
+        </div>
+        <div class="row">
+        	<input type="button" class="submit" value="登录" onclick="return checkLogin(); "><input type="hidden" name="Action" value="PostBack" />
+        </div>
+        <div class="row clearfix">
+        	<a href="/Mobile/User/Register.html" class="register">快速注册</a>
+            <a href="/Mobile/User/FindPasswordInit.html" class="findpasswod">找回密码</a>
+        </div>
+    </form>
+         <html:if expression="LoginPlugins.ReadEnabledLoginPluginsList().Count>0">
+            <div class="row qtdl"><span>使用以下方式登录</span>
+           
+            <p>
+                 <html:foreach expression="LoginPluginsInfo loginPlugins in LoginPlugins.ReadEnabledLoginPluginsList()">
+                <a <%if(loginPlugins.Key=="Weixin"){%>href="/Plugins/Login/<%=loginPlugins.Key%>/MobileLogin.aspx"<%}else{%>href="/Plugins/Login/<%=loginPlugins.Key%>/Login.aspx"<%}%> class="btn-info" title="<$loginPlugins.Name$>"><i class="ace_icon fa-<$loginPlugins.EName$>"></i></a>              
+            </html:foreach>
+                 </p>
+        </div>
+       </html:if>
+</section>
+
+    <html:include file="/Mobile/FootScript.htm" />
+    <script>
+        function checkLogin() {
+            if (o("UserName").value == "") {
+                app.jMsg("用户名不能为空");
+                o("UserName").focus();
+                return false;
+            }
+            if (o("UserPassword").value == "") {
+                app.jMsg("密码不能为空");
+                o("UserPassword").focus();
+                return false;
+            }
+            //if (o("SafeCode").value == "") {
+            //    alertMessage("验证码不能为空");
+            //    return false;
+            //}
+
+            this.loginForm.submit();
+        }
+    </script>
+    <html:if expression="result!=string.Empty">
+            <script>            app.jMsg("<$result$>");</script>
+            </html:if>
+</body>
+</html>

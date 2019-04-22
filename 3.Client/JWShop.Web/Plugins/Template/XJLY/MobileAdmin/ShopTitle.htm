@@ -1,0 +1,47 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <html:include file="/MobileAdmin/_Head.htm" />
+</head>
+<body>
+	<header class="header" id="header">
+        <a class="goBack icon" href="/mobileadmin/shopinfo.html" ig-back=""></a>
+        <h2>修改标题</h2>
+   </header>
+    <div class="hourbox">
+        <input type="text" id="title" name="title" value="<%=ShopConfig.ReadConfigInfo().Title%>" maxlength="40" class="hour"/>
+        <input type="button" id="btnsave" value="保存" class="btnsave"/>
+    </div>
+    <script type="text/javascript" src="<html:templatePath>/mobileadmin/js/app.js"></script>
+    <script>
+        $("#btnsave").bind('click', function () {
+            var shoptitle = $("#title").val();
+            if (shoptitle == undefined || shoptitle == null || shoptitle == '') {
+                Msg("请输入标题");
+                $("#title").focus();
+                return false;
+            }
+            $.ajax({
+                url: '/mobileadmin/ajax.html',
+                type: 'Post',
+                data: { action: 'shopconfig', shoptitle: shoptitle, param: 'title' },
+                dataType: 'Json',
+                cache: false,
+                async: false,
+                success: function (res) {
+                    if (res.ok) {
+                        Msg("保存成功");
+                      setTimeout(window.location.href = '/mobileadmin/shopinfo.html',5000);
+                    }
+                    else {
+                        Msg(res.msg);
+                    }
+                },
+                error: function (res) {
+                    Msg("系统忙，请稍后重试");
+                }
+            })
+        })
+    </script>
+</body>
+</html>

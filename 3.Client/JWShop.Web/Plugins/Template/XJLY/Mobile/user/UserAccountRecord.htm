@@ -1,0 +1,26 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<html:include file="/Mobile/Head.htm" />
+</head>
+<body>
+<header class="header-min clearfix" id="header">
+    <div class="back" ig-back></div>
+    <h2>我的积分 (<span style="color: red;"><%=CurrentUser.PointLeft%></span>)</h2>
+    
+            
+   <br />
+    <html:include file="/Mobile/TopLink.htm" />
+</header>
+<section class="wrapper user" id="wrapper">    
+    <div id="UserAccountRecordAjax">
+
+    </div>      
+    
+</section>
+
+    <html:include file="/Mobile/Foot.htm" />
+    <html:include file="/Mobile/FootScript.htm" />
+    <script language="javascript" type="text/javascript" src="<html:templatePath>/Mobile/Js/UserAccountRecord.js"></script>
+</body>
+</html>

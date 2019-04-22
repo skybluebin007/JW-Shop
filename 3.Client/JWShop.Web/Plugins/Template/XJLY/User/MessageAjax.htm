@@ -1,0 +1,115 @@
+﻿<html:namespace name="JWShop.Entity" />
+<html:namespace name="JWShop.Business" />
+<html:namespace name="JWShop.Common" />
+<html:namespace name="SkyCES.EntLib" />
+<html:switch name="action">
+    <html:case value=""ReceiveMessage"">
+
+        <div class="conIndex">
+                <table cellpadding="0" cellspacing="0" border="0" width="100%" class="tableThemes_2">
+                	<thead>
+                    	<tr>
+                            <td align="center" width="60" height="35"><input type="checkbox" class="allCheckBox" /></td>
+                            <td align="center" width="60">内容</td>
+                            <td align="center" width="200">主题</td>
+                            <td align="center" width="80">发件人</td>
+                            <td align="center" width="80">日期</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <html:foreach expression="ReceiveMessageInfo receiveMessage in receiveMessageList">
+                        <tr class="even">
+                            <td align="center" height="35"><input type="checkbox" name="SelectID" value="<$receiveMessage.ID+"|"+receiveMessage.IsRead $>" class="checkBox"/></td>
+                            <td align="center" height="35"><html:if expression="receiveMessage.IsRead==1">已读<html:else>未读</html:if></td>
+                            <td align="left" class="link"><span><a href="/User/ReadMessage.html?ID=<$receiveMessage.ID$>" target="_blank"><$receiveMessage.Title $></a></span></td>
+                            
+                            <td align="center"><html:if expression="receiveMessage.IsAdmin==1">系统消息<html:else><$receiveMessage.UserName $></html:if></td>
+                            <td align="center"><$receiveMessage.Date.ToString("yyyy-MM-dd") $></td>
+                        </tr>
+                        </html:foreach>     
+                        
+                    </tbody>
+                </table>
+                <div class="smsOpr">
+                	<p><a href="javascript:selectMessage('All');" class="check allCheck">全部</a> - <a href="javascript:selectMessage('None');" class="check nullCheck">不选</a></p>
+                    <p><a href="javascript:;" class="delBtn" onclick="deleteMessage('Receive')">删除</a></p>
+                </div>
+            <$ajaxPagerClass.ShowPage()$>
+            <div class="clear"></div>
+                </div>
+
+        <html:break>
+    
+    <html:case value=""SendMessage"">
+
+        <div class="conIndex">
+                <table cellpadding="0" cellspacing="0" border="0" width="100%" class="tableThemes_2">
+                	<thead>
+                    	<tr>
+                            <td align="center" width="60" height="35"><input type="checkbox" class="allCheckBox" onclick="selectMessage('All');" /></td>
+                            <td align="center" width="200">主题</td>
+                            <td align="center" width="80">收件人</td>
+                            <td align="center" width="80">日期</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <html:foreach expression="SendMessageInfo sendMessage in sendMessageList">
+                        <tr class="even">
+                            <td align="center" height="35"><input type="checkbox" name="SelectID" value="<$sendMessage.ID $>" class="checkBox"/></td>
+                            <td align="left" class="link"><span><a  href="MessageDetail.html?ID=<$sendMessage.ID$>" target="_blank"><$sendMessage.Title $></a></span></td>
+                            <td align="center"><$sendMessage.ToUserName $></td>
+                            <td align="center"><$sendMessage.Date.ToString("yyyy-MM-dd") $></td>
+                        </tr>
+                        </html:foreach>
+                    </tbody>
+                </table>
+                <div class="smsOpr">
+                	<p><a href="javascript:selectMessage('All');" class="check allCheck">全部</a> - <a href="javascript:selectMessage('None');" class="check nullCheck">不选</a></p>
+                    <p><a href="javascript:;" class="delBtn" onclick="deleteMessage('Send')">删除</a></p>
+                </div>
+            <$ajaxPagerClass.ShowPage()$>
+            <div class="clear"></div>
+                </div>
+
+
+        <html:break>
+    
+    <html:case value=""WriteMessage"">
+
+        <div class="conIndex createNewInf">
+                
+                    <table cellpadding="0" cellspacing="0" border="0" width="100%" class="tableThemes_6" id="sendSms">
+                        <tr valign="bottom">
+                            <td align="center" width="80" height="60">收件人：</td>
+                            <td align="left" width=""><input type="hidden" value="" id="UserIDList" /><input  id="UserNameList" type="hidden"><input class="txt_300 smsName" style="display:block; float:left;" id="UserNameShow" readonly="readonly" /> <b class="red">*</b></td>
+                        </tr>
+                        <tr>
+                            <td align="center" height="60">主题：</td>
+                            <td align="left"><input type="text" value="" name="" id="Title" class="txt_300 smsTitle" /> <b class="red">*</b></td>
+                        </tr>
+                        <tr>
+                            <td align="center" height="60">内容：</td>
+                            <td align="left"><textarea type="text" value=""  name="Content" id="Content" class="text_300 smsInfo" ></textarea></td>
+                        </tr>
+                        <tr valign="middle">
+                            <td align="center" height="60"></td>
+                            <td align="left"><input type="button" value="确定" name="" class="submit" onclick="sendMessage()" /></td>
+                        </tr>
+                    </table>
+                
+                <div class="findFre" id="findFre">
+                	<div class="s"><input type="text" id="FriendName" value="" name="" class="txt" maxlength="10" /><input type="submit" class="sub" value="" onclick="searchFriends()" /></div>
+                    <ul class="ls" id="UserList">
+                        <html:foreach expression="UserFriendInfo userFriend in userFriendList">
+                            <li>
+            <a href="javascript:addUser(<$userFriend.FriendID$>,'<$userFriend.FriendName$>')" id="User<$userFriend.FriendID$>"><$userFriend.FriendName$></a>    
+                                </li>        
+            </html:foreach>
+                    </ul>
+                </div>
+                </div>
+                <div class="clear"></div>
+
+        <html:break>    
+    <html:default><html:break>  
+</html:swith>

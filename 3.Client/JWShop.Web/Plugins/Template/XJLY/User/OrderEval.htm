@@ -1,0 +1,140 @@
+﻿
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <html:include file="/_Head.htm" />
+</head>
+<body>
+    <html:include file="/_UTop.htm" />
+    <!--header start-->
+    <!--nav start-->
+    <!--main content start-->
+    <div id="myOrder">
+        <div class="w1210 clearfix">
+            <html:include file="/User/UserLeft.htm" />
+        <div id="right" class="content fr">
+            <div class="orderList">
+                <div class="tab">
+                    <a href="javascript:;" class="item cur" style="margin-top: 0px;">商品评价</a>
+                    <div class="clear">
+                    </div>
+                </div>
+
+                <div class="container">
+                    <div class="orderTid clearfix">
+                        <ul class="fl">
+                            <li class="fl">订单号：<span class="green"><$order.OrderNumber$></span></li>
+                            <li class="fl" style="margin-left:10px;">订单状态：<span class="red"><$OrderBLL.ReadOrderStatus(order.OrderStatus,order.IsDelete)$></span></li>
+                        </ul>
+                        <div class="button fr">
+                            <a href="/User/OrderDetail.aspx?ID=<$order.Id$>" class="green">查看订单</a>
+                        </div>
+                    </div>
+                    <div class="orderEval">
+                        <div class="tid">
+                            <h2>
+                                对商品进行评价</h2>
+                        </div>
+                        <dl class="tod" id="PLList">
+                            <%foreach(ProductInfo pinfo in productList) {%>
+                            <dd pid="<%=pinfo.Id %>">
+                                <div class="g">
+                                    <a href="/ProductDetail-I<%=pinfo.Id %>.html" target="_blank" title="<%=pinfo.Name %>">
+                                        <img src="<%=pinfo.Photo.Replace("Original","150-150")%>" alt="<%=pinfo.Name %>" /></a>
+                                    <h3 style="text-align: center;">
+                                        <a href="/ProductDetail-I<%=pinfo.Id %>.aspx" target="_blank" title="<%=pinfo.Name %>">
+                                            <%=pinfo.Name %></a></h3>
+                                    <!--<span>¥ <b>1999.00</b></span>-->
+                                </div>
+                    <html:csharp>ProductCommentSearchInfo pcSearch = new ProductCommentSearchInfo();</html:csharp>
+                    <html:csharp>pcSearch.UserId = base.UserId;</html:csharp>
+                    <html:csharp>pcSearch.ProductId = pinfo.Id;</html:csharp> 
+                    <html:csharp>pcSearch.OrderID = order.Id;</html:csharp>
+                    <html:csharp>int havePost = ProductCommentBLL.SearchProductCommentList(pcSearch).Count;</html:csharp>
+                    <html:if expression="havePost>0">
+                     <ul class="w">
+                     <div style="text-align: center; padding-top: 86px;">
+                    已评论，查看<a href="/User/UserProductComment.html"  style="color: rgb(69, 146, 214); font-size: 16px;"><strong>我的评论</strong></a> </div>
+                    </ul>                   
+                    <html:else> 
+                                <%if(pinfo.AllowComment==1){%>
+                                <ul class="w" style="height: 270px;">
+                                    <li class="ls">
+                                        <div class="tit">
+                                            商品星级：</div>
+                                        <div class="cot">
+                                            <div class="starEt">
+                                                <span class="lv1" title="一星级">一星级</span> <span class="lv2" title="二星级">二星级</span>
+                                                <span class="lv3" title="三星级">三星级</span> <span class="lv4" title="四星级">四星级</span>
+                                                <span class="lv5 cur" title="五星级">五星级</span>
+                                                <input type="hidden" name="hdstar_<%=pinfo.Id %>" id="hdstar_<%=pinfo.Id %>" class="startValue" value="5" />
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="ls" style="margin-bottom: 25px;">
+                                        <div class="tit">
+                                            我的评价：</div>
+                                        <div class="cot" style="height: 230px;*height: 223px;">
+                                            <textarea name="content_<%=pinfo.Id %>" id="content_<%=pinfo.Id %>" class="text" placeholder="评价内容不得超过200字符"></textarea>
+                                    	<input style="margin-left: 200px;" type="button" value="提交评论" class="submit" onclick="postComment(<$pinfo.Id$>,<$order.Id$>)" />
+                                        </div>
+                                         
+                                    </li>
+                                    <li class="clear"></li>
+                                </ul>
+                                <%}else{%>        
+                            `   <ul class="w">
+                                    <li class="ls">
+                                该产品不允许评论。
+                                        </li>
+                                </ul>
+                                <%}%>
+
+                                </html:if>
+                            </dd>
+                            <%} %>
+                        </dl>
+                        <div class="button">
+                            <input type="button" value="" class="submit" onclick="submitCom()"  style="display:none;"/></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div></div>
+    <html:include file="/_Foot.htm" />
+    <div class="hidden" title="codes">
+    </div>
+    <script language="javascript" type="text/javascript" src="<html:templatePath>/Js/OrderEval.js"></script>
+    <script>
+        //提交评论
+        function postComment(productID, orderID) {
+            var rank = $("#hdstar_" + productID).val();
+           
+            var title = "标题";
+
+            var content = $("#content_" + productID).val();
+            if (content == "") {
+                $("#content_" + productID).focus();
+                alert("请输入评论内容");
+                return false;
+            }
+            if (content.length > 200) {
+                alert("评价内容不得超过200字符！");
+                $("#content_" + productID).focus();
+                return false;
+            }
+            var url = "/Ajax.aspx?Action=AddProductComment&ProductID=" + productID + "&Rank=" + rank + "&Title=" + title + "&Content=" + encodeURIComponent(content) + "&OrderID=" + orderID;
+            Ajax.requestURL(url, dealPostComment);
+        }
+        function dealPostComment(content) {
+            if (content == "ok") {
+                alertMessage("评论成功");
+                location.href = '/User/UserProductComment.aspx';
+            }
+            else {
+                alertMessage(content);
+            }
+        }
+    </script>
+</body>
+</html>

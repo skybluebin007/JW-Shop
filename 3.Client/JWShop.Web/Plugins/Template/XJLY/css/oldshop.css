@@ -1,0 +1,430 @@
+﻿.alertMessage
+{
+	color:#FF0000; font-weight:700; width:100%; text-align:center;  margin-top:30px; margin-bottom:30px; font-size:14px; background-color:#F5F5F5; height:28px; line-height:28px; border:#E6E6E6 1px solid;
+}
+/*分页控件样式*/
+.pageCss{
+	  margin:0 auto; text-align:center; width:100%;  padding:10px 15px;
+} 
+.pageCss .disCount,.pageCss .prenextType,.pageCss .numType,.pageCss .listType{
+	border:none; margin:0px; padding:0px; width:auto; height:auto; float:left;
+}       
+.pageCss .disCount li,.pageCss .prenextType li,.pageCss .numType li,.pageCss .listType li{ 
+	margin:1px; float:left;line-height:20px;overflow:hidden;margin-right:5px;
+}
+.pageCss a 
+{
+    display:block;background-color:#fff;border:1px solid #ccc;float:left;text-decoration:none;color:#06c;padding:0 8px;
+	/*text-decoration:none; color:#4C5A62*/
+}
+.pageCss select {
+	height:22px;
+}
+#currentPage 
+{
+    background-color:#ffa553;color:#fff;font-weight:bold;border:1px solid #fe7b00;padding:0 8px;
+	/*background-color:#E6E6E6; font-weight:800; color:#A00200;*/
+}
+/**cart.htm**/
+.step
+{
+	width:100%; text-align:center; margin:20px 0 30px 0px;
+	}
+
+.cartHead
+{
+	background-color:#eee;height:30px; line-height:30px;
+	}	
+.cartHead td
+{
+	font-weight:bold; font-size:13px;  text-align:center;
+}
+.cartMain td
+{
+	text-align:center;   border-bottom:#DDDDDD 1px solid; padding-bottom:8px; padding-top:8px;
+}	
+.cartMain td input
+{
+	 width:30px;
+}	
+.cartMain .photo a
+{
+	   border:#E6E6E6 1px solid;  padding:1px; overflow:hidden; display:inline-block; width:60px; height:auto;
+}
+.cartMain .smallBox
+{	  
+	border:#E6E6E6 1px dashed; overflow:hidden;background-color:#fafafa; margin-top:5px; line-height:32px; width:auto;
+}
+.totalMoney
+{
+	font-size:15px; font-weight:bold; text-align:right; padding-right:10px;
+	}
+.totalMoney span
+{
+	 color:#A40102
+	}
+.cartOperate .bigbutton
+{
+	 float:right; margin-right:10px;	
+}
+.cartOperate img
+{
+	 vertical-align:middle
+	}
+.cartOperate a
+{
+	  margin-right:20px;
+	}
+/**checkOut.htm**/
+.checkOutTitle
+{
+	font-weight:bold; color:#4C5A62; font-size:15px; margin-top:20px;
+	}
+.checkOutLine
+{
+	height:1px; line-height:1px; background-color:#DDDDDD; width:100%; margin-top:10px; margin-bottom:10px; overflow:hidden;
+	}
+
+.checkOut ul .left {
+	width: 180px;
+	font-weight: 500;
+}
+.checkOut ul .right {
+	width: auto;
+	padding-left: 10px;
+	margin-left: -1px;
+	overflow:hidden;
+	line-height:30px;
+}
+.checkOutList
+{
+	 padding-left:50px;
+}
+.checkOutList li
+{
+	line-height:25px; 
+}
+.checkOutList li span
+{
+	margin-left:20px;
+}
+.checkOut .right span,.checkOut .right a
+{
+	color:#A40102; font-weight:600;
+}
+.giftList
+{
+	float:left; width:100%; margin-left:100px;
+}
+.giftList .giftInfo
+{
+	width:150px; text-align:center; float:left; line-height:25px;
+}
+.mony
+{
+	text-align:right;
+}
+.mony span
+{
+	color:#A40102; font-weight:800; font-size:16px;
+}
+.main .finishButton
+{
+	width:960px; text-align:center; margin-bottom:80px;
+}
+
+/**添加**/
+.add 
+{
+	margin-bottom:10px;
+}
+.add ul {
+	background: #fff;
+	padding: 0;
+	margin-top: -1px;
+	list-style: none;
+	overflow: hidden;
+	zoom: 1;
+}
+.add ul li {
+	float: left;
+	padding-top: 8px;
+	padding-left: 0;
+	padding-right: 0;
+	padding-bottom: 1005px;
+	margin-bottom: -1000px;
+	zoom: 1;
+	overflow: hidden;	
+}
+.add ul .left {
+	width: 120px;
+	text-align: right;
+	padding-right: 10px;
+	padding-top: 8px;
+	margin-top: 1px;
+	margin-right: 1px;
+	font-weight: 800;
+}
+.add ul .right {
+	width: auto;
+	padding-left: 10px;
+	margin-left: -1px;
+	overflow:hidden;
+	line-height:26px;
+}
+.add .foot {
+	width: 100%;
+	background: #FCFCFC;
+	margin-top: -1px;
+	text-align: center;
+	zoom: 1;
+}
+
+
+.regform .ui-td span,.main .login span,.main .add span
+{
+	color:#A10000;
+} 
+
+/**message.htm**/
+.userMenu 
+{
+	 padding-left:20px;
+	}
+.userMenu li
+{
+	float:left;
+}
+.userMenu li a
+{
+	float:left; width:auto; font-weight:bold; font-size:13px; background-color:#F5F5F5; display:block; margin-left:10px; padding:5px; text-align:center;
+}
+.userMenu .on a
+{
+	 color:#fff; background-color:#982929;
+}
+.sendMsg
+{
+	float:left; width:550px;
+}
+.sendMsg dl
+{
+	 display:block; min-height:30px;
+}
+.sendMsg dl dt
+{
+	float:left; width:80px; text-align:center; display:inline-block;
+}
+.sendMsg dl dd
+{
+	float:left; width:470px; 
+}
+.sendMsg dl dd .button
+{
+	 margin-top:10px;
+}
+.friendSide
+{
+	float:left; width:200px; 
+}
+.friendSide dl dd
+{
+	height:300px; overflow:hidden; y-overflow:auto;  border:1px #D1D1D1 solid; padding-left:5px; padding-right:5px; width:188px;
+}
+.friendSide dl dd a
+{
+	width:188px; line-height:20px; display:block; margin-top:3px;
+}
+.friendSide dl dd a.on
+{
+	background-color:#C8C8C8;
+}
+
+/**giftPackDetail.htm**/
+.giftPackName
+{
+	font-size:16px; color:#A10000; font-weight:800; text-align:center;
+}
+.giftPackTime
+{
+	text-align:center; line-height:23px;
+}
+.giftPackPrice
+{
+	font-size:13px; color:#A10000; text-align:center;line-height:22px;
+}
+.giftPackBlock
+{
+	 background-color:#E6EAF3; overflow:hidden; padding:5px;
+}
+
+/**default.htm**/
+.productBox{
+	width:100%; text-align:center; float:left;
+}
+.productPicture{
+	float:left; line-height:22px; width:130px; text-align:center; padding: 10px;
+}
+.productPicture .photo{
+	 width:120px; height:120px; border:1px #E6E6E6 solid; margin-left:5px; text-align:left;
+}
+.productPicture .maketPrice{
+	 text-decoration:line-through; color:#999999
+}
+.productPicture .salePrice{
+	 color:#A10000
+}
+.defaultRightAd{
+	 text-align:left;	
+}
+.defaultRightAd img {
+	float:left; width:238px; margin-left:10px; border:1px #E6E6E6 solid;	
+}
+.right .bigBanner{
+	 float:left;
+}
+.right .news{
+	 float:right;
+}
+.right .box .boxMain .more{
+	 text-align:right;float:right; margin-right:15px;
+}
+.productTitle
+{
+	  background-image:url(images/titleBg.png);  height:28px; line-height:28px; font-size:13px; font-weight:bold; padding-left:10px;background-repeat:repeat-x;
+}
+.productTitle .productText
+{
+	 float:left;
+}
+.productTitle .productMore
+{
+	 float:right; padding-right:10px;
+}
+.productTitle .productMore a
+{
+	 font-weight:normal;
+}
+.link {
+	width: 960px;border-top: #E6E6E6 1px solid; border-bottom: #E6E6E6 1px solid;  overflow:hidden; 
+}
+.link .linkHead {
+	padding-left: 8px; font-weight: bold; font-size: 12px;  float: left;width: 950px; line-height: 22px;  height: 22px
+}
+.link ul {
+	 padding-left: 20px; float: left; padding-bottom: 2px; width: 954px; padding-top:2px; 
+}
+.link ul li {
+	float: left; line-height: 31px; text-align: center; width:88px; overflow:hidden; height:31px;border: #eee 1px solid;  margin-right:5px;
+}
+.link ul li img  a{
+	width: 88px; height: 31px
+}
+.link .textLink li {
+	  line-height:22px; height:22px;
+}
+
+
+.button {
+	border: none;
+	font-size: 12px;
+	height: 18px;
+	margin: 0;
+	background: #FFF url(/Admin/Images/button.png) top left repeat-x;
+	line-height: 18px;
+	color: #FFF;
+	width:53px;
+}
+.bigbutton {
+	border: none;
+	font-size: 13px;
+	height: 30px;
+	margin: 0;
+	background: #FFF url(/Admin/Images/bigbutton.png) top left repeat-x;
+	line-height: 30px;
+	color: #FFF;
+	width:80px;
+	text-align:center;
+	font-weight:bold;
+}
+
+.grade {
+	width:75px;
+	height:15px;	
+	display:inline-block;
+	background:url(/Admin/images/grade.png) repeat-x;
+	margin-top:5px;
+}
+.grade i {
+	display:block;
+	height:15px;
+	width:50%;
+	background:url(/Admin/images/grade.png) left -15px repeat-x;
+}
+
+/*产品评论*/
+.productCommentTitle
+{
+	  background-image:url(images/titleBg.png);  height:28px; line-height:28px; font-size:13px; font-weight:bold; padding-left:10px;
+}
+.productComment
+{
+	width:850px; height:80px;
+}
+.productComment .userInfo
+{
+	width:120px; float:left; text-align:center;
+}
+.productComment .userInfo li
+{
+	 line-height:22px;
+}
+.productComment .userInfo .photo
+{
+	width:70px; height:70px; border:#DDDDDD 1px solid; margin-left:25px; text-align:left;
+}
+.productComment .userInfo .name
+{
+	 font-weight:800;
+}
+.productComment .commentContent
+{
+	  width:730px; overflow:hidden; line-height:22px;
+}
+.productComment .commentContent .name
+{
+	 font-weight:800;
+}
+.productComment .commentContent .adminReplyContent
+{
+	 border:#A10000 1px dashed; padding:3px; 
+}
+.productComment .commentContent .name strong
+{
+	 font-weight:800; color:#A10000
+}
+.productComment .commentContent .name span
+{
+	  float:right; font-weight:500; margin-right:10px;
+}
+.productComment .commentContent .border1
+{
+	  height:1px; line-height:1px; border-top:1px #ddd dashed; margin:3px 0 3px 0; overflow:hidden;
+}
+/**userFriend.htm**/
+.userBlock
+{
+	width:100%;
+}
+.userBlock .userBox
+{
+	width:110px; height:140px; float:left; margin-left:12px; line-height:25px; text-align:center;
+}
+.userBlock .userBox .photo
+{
+	width:110px; height:110px;border:#E6E6E6 1px solid; text-align:left;
+}
+.userBlock .userBox .userNote
+{
+	width:100px; overflow:hidden
+}

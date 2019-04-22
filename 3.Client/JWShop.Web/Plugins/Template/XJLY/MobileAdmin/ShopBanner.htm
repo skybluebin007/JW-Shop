@@ -1,0 +1,67 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <html:include file="/MobileAdmin/_Head.htm" />
+</head>
+<body>
+    <header class="header" id="header">
+        <a class="goBack icon" href="/mobileadmin/marketing.html" ig-back=""></a>
+        <h2>店铺banner</h2>
+    </header>
+    <section class="bannerlist">
+        <ul class="list">
+            <%foreach(var item in bannerList){%>
+            <li class="item">
+                <span class="dian icon fr"></span>
+                <h3><%=item.Title%></h3>
+                <img src="<%=item.ImageUrl%>" title="<%=item.Title%>" alt="<%=item.Title%>">
+                <div class="drop hide">
+                    <a class="editbtn" href="/mobileadmin/shopbanneradd.html?id=<%=item.Id%>"><em class="icon"></em>编辑</a>
+                    <a class="delbtn" href="javascript:void(0);" _id="<%=item.Id%>"><em class="icon"></em>删除</a>
+                </div>
+            </li>
+            <%}%>          
+        </ul>
+        <a href="/mobileadmin/shopbanneradd.html?flashId=<%=flashId%>" class="btnok">添加banner</a>
+    </section>
+    <!--navBar-->
+
+    <script type="text/javascript" src="<html:templatePath>/mobileadmin/js/app.js"></script>
+    <script>
+        
+        $(".delbtn").bind('click', function () {
+            if (confirm("确定要删除此banner")) {
+                var id = $(this).attr("_id");               
+                if (id != undefined && id != null && id != '' && parseInt(id) > 0) {
+                    $.ajax({
+                        url: '/mobileadmin/ajax.html',
+                        data: { id: id, action: 'deleteadimage' },
+                        type: 'Post',
+                        dataType: 'Json',
+                        cache: false,
+                        async: false,
+                        success: function (res) {
+                            if (res.ok)
+                            {
+                                Msg("操作成功");
+                                setTimeout(location.reload(), 5000);
+                            }
+                            else
+                            {
+                                Msg(res.msg);
+                            }
+                        },
+                        error: function () {
+                            Msg("无效的请求");
+                        }
+
+                    })
+                }
+                else {
+                    Msg("无效的请求");
+                }
+            }
+        })
+    </script>
+</body>
+</html>

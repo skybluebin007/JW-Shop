@@ -1,0 +1,166 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <html:include file="/MobileAdmin/_Head.htm" />
+    <script src="/Admin/Js/jquery-1.7.2.min.js"></script>
+    <link rel="stylesheet" href="/Admin/Js/jqdate/base/jquery.ui.all.css">
+    <script type="text/javascript" src="/Admin/Js/jqdate/js/jquery.ui.core.js"></script>
+    <script type="text/javascript" src="/Admin/Js/jqdate/js/jquery.ui.widget.js"></script>
+    <script type="text/javascript" src="/Admin/Js/jqdate/js/jquery.ui.datepicker.js"></script>
+    <script type="text/javascript" src="/Admin/Js/jqdate/js/jquery.ui.datepicker-zh-CN.js"></script>
+    <link rel="stylesheet" href="<html:templatePath>/MobileAdmin/css/jquery-ui.min.css">
+    <!--<link rel="stylesheet" href="/Admin/Js/jqdate/demos.css">-->
+    <script>
+        $(function () {
+            $("#StartDate").datepicker({ changeMonth: true, changeYear: true });
+            $("#StartDate").focus(function () {
+		        document.activeElement.blur();
+            });
+            $("#EndDate").datepicker({ changeMonth: true, changeYear: true });
+            $("#EndDate").focus(function () {
+                document.activeElement.blur();
+            });
+        });
+    </script>
+</head>
+<body>
+    <header class="header" id="header">
+        <a class="goBack icon" href="/MobileAdmin/favorableactivity.html" ig-back=""></a>
+        <h2>满立减</h2>
+    </header>
+    <section class="userlist marketing">
+        <form method="post" id="form1">
+            <input type="hidden" name="Id" value="<%=entity.Id%>" />          
+            <div class="itembox">
+                <div class="item yname clearfix">
+                    <span class="tit">活动名称<i>最多20个字</i></span>
+                    <input type="text" class="txt" id="Name" name="Name" value="<%=entity.Name%>" maxlength="20" />
+                </div>
+            </div><!--end itembox-->
+            <div class="itembox">
+                <div class="item clearfix">
+                    <span class="tit">用户等级<s class="why icon"></s></span>
+                    <%var userGrades=UserGradeBLL.ReadList();%>
+                   <%if(entity.Id>0){
+                    foreach(var item in userGrades){%>    
+                    <div class="checkbox fl">
+                    	<input type="checkbox" name="UserGrade" value="<%=item.Id%>" <%if((","+entity.UserGrade+",").IndexOf(","+item.Id+",")>=0){%> checked<%}%> />
+                    	<label><%=item.Name%></label>
+                    </div>
+                                   
+                    <%}}else{%>
+                    <%foreach(var item in userGrades){%>
+                    <div class="checkbox fl">
+                    	<input type="checkbox" name="UserGrade" value="<%=item.Id%>" checked />
+                    	<label><%=item.Name%></label>
+                    </div>
+                    <%}%>
+                    <%}%>
+                    
+                </div>
+                <div class="item clearfix">
+                    <span class="tit">优惠金额<s class="why icon"></s></span>
+                    <input type="text" class="txt" id="ReduceMoney" name="ReduceMoney" value="<%=(entity.ReduceMoney>0?entity.ReduceMoney.ToString():"")%>" /> 元
+                </div>
+                <div class="item clearfix">
+                    <span class="tit">使用门槛<s class="why icon"></s></span>
+                    <input type="text" class="txt" id="OrderProductMoney" name="OrderProductMoney" value="<%=(entity.OrderProductMoney>0?entity.OrderProductMoney.ToString():"")%>" />元
+                </div>
+                <div class="item qx clearfix">
+                    <span class="tit">开始日期<s class="why icon"></s></span>
+                    <p class="txt"><input id="StartDate" name="StartDate" value="<%if(entity.Id>0){%><%=entity.StartDate.ToString("yyyy-MM-dd")%><%}%>"/></p>
+                </div>
+                <div class="item qx clearfix">
+                    <span class="tit">结束日期<s class="why icon"></s></span>
+                    <p class="txt"><input id="EndDate" name="EndDate" value="<%if(entity.Id>0){%><%=entity.EndDate.ToString(" yyyy-MM-dd")%><%}%>"/></p>
+                </div>              
+            </div><!--end itembox-->
+            <input type="hidden" name="action" value="addfavorableactivity" />
+            <input type="button" value="完成" class="btnok" />
+        </form>
+        <a href="/mobileadmin/favorableactivityadd.html" class="newadd">新增满立减</a>
+
+    </section>
+    <script type="text/javascript" src="<html:templatePath>/mobileadmin/js/app.js"></script>
+    <script>
+        //添加/修改优惠券
+        $(".btnok").bind('click', function () {
+            if ($("#Name").val() == "") {
+                Msg("请输入活动名称");
+                $("#Name").focus();
+                return false;
+            }
+            //金额
+            var reg1 = /(^[1-9]([0-9]+)?(\\.[0-9]{1,2})?$)|(^(0){1}$)|(^[1-9]\\.[0-9]([0-9])?$)/;
+            if ($("#ReduceMoney").val() == "") {
+                Msg("请输入优惠金额");
+                $("#ReduceMoney").focus();
+                return false;
+            }
+            if (!reg1.test($("#ReduceMoney").val()) || parseFloat($("#ReduceMoney").val()) <= 0) {
+                Msg("请输入有效的优惠金额");
+                $("#ReduceMoney").focus();
+                return false;
+            }
+            if ($("#OrderProductMoney").val() == "") {
+                Msg("请输入有效的使用门槛");
+                $("#OrderProductMoney").focus();
+                return false;
+            }
+            if (!reg1.test($("#OrderProductMoney").val()) || parseFloat($("#OrderProductMoney").val()) <= 0) {
+                Msg("请输入有效的使用门槛");
+                $("#OrderProductMoney").focus();
+                return false;
+            }
+            if ($("#StartDate").val() == "") {
+                Msg("请选择开始日期");
+                $("#StartDate").focus();
+                document.activeElement.blur();
+                return false;
+            }
+            if ($("#EndDate").val() == "") {
+                Msg("请选择结束日期");
+                $("#EndDate").focus();
+                document.activeElement.blur();
+                return false;
+            }
+            //把字符串格式转换为日期类
+            var startTime = new Date(Date.parse($("#StartDate").val()));
+            var endTime = new Date(Date.parse($("#Endate").val()));
+            if (endTime < startTime) {
+                Msg("结束日期不得小于开始日期");
+                $("#EndDate").focus();
+                document.activeElement.blur();
+                return false;
+            }
+        //    //正整数
+        //var reg2=/^[0-9]*[1-9][0-9]*$/;
+        //if ($("#Days").val() == "" || !reg2.test($("#Days").val())) {
+        //    Msg("有效期必填且必须是正整数");
+        //    $("#Days").focus();
+        //    return false;
+        //}
+        $.ajax({
+            url: '/mobileadmin/ajax.html',
+            type: $("#form1").attr("method"),
+            data: $("#form1").serialize(),
+            dataType: 'Json',
+            cache: false,
+            async: false,
+            success: function (res) {
+                if (res.ok) {
+                    Msg("操作成功");
+                    setTimeout(window.location.href = "/MobileAdmin/FavorableActivity.html", 5000);
+                }
+                else{
+                    Msg(res.msg);
+                }
+            },
+            error: function () {
+                Msg("系统忙，请稍后重试");
+            }
+        })
+        })
+    </script>
+</body>
+</html>

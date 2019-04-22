@@ -1,0 +1,51 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<html:include file="/Mobile/Head.htm" />
+</head>
+<body>
+<header class="header-min" id="header">
+	<a class="back" href="javascript:;" ig-back>返回</a>
+	<h2>完成订单</h2>
+    <html:include file="/Mobile/TopLink.htm" />
+</header>
+<section class="wrapper" id="wrapper">
+		<div class="pay_return bged payfinish">
+			<div class="part1">
+				<p class="p1"><img src="<html:templatePath>/Mobile/Static/images/success.png" alt="">恭喜您，您的订单已
+                    <%if(order.OrderStatus<=1 || order.OrderStatus==3 || order.OrderStatus==8){%>
+                    提交成功
+                    <%}else{%>支付成功<%}%>
+                    </p>
+                <p>订单号：<$order.OrderNumber$><br />
+                    <a href="/Mobile/User/OrderDetail.html?ID=<$order.Id$>">查看订单</a></p>
+				<p class="p2">
+                     <%if(order.OrderStatus<=1  && order.IsDelete!=(int)BoolType.True){//待付款
+        if(order.PayKey=="WxPay"){%>
+                     <%if(RequestHelper.UserAgent() && RequestHelper.IsMicroMessenger()){//如果是微信客户端显示支付按钮%> 
+                      <a href="/Plugins/Pay/<$order.PayKey$>/Pay.aspx?order_id=<$order.Id$>">立即支付</a> 
+                    <%}else{%>
+         <div id="wx" class="finishiButton" style="text-align:center;">             
+            <p style="text-align:left; font-weight:bold;font-size:large; text-indent:10em;">微信支付<span id="sc" style="color:red;display:none;">，支付成功</span></p>
+            <div id="ewm" >
+                <img style="width: 200px; height:200px;" src="<%="/Plugins/Pay/WXPay/MakeQRCode.aspx?data=" + HttpUtility.UrlEncode("http://"+Request.Url.Host+"/Plugins/Pay/WxPay/Pay.aspx?order_id="+order.Id) %>" />
+           </div>
+      </div>
+                    <%}%>
+        <%}else{%>
+                <html:if expression="order.OrderStatus==(int)OrderStatus.WaitPay && payPlugins.IsOnline==(int)BoolType.True">
+                <a href="/Plugins/Pay/<$order.PayKey$>/Pay.aspx?order_id=<$order.Id$>">立即支付</a> 
+                </html:if>            
+<%}}%>
+				</p>				
+			</div>
+			<div class="part2">
+				友情提示：<br/>为保障您的权益，如遇到紧急问题请您致<br/>电客服：<span style="color:#fc7250"><$ShopConfig.ReadConfigInfo().Tel$> </span>感谢您的支持。
+			</div>
+		</div>
+		
+	</section>
+
+    <html:include file="/Mobile/FootScript.htm" />    
+</body>
+</html>

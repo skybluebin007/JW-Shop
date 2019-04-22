@@ -1,0 +1,156 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <html:include file="/_Head.htm" />
+</head>
+<body id="helpCenter">
+    <!--top start-->
+    <div id="top_main">
+        <div id="top" class="w990 clearfix">
+            <p class="top_l fl">
+                欢迎您访问<$ShopConfig.ReadConfigInfo().Title$>！</p>
+            <ul class="top_r fr">
+                <html:if expression="base.UserId<=0">
+            <li class="user"><a href="/User/Login.html" title="请登录">登录</a><a href="/User/Register.html" title="免费注册">免费注册</a></li><li class="split"></li>
+            <html:else>
+            <li class="user"><a href="/User/Index.html"><$base.UserName$></a><a href="/User/Logout.html">退出</a></li><li class="split"></li>
+            </html:if>
+                <li class="order"><a href="/User/OrderList.html" title="我的订单">我的订单</a></li><li
+                    class="split"></li>
+                <li class="member"><a href="/User/Index.html" title="会员中心">会员中心</a></li><li
+                    class="split"></li>
+                <li class="phone hasDown por"><a class="" href="javascript:" title="" >
+                    <s class="icon phoneicon"></s>手机版<s class="icon down"></s></a>
+                    <div class="dropdown poa hidden">
+                        <span class="white poa"></span>
+                        <img src="<$ShopConfig.ReadConfigInfo().MobileImage$>" alt="手机版" title="手机版" />
+                    </div>
+                </li>
+                <li class="split"></li>
+                <li class="service hasDown"><a href="/HelpCenter.html" title="帮助中心">帮助中心<s class="icon down"></s></a>
+                    <div class="dropdown poa hidden">
+                        <span class="white poa"></span>
+                        <html:foreach expression="ArticleClassInfo arClass in ArticleClassBLL.ReadChilds(ArticleClass.Help)">
+            <div class="item">
+                <h3><$arClass.Name$></h3>
+            <html:foreach expression="ArticleClassInfo arClassChild in ArticleClassBLL.ReadChilds(arClass.Id)">  
+                <a href="<$ ArticleClassBLL.GetHelpClassUrl(ArticleClassBLL.Read(arClassChild.Id))$>"  title="<$arClassChild.Name$>"><$arClassChild.Name$></a>
+            </html:foreach>
+            </div>
+            </html:foreach>
+                    </div>
+                </li>
+                <li class="split"></li>
+                <li class="siteMap hasDown"><a href="javascript:" title="网站导航">网站导航<s class="icon down"></s></a>
+                    <div class="dropdown poa hidden">
+                    <span class="white poa"></span>
+                    <%int ia=0; %>
+                    <html:foreach expression="ProductClassInfo proCInfo in productClassList">
+                    <%if(ia<4){ %>
+                    <div class="item" style="border-left: 0px; padding-left: 0px;">
+                        <h3>
+                            <$proCInfo.Name$></h3>
+                            <html:foreach expression="ProductClassInfo proChildInfo in ProductClassBLL.ReadChilds(proCInfo.Id)">
+                        <a href="/List.html?cat=<$ProductClassBLL.ReadFullParentId(proChildInfo.Id)$>" target="_blank" title="<$proChildInfo.Name$>"><$proChildInfo.Name$></a> 
+                       </html:foreach>
+                    </div>
+                    <%}ia++; %>
+                    </html:foreach>
+                </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!--header start-->
+    <div id="header_main">
+        <div id="header" class="w990 clearfix">
+            <div id="logo_main" class="fl">
+                <a class="logo fl" href="/" title="<$ShopConfig.ReadConfigInfo().Title$>">
+                    <img src="<$ShopConfig.ReadConfigInfo().LogoAddress$>" alt="<$ShopConfig.ReadConfigInfo().Title$>"  title="<$ShopConfig.ReadConfigInfo().Title$>" />
+                </a>
+                <h1 class="txt fl">帮助中心</h1>
+            </div>
+            <div class="helpNav fr">
+                <ul class="clearfix">
+                    <li><a href="/HelpCenter.html" title="帮助中心">首页</a></li>
+                    <html:foreach expression="ArticleClassInfo arClass in ArticleClassBLL.ReadChilds(ArticleClass.Help)">
+                    <li <%if(article.ClassId.IndexOf("|"+arClass.Id+"|")>-1){ %> class="hover" <%} %> ><a href="<$ ArticleClassBLL.GetHelpClassUrl(ArticleClassBLL.Read(arClass.Id))$>" title="<$arClass.Name$>"><$arClass.Name$></a></li>
+                    </html:foreach>
+                </ul>
+            </div>
+        </div>
+        <div id="header_1_main">
+            <div id="header_1" class="w990">
+                <div class="search_main">
+                    <div class="seardiv por clearfix">
+            <input type="text" id="SearchTxt" name="txt" class="txt fl" value="" placeholder="请输入搜索关键字"
+                maxlength="30" onkeydown="entersearch()" />
+            <input type="button" id="SearchSubmit" name="btn" class="btn fl" value="搜索" />
+            <script type="text/javascript">
+                $("#SearchSubmit").click(function () {
+                    if ($("#SearchTxt").val() == "") { alert("请输入搜索关键字"); $("#SearchTxt").focus(); }
+                    else { window.location.href = "/List.html?kw=" + encodeURIComponent($("#SearchTxt").val()); }
+                })
+                // 按Enter键,执行事件
+                function entersearch() {
+                    var event = window.event || arguments.callee.caller.arguments[0];
+                    if (event.keyCode == 13) {
+                        $("#SearchSubmit").click();
+                    }
+                }
+            </script>
+            </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--main content start-->
+    <div id="floor_1_main">
+        <div id="floor_1" class="w990 clearfix">
+            <div id="left" class="fl">
+                <h2>帮助中心</h2>
+                <ul id="helpList">
+                    <html:foreach expression="ArticleClassInfo childClass in ArticleClassBLL.ReadChilds(ArticleClass.Help)">
+<li>
+    <a href="javascript:" title="<$childClass.Name$>"><s></s><$childClass.Name$></a>
+    <ul class="hidden" <%if(article.ClassId.IndexOf("|"+childClass.Id+"|")>-1){%>style="display:block;"<%}%>>
+   <html:foreach expression="ArticleClassInfo arClass in ArticleClassBLL.ReadChilds(childClass.Id)">
+                    <li ><a href="<$ ArticleClassBLL.GetHelpClassUrl(ArticleClassBLL.Read(arClass.Id))$>" title="<$arClass.Name$>" title="<$arClass.Name$>" <%if(article.ClassId.IndexOf("|"+arClass.Id+"|")>-1){ %> class="hover" <%} %>><$arClass.Name$></a>
+                    </li>
+                    </html:foreach>
+    </ul>
+</li>
+                    </html:foreach>
+
+                </ul>
+            </div>
+            <div id="right" class="fr">
+            	<div class="helpSitepath"><%=ArticleClassBLL.HelpArticleClassNavigationList(article.ClassId)%></div>
+                <div class="right_1 box">
+                    <!--<ul class="clearfix">-->
+                    <%if(article.Id>0){ %>
+                    <$article.Content$>
+                    <%}else{ %>资料添加中...
+                    <%} %>
+                    <!--</ul>-->
+                </div>
+                <div class="right_2 box">
+                    <div class="title">
+                        热门问题</div>
+                    <ul class="clearfix">
+                    <html:if expression="hotHelpList.Count>0">
+                        <html:foreach expression="var hotArticle in hotHelpList">
+                             <li><a href="/helpdetail-i<$hotArticle.Id$>.html" title="<$hotArticle.Title$>"><%=StringHelper.Substring(hotArticle.Title,20,false)%></a></li>
+                        </html:foreach>
+                        <html:else>暂无相关信息...
+                    </html:if>
+                   
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- footer start -->
+    <html:include file="/_UFoot.htm" />
+</body>
+</html>

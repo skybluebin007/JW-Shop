@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <html:include file="/_Head.htm" />
+</head>
+<body>
+<!--top start-->
+ <html:include file="/_Top.htm" />
+<!--main content start-->
+
+<div class="jifengPage w1210">
+	<div class="jfTit">    
+		<p class="fr">当前积分：<span class="red"><%=CurrentUser.PointLeft%></span></p>
+		<s></s>积分兑换
+	</div>
+	<div class="jfList clearfix">
+        <html:if expression="pointProductList.Count>0">
+            <html:foreach expression="var item in pointProductList">
+            <div class="item">
+			<a href="/pointdetail-i<$item.Id$>.html" title="<$item.Name$>" target="_blank">
+				<img class="img" src="<$item.Photo.Replace("Original","400-300")$>" alt="<$item.Name$>" title="<$item.Name$>" /></a>
+				<h3><a href="/pointdetail-i<$item.Id$>.html" title="<$item.Name$>" target="_blank"><$StringHelper.Substring(item.Name,10)$></a></h3>
+				<div><p class="fr">剩余：<%=(item.TotalStorageCount - item.SendCount) %>件</p>需要积分：<span><%=item.Point%></span></div>
+				<a href="javascript:" class="btn" onclick="checkPoint(<%=item.Id%>)">立即兑换</a>
+			
+		</div>
+                </html:foreach>
+            <div class="clear fix"></div>
+               <$pager.ShowPage()$>
+            <html:else>
+                <div class="item">
+                暂无相关信息...    
+                </div>
+        </html:if>		
+	
+	</div>
+	<div class="jfTit">
+		<s></s>积分规则
+	</div>
+	<div class="gzcon">
+        1、会员登录，进入兑换页面,根据您积分情况选择您要兑换的商品,点击即可兑换。
+        <br />
+<br />
+2、积分扣除，兑换奖品后将扣除您相应的积分。
+   <br />
+<br />
+3、兑换成功，参与兑换必须是已注册会员，兑换时请填写好您的邮寄信息。
+</div>
+</div>
+	
+<!-- footer start -->
+ <html:include file="/_Foot.htm" />
+       <script type="text/javascript" src="<html:templatePath>/js/jquery.validator.js"></script>
+    <script type="text/javascript" src="<html:templatePath>/js/zh-CN.js"></script>
+     <script type="text/javascript" src="<html:templatePath>/js/pointproduct.js"></script>
+</body>
+</html>

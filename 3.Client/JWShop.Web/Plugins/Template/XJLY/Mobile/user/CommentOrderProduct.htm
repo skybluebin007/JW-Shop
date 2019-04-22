@@ -1,0 +1,109 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<html:include file="/Mobile/Head.htm" />
+</head>
+<body>
+	<header class="header-min clearfix" id="header">
+        <div class="back" ig-back></div>
+        <h2>评论产品</h2>
+        <html:include file="/Mobile/TopLink.htm" />
+    </header>
+	<section class="wrapper user" id="wrapper">
+		<div class="comment">
+        	<input type="hidden" id="OrderID" name="OrderID" value="<%=order.Id %>" />
+            <input type="hidden" id="ProductList" value="<%=strProductID2%>" />
+            <div class="comment-order">
+                <div class="row">订单号：<$order.OrderNumber$></div>
+                <div class="row">下单日期:<$order.AddDate$></div>
+            </div>
+            <div class="comment-product">
+                <%foreach(OrderDetailInfo orderDetail in orderDetailList){
+                ProductInfo product = ProductBLL.Read(orderDetail.ProductId);%>
+                <figure><img src="<$product.Photo$>" width="100" height="80" /></figure>
+                <h3><$product.Name$></h3>
+                <p>单价：<$orderDetail.ProductPrice$></p>
+                <p>数量：<$orderDetail.BuyCount$></p>
+            </div>
+            
+            <html:csharp>ProductCommentSearchInfo pcSearch = new ProductCommentSearchInfo();</html:csharp>
+            <html:csharp>pcSearch.UserId = base.UserId;</html:csharp>
+            <html:csharp>pcSearch.ProductId = product.Id;</html:csharp> 
+            <html:csharp>pcSearch.OrderID = order.Id;</html:csharp>
+            <html:csharp>int havePost =ProductCommentBLL.SearchProductCommentList(pcSearch).Count;</html:csharp>
+            <html:if expression="havePost>0">
+            
+            <!--已评论，查看<input type="submit" class="button" style="width: 116px;font-weight: bold;color: rgb(23, 26, 224);" value="我的评论"  onclick="window.location.href = '/Mobile/UserProductComment.aspx'" /-->
+            <div class="getComment">
+            	<h2>我的评论：</h2>                
+            </div>
+            
+            <html:else>
+            
+            <div class="postComment">
+                <%if(product.AllowComment==1){%>
+            	<div class="star" ig-star>
+                	<div class="head">评分：</div>
+                    <ul class="btn clearfix">
+                        <html:for init="int i=1" condtion="i<6" expression="i++">
+                        <li sid="rank_<%=product.Id %>"></li>
+                        </html:for>
+                    </ul>
+                    <input type="hidden" name="rank_<%=product.Id %>" id="rank_<%=product.Id %>" value="" />
+                </div>
+                <div class="row">
+                    <input type="hidden" value="title" id="title_<%=product.Id %>" name="title_<%=product.Id %>"/>
+                    <textarea  id="content_<%=product.Id %>" name="content_<%=product.Id %>" class="text" placeholder="不要发表违规信息，请自觉遵守互联网相关政策法规"></textarea>
+                </div>
+                <div class="row">
+                	<input type="button" class="submit" value="发表" onclick="postComment(<$product.Id$>,<$order.Id$>)" />
+                </div>
+                <%}else{%>
+                该产品不允许评论。
+                <%}%>
+            </div>
+            </html:if>
+            <%} %>
+	</section>
+	<html:include file="/Mobile/FootScript.htm" />
+    <script>
+        //提交评论
+        function postComment(pid,oid) {
+            var r = $('input[name="rank_' + pid + '"]').val(); 
+            if (r == null || r == "") {
+                alertMessage("请选择商品评分！");
+                return false;
+            }
+            //    var t = $('#title_' + productList[i]).val();
+            var t = $('#title_' + pid).val();
+            if (t == null || t == "") {
+                alertMessage("请填写商品评价标题！");
+                return false;
+            }
+            //  var c = $('#content_' + productList[i]).val();
+            var c = $('#content_' + pid).val();
+            if (c == null || c == "") {
+                alertMessage("请填写商品评价内容！");
+                return false;
+            }
+            if (c.length>200) {
+                alertMessage("评价内容不得超过200字符！");
+                return false;
+            }
+            //}
+            // return true
+            var url = "/Ajax.aspx?Action=AddProductComment&ProductID=" + pid + "&Rank=" + r + "&Title=" + t + "&Content=" + encodeURIComponent(c) + "&OrderID=" + oid;
+            Ajax.requestURL(url, dealPostComment);
+        }
+        function dealPostComment(content) {
+            if (content == "ok") {
+                alertMessage("评论成功");
+                location.href = '/Mobile/User/UserProductComment.html';
+            }
+            else {
+                alertMessage(content);
+            }
+        }
+    </script>
+</body>
+</html>

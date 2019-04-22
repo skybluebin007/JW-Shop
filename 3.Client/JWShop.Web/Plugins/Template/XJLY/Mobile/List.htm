@@ -1,0 +1,142 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<html:include file="/Mobile/Head.htm" />    
+</head>
+<body>
+<header class="header-min clearfix" id="header">
+    <html:csharp>
+                var _baseQueryString = "/Mobile/list.html?cat=" + StringHelper.AddSafe(HttpUtility.UrlDecode(Request.QueryString["cat"]));
+                var _kw=StringHelper.AddSafe(HttpUtility.UrlDecode(RequestHelper.GetQueryString<string>("kw")));
+                    if(!string.IsNullOrEmpty(_kw))_baseQueryString+="&kw="+_kw;
+                var _brand = StringHelper.AddSafe(HttpUtility.UrlDecode(RequestHelper.GetQueryString<string>("brand")));
+                var _at = RequestHelper.GetQueryString<string>("at");
+                var _ex = StringHelper.AddSafe(HttpUtility.UrlDecode(RequestHelper.GetQueryString<string>("ex")));
+                var _ats = _at.Split(new char[]{';'}, StringSplitOptions.RemoveEmptyEntries).ToList();
+                var _exs = _ex.Split(new char[]{';'}, StringSplitOptions.RemoveEmptyEntries).ToList();
+
+                    if(!string.IsNullOrEmpty(_brand)) _baseQueryString += "&brand=" + _brand;
+                    if(!string.IsNullOrEmpty(_at)) _baseQueryString += "&at=" + _at;
+                    if(!string.IsNullOrEmpty(_ex)) _baseQueryString += "&ex=" + _ex;
+
+                    string _sort = Request.QueryString["sort"] ?? "";                    
+                    string _orderType = _sort == "SalePrice_asc" ? "desc" : "asc";
+                    string _isNew = Request.QueryString["IsNew"] ?? "";
+                    string _isHot = Request.QueryString["IsHot"] ?? "";
+                    string _isSpecial = Request.QueryString["IsSpecial"] ?? "";
+                    string _isTop = Request.QueryString["IsTop"] ?? "";               
+                    
+
+                        if(!string.IsNullOrEmpty(_isNew)) _baseQueryString += "&IsNew=" + _isNew;
+                        if(!string.IsNullOrEmpty(_isHot)) _baseQueryString += "&IsHot=" + _isHot;
+                        if(!string.IsNullOrEmpty(_isSpecial)) _baseQueryString += "&IsSpecial=" + _isSpecial;
+                        if(!string.IsNullOrEmpty(_isTop)) _baseQueryString += "&IsTop=" + _isTop;
+                </html:csharp>
+    <div class="back" ig-back></div>
+    <div class="search">
+        <input type="" class="txt" value="" placeholder="搜索商品关键词" maxlength="10" id="showSearcher" />
+    </div>
+    <div class="links">
+        <a href="javascript:;" class="qlink" id="showQuiteMenu">快捷导航</a>
+    </div>
+    <div class="drop-links">
+        <nav class="menu" id="quiteMenu">
+            <ul class="list">
+                <li><a class="ico-home" href="/Mobile/default.html">首页</a></li>
+                <li class="current"><a class="ico-home" href="/Mobile/ProductClass.html">分类搜索</a></li>
+                <li><a class="ico-car" href="/Mobile/Cart.html">购物车</a></li>
+                <li><a class="ico-user" href="/Mobile/user/index.html">会员中心</a></li>
+            </ul>
+        </nav>
+        <div class="odfilter" id="odfilter">
+        	<ul class="list">
+            	<li onclick="location.href='<%=StringHelper.AddSafe(HttpUtility.HtmlEncode(_baseQueryString))%>&sort='" class="<%if(_sort == ""){%>current<%}%>">默认</li>
+                <li onclick="location.href='<%=StringHelper.AddSafe(HttpUtility.HtmlEncode(_baseQueryString))%>&sort=OrderCount'" class="<%if(_sort == "OrderCount"){%>current<%}%>">销量</li>
+                <li onclick="location.href='<%=StringHelper.AddSafe(HttpUtility.HtmlEncode(_baseQueryString))%>&sort=SalePrice_<%=_orderType%>'" class="<%if(_sort.IndexOf("SalePrice_") > -1){%><%= (_orderType == "asc" ? "ico-desc" : "ico-asc")%><%}else{%>ico-normal<%}%>">价格</li>
+                <li class="ico-filter" id="showFilter">筛选</li>
+            </ul>
+        </div>
+    </div>
+</header>
+<section class="list-product" id="listPro">
+    <input type="hidden" id="ProductOrderType" value="ID" />
+	<dl class="list"  id="ProductAjax">
+        <%if(productList.Count>0){%>
+        <html:foreach expression="ProductInfo product in productList">    
+            <dd class="list-row"><a href="/Mobile/ProductDetail-I<$product.Id$>.html">
+        	        <figure><img src="<$ShopCommon.ShowImage(product.Photo.Replace("Original","150-150"))$>" title="<$product.Name$>" alt="<$product.Name$>" /></figure>
+                    <h3><$StringHelper.Substring(product.Name,20)$></h3>
+                    <div class="price">
+            	        <span class="fee">￥<$ProductBLL.GetCurrentPrice(product.SalePrice,base.GradeID)$></span>
+                    </div>
+                    <div class="comment">
+            	        <span>好评<$product.PerPoint*20$>%</span>
+                        <span><$product.CommentCount$>条评价</span>
+                    </div>
+                </a></dd>                      
+        </html:foreach>
+        <%}else{%>
+            <dd ig-null>没有相关数据</dd>
+        <%}%>
+    </dl>
+    
+</section>    
+<section class="panel-order" id="orderPanel">
+	<dl class="list">
+    	<dd class="current"><a href="#">默认</a></dd>
+        <dd><a href="#">评论</a></dd>
+        <dd><a href="#">收藏</a></dd>
+    </dl>
+</section>
+<section class="panel-filter" id="filterPanel">
+	<div class="head">
+    	<div class="cancel" id="filterCancel"></div>
+        <h2>筛选商品</h2>
+        <div class="ok" id="filterOk">确定</div>
+    </div>
+    <div class="main" id="filterPanelMain">
+    	<div class="scroll">
+        	<ul class="ug clearfix" id="filterUg">
+            	<li onclick="location.href='<%=ReplaceSearch("IsNew",_isNew,StringHelper.AddSafe(HttpUtility.UrlDecode(Request.RawUrl)))%>'" <%if(_isNew == "1"){%>class="checked"<%}%>>新品上市</li>
+                <li onclick="location.href='<%=ReplaceSearch("IsHot",_isHot,StringHelper.AddSafe(HttpUtility.UrlDecode(Request.RawUrl)))%>'" <%if(_isHot == "1"){%>class="checked"<%}%>>热销商品</li>
+                <li onclick="location.href='<%=ReplaceSearch("IsSpecial",_isSpecial,StringHelper.AddSafe(HttpUtility.UrlDecode(Request.RawUrl)))%>'" <%if(_isSpecial == "1"){%>class="checked"<%}%>>特价商品</li>
+                <li onclick="location.href='<%=ReplaceSearch("IsTop",_isTop,StringHelper.AddSafe(HttpUtility.UrlDecode(Request.RawUrl)))%>'" <%if(_isTop == "1"){%>class="checked"<%}%>>推荐商品</li>
+            </ul>
+            <dl class="selector" id="filterSelector">
+                <%if (showBrandList.Count > 0){
+                ProductBrandInfo pageBrand=new ProductBrandInfo();
+                if(_brand!=string.Empty) pageBrand=ProductBrandBLL.Read(Convert.ToInt32(_brand));
+                %>
+            	<dd  data-selected="0" data-brandid="<%=pageBrand.Id%>" data-list="<%foreach(var item in showBrandList){%><%=item.Name%>,<%}%>" data-vallist="<%foreach(var item in showBrandList){%><%=item.Id%>,<%}%>">
+                	<label>品牌</label>
+                    <span ig-cut>&nbsp;<%=pageBrand.Name%></span>
+                </dd>
+                <%}%>
+
+                <%if(showAttributeList.Count > 0){
+                    foreach(var item in showAttributeList){            
+                    string idval;string valval;
+                    idval=valval=string.Empty;
+                    SetAttributeValue(_ats,_exs,item.Id.ToString(),ref idval,ref valval);
+                    %>
+                    <dd data-atid="<%=item.Id%>" data-selected="<%=idval%>" data-list="<%
+                        foreach(var value in item.InputValue.Split(';').Distinct().ToArray()){%><%=value%>,<%}%>">
+                	    <label><%=item.Name%></label>
+                        <span ig-cut>&nbsp;<%=valval%></span>
+                    </dd>
+                    <%
+                    }
+                }%>
+            </dl>
+            <dl class="detail" id="filterDetail">
+            	<dd>全部</dd>                
+            </dl>
+        </div>
+    </div>
+</section>
+
+    <html:include file="/Mobile/_Search.htm" />
+<html:include file="/Mobile/FootScript.htm" />    
+    <script language="javascript" type="text/javascript" src="<html:templatePath>/Mobile/Js/Product.js" ></script>
+</body>
+</html>

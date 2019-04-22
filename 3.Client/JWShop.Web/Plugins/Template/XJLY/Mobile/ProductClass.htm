@@ -1,0 +1,51 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<html:include file="/Mobile/Head.htm" />
+</head>
+<body>
+<header class="header-min clearfix" id="header">
+    <div class="back" ig-back></div>
+    <div class="search">
+        <input type="" class="txt" value="" placeholder="搜索商品关键词" maxlength="10" id="showSearcher" />
+    </div>
+    <html:include file="/Mobile/TopLink.htm" />
+</header>
+<nav class="nav" id="nav">
+	<div class="side" id="navSide">
+    	<dl class="list">
+            <html:csharp>int count1=0;</html:csharp> 
+            <html:foreach expression="ProductClassInfo productClass in productClassList">   
+        	<dd <%if(count1==0){%>class="current"<%}%>><span ig-cut><%=productClass.Name%></span></dd>
+            <html:csharp>count1++;</html:csharp>
+            </html:foreach>   
+        </dl>
+    </div>
+    <div class="main" id="navMain">
+    	<div class="scroll">
+            <html:foreach expression="ProductClassInfo productClass in productClassList">
+        	<dl class="list">
+                <html:if expression="ProductClassBLL.ReadChilds(productClass.Id).Count>0">
+                <html:foreach expression="ProductClassInfo childProductClass in ProductClassBLL.ReadChilds(productClass.Id)">
+                <dd class="row">
+                    <h3><a href="/Mobile/List.html?cat=<$childProductClass.Id$>" style="color: #f15353;"><$childProductClass.Name$></a></h3>
+                    <ul class="cell clearfix">
+                        <html:if expression="ProductClassBLL.ReadChilds(childProductClass.Id).Count>0">
+                       <html:foreach expression="ProductClassInfo thirdProductClass in ProductClassBLL.ReadChilds(childProductClass.Id)">
+                            <li><a href="/Mobile/List.html?cat=<$thirdProductClass.Id$>"><img src="<$ShopCommon.ShowImage(thirdProductClass.Photo)$>" title="<$thirdProductClass.Name$>" alt="<$thirdProductClass.Name$>" /><$StringHelper.Substring(thirdProductClass.Name,4,false)$></a></li>
+                       </html:foreach>                        
+                       </html:if> 
+                    </ul>
+                </dd>
+                </html:foreach>
+                </html:if>
+            </dl>
+           </html:foreach>  
+        </div>
+    </div>
+</nav>
+
+    <html:include file="/Mobile/_Search.htm" />
+    <html:include file="/Mobile/FootScript.htm" />
+</body>
+</html>

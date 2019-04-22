@@ -1,0 +1,105 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <html:include file="/MobileAdmin/_Head.htm" />
+</head>
+<body>
+    <header class="header" id="header">
+        <a class="goBack icon" href="/MobileAdmin/marketing.html" ig-back=""></a>
+        <h2><%=EnumHelper.ReadEnumChineseName<CouponKind>(couponKind)%></h2>
+    </header>
+    <section class="Couponall">
+        <section class="menubox">
+            <a <%if(timePeriod==1){%>class="hover"<%}%> href="/mobileadmin/coupon.html?timeperiod=1&couponkind=<%=couponKind%>" title="">未开始</a><a <%if(timePeriod==2){%>class="hover"<%}%> href="/mobileadmin/coupon.html?timeperiod=2&couponkind=<%=couponKind%>" title="">进行中</a><a <%if(timePeriod==3){%>class="hover"<%}%> href="/mobileadmin/coupon.html?timeperiod=3&couponkind=<%=couponKind%>" title="">已结束</a>           
+        </section>
+        <div id="list">
+            <%if(couponList.Count>0){
+            foreach(var item in couponList){%>
+            <div class="yhitem">
+                <!--<%if(!string.IsNullOrEmpty(item.Photo)){%><img class="cpimg" style="width: 100%;position: absolute;left: 0;top: 0;z-index: 0;" src="<%=item.Photo%>" /><%}%>-->
+                <a href="/mobileadmin/couponadd.html?id=<%=item.Id%>&couponkind=<%=couponKind%>">
+                    <%if(item.Type==1 && item.TotalCount<=item.UsedCount){%><span class="hot">已抢完</span><%}%>                   
+                    <h3><%=item.Name%></h3>
+                    <span class="yuan ylef"></span>
+                    <span class="yuan yrig"></span>
+                    <p>活动周期：<%=String.Format("{0:yyyy-MM-dd}",item.UseStartDate)%> - <%=String.Format("{0:yyyy-MM-dd}",item.UseEndDate)%></p>
+                    <p class="yhje">优惠金额：<b><%=item.Money%></b>元</p>
+                    <p>满<%=item.UseMinAmount%>元可用</p>
+                </a>
+            </div>
+            <%}}else{%>
+            <div class="nodata"><span></span>暂无</div>
+            <%}%>
+        </div>
+        <a href="/mobileadmin/CouponAdd.html?couponkind=<%=couponKind%>" class="addnewyh">添加优惠券</a>
+    </section>
+
+    <script type="text/javascript" src="<html:templatePath>/mobileadmin/js/app.js"></script>
+    <script>
+        var timeperiod = "<%=timePeriod%>", couponkind = "<%=couponKind%>", pageindex = 1, pagesize = "<%=pageSize%>", count = "<%=couponList.Count%>";
+        var canScroll = parseInt(count) > 0 ? true : false;
+
+        $(function () {
+            //下拉加载订单
+            $(window).scroll(function () {
+                if (canScroll) {
+                    if ($(window).scrollTop() + $(window).height() >= $(document).height() - 100) {
+                        pageindex++;
+                        canScroll = false;
+                        scrollOrders();
+                    }
+                }
+            });
+        });
+        //加载订单列表
+        function scrollOrders() {
+            $.ajax({
+                url: '/mobileadmin/ajax.html',
+                type: 'Get',
+                data: { action: 'getcoupons', pageindex: pageindex, pagesize: pagesize, couponkind: couponkind, timeperiod: timeperiod },
+                dataType: 'Json',
+                cache: false,
+                success: function (res) {
+                    if (res.ok) {
+                        if (res.count > 0) {
+                            var d = [];
+                            for (var i in res.data) {
+                                var item = res.data[i];
+
+                                d.push("<div class='yhitem'>");
+                                if(item.Type==1 && item.TotalCount<=item.UsedCount){
+                                    d.push("<span class='hot'>已抢完</span>")
+                                }   
+                                d.push("<a href='/mobileadmin/couponadd.html?id=" + item.Id + "&couponkind=" + couponkind + "'>");
+                                d.push("<h3>" + item.Name + "</h3>");
+                                d.push("<span class='yuan ylef'></span>");
+                                d.push("<span class='yuan yrig'></span>");
+                                d.push("<p>活动周期：" + item.AjaxStartDate + " - " + item.AjaxEndDate + "</p>");
+                                d.push("<p class='yhje'>优惠金额：" + item.Money + "元</p>");
+                                d.push("<p>满" + item.UseMinAmount + "元可用</p>");
+                                d.push("</a>");
+                                d.push("</div>");
+
+                            }
+                            $("#list").append(d.join(""));
+                        }
+                        if (res.count < pagesize) {
+                            canScroll = false;
+                            $("#list").append("<div class='dixian'>我是有底线的</div>");
+                        }
+                        else {
+                            canScroll = true;
+                        }
+                    }
+                    else {
+                        Msg(res.msg);
+                    }
+                },
+                error: function (res) {
+                    console.log(res);
+                }
+            })
+        }
+    </script>
+</body>
+</html>

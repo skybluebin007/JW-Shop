@@ -1,0 +1,160 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <html:include file="/MobileAdmin/_Head.htm" />
+</head>
+<body>
+    <!--header-->
+    <section class="user-order">
+        <ul class="tabbed clearfix">
+            <li <%if(orderStatus==2){%>class="hover"<%}%>><a href="/mobileadmin/index.html?orderstatus=2">待审核</a></li>
+            <li <%if(orderStatus==4){%>class="hover"<%}%>><a href="/mobileadmin/index.html?orderstatus=4">待发货</a></li>
+            <li class="hover"><a href="/mobileadmin/orderrefund.html">退款</a></li>
+
+        </ul>
+        <dl class="orderlist">
+            <%if(orderRefundList.Count>0){%>
+            <%foreach(var orderRefund in orderRefundList){%>
+            <%var order=allOrderList.Find(k=>k.Id==orderRefund.OrderId)??new OrderInfo();%>
+            <dd class="item">
+                <div class="head status red">
+                    <span><%=EnumHelper.ReadEnumChineseName<OrderRefundStatus>(orderRefund.Status)%></span>退款编号：<%=orderRefund.RefundNumber%>
+                </div>
+                <div class="head">
+                   订单号：<%=order.OrderNumber%>
+                </div>
+                <%List<OrderDetailInfo>
+                    orderdetaillist = OrderDetailBLL.ReadList(order.Id); %>
+                    <% foreach(OrderDetailInfo orderdetail in orderdetaillist){  %>
+                    <% ProductInfo product = ProductBLL.Read(orderdetail.ProductId); %>
+                    <div class="main">
+                        <a class="clearfix" href="/mobileadmin/orderrefunddetail.html?id=<%=orderRefund.Id%>" title="<$orderdetail.ProductName$>">
+                            <figure><img src="<%=ShopCommon.ShowImage(product.Photo.Replace("Original","90-90"))%>" title="<$orderdetail.ProductName$>" alt="<$orderdetail.ProductName$>"></figure>
+                            <h3><%=StringHelper.Substring(orderdetail.ProductName,36)%></h3>
+                        </a>
+                    </div>
+                    <% } %>
+                    <div class="price">
+                        共<%=orderdetaillist.Sum(k=>k.BuyCount)%>件商品<span class="fee">实际付款：￥<$(order.ProductMoney-order.FavorableMoney+order.ShippingMoney+order.OtherMoney)$></span>
+                    </div>
+                    <div class="btn">
+                        <a href="/mobileadmin/orderrefunddetail.html?id=<%=orderRefund.Id%>" class="blue">查看</a>
+                        <!--列表页不操作，所有操作在详情页执行-->
+                        <!--<%if (orderRefund.Status == (int)OrderRefundStatus.Submit){%>
+                        <a href="javascript:void(0)" class="blue js-approverefund" _id="<%=orderRefund.Id%>">审核通过</a>
+                        <a href="javascript:void(0)" class="red js-rejectrefund" _id="<%=orderRefund.Id%>">审核拒绝</a>
+                        <%}%>
+                        <%if (orderRefund.Status == (int)OrderRefundStatus.Approve || orderRefund.Status == (int)OrderRefundStatus.Returning){%>
+                        <a href="javascript:void(0)" class="red  js-finishrefund" _id="<%=orderRefund.Id%>">退款</a>
+                        <a href="javascript:void(0)" class="red  js-cancelrefund" _id="<%=orderRefund.Id%>">取消</a>
+                        <%}%>-->
+                       
+                    </div>
+            </dd>
+
+            <%}%>
+            <%}else{%>
+            <div class="nodata"><span></span>暂无退款记录</div>
+            <%}%>
+        </dl>
+    </section>
+
+    <!--bottom-->
+    <div class="g-top g-icobef"></div>
+    <!--navBar-->
+    <html:include file="/MobileAdmin/_Foot.htm" />
+    <script type="text/javascript" src="<html:templatePath>/mobileadmin/js/iscroll.min.js"></script>
+    <script type="text/javascript" src="<html:templatePath>/mobileadmin/js/orderrefund.js"></script>
+    <script>
+        var pageIndex = 1, pageSize = "<%=pageSize%>",  count = "<%=orderRefundList.Count%>";
+        var canScroll = parseInt(count) > 0 ? true : false;
+
+        $(function () {
+            //下拉加载退款记录
+            $(window).scroll(function () {
+                if (canScroll) {
+                    if ($(window).scrollTop() + $(window).height() >= $(document).height() - 100) {
+                        pageIndex++;
+                        canScroll = false;
+                        scrollOrders();
+                    }
+                }
+            });
+        });
+        //加载订单列表
+        function scrollOrders()
+        {
+            $.ajax({
+                url: '/mobileadmin/ajax.html',
+                type: 'Get',
+                data:{action:'getrefundlist',pageindex:pageIndex,pagesize:pageSize},
+                dataType: 'Json',
+                cache: false,
+                success: function (res) {
+                    if (res.ok) {
+                        if (res.count > 0) {
+                            var d = [];
+                            for (var i in res.data) {
+                                var item = res.data[i].Order;
+                                d.push("<dd class='item'>");
+                                d.push("<div class='head status'>");
+                                d.push("<span>" + res.data[i].StatusDescription + "</span>退款编号：" + res.data[i].RefundNumber + "</div>");
+                                d.push("<div class='head status'>");
+                                d.push("订单号：" + item.OrderNumber + "</div>");
+                                /*********************订单详情***********************/
+                                var d1 = [];
+                                //购买数量
+                                var sumbuycount = 0;
+
+                                for (var j in item.OrderDetailList) {
+                                    var orderdetail = item.OrderDetailList[j];
+                                    sumbuycount += parseInt(orderdetail.BuyCount);
+                                    d1.push("<div class='main'>");
+                                    d1.push("<a class='clearfix' href='/mobileadmin/orderrefunddetail.html?id='" + item.Id + "' title='" + orderdetail.ProductName + "'>");
+                                    d1.push("<figure><img src='" + orderdetail.ProductPhoto.replace('Original', '90-90') + "' title='" + orderdetail.ProductName + "' alt='" + orderdetail.ProductName + "'></figure>");
+                                    d1.push("<h3>" + orderdetail.ProductName.substr(0, 36) + "</h3>");
+                                    d1.push("</a></div>");
+
+                                }
+                                d = d.concat(d1);
+                                /**********************订单详情 end*****************/
+                                d.push("<div class='price'>");
+                                d.push("共" + sumbuycount + "件商品<span class='fee'>实际付款：￥" + (item.ProductMoney - item.FavorableMoney + item.ShippingMoney + item.OtherMoney).toFixed(2) + "</span>");
+                                d.push("</div>");
+                                d.push("<div class='btn'>")
+                                d.push("<a href='/mobileadmin/orderrefunddetail.html?id=" + res.data[i].Id + "' class='blue'>查看</a>");
+                                //列表页不操作，所有操作在详情页执行
+                                //if (res.data[i].Status == 1) {
+                                //    d.push("<a href='javascript:void(0)' class='blue js-approverefund' _id='"+res.data[i].Id+"'>审核通过</a>");
+                                //    d.push("<a href='javascript:void(0)' class='red js-rejectrefund' _id='" + res.data[i].Id + "'>审核拒绝</a>");
+                                //}
+                                //if (res.data[i].Status == 2 || res.data[i].Status == 10) {
+                                //    d.push("<a href='javascript:void(0)' class='red  js-finishrefund' _id='" + res.data[i].Id + "'>退款</a>");
+                                //    d.push("<a href='javascript:void(0)' class='red  js-cancelrefund' _id='" + res.data[i].Id + "'>取消</a>");
+                                //}
+
+                                d.push("</div></dd>");
+                            }
+                            $(".orderlist").append(d.join(""));
+                        }
+                        if (res.count < pageSize) {
+                            canScroll = false;
+                            $(".orderlist").append("<div class='dixian'>我是有底线的</div>");
+                        }
+                        else {
+                            canScroll = true;
+                        }
+                    }
+                    else {
+                         Msg(res.msg);
+                    }
+                },
+                error: function (res) {
+                    console.log(res);
+                }
+            })
+        }
+
+    </script>
+</body>
+</html>

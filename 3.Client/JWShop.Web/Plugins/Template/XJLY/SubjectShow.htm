@@ -1,0 +1,87 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <html:include file="_Head.htm" />
+    <link href="<html:templatePath>/css/pro.css" rel="stylesheet" type="text/css" />
+    <style type="text/css">
+        <html:if expression="!string.IsNullOrEmpty(theme.Css)">
+            <%=theme.Css%>
+        <html:else>
+            .wzt { min-height: 500px;margin-top: 15px;}
+        </html:if>
+        .Likegoods_con .sec .top h4.productName{
+        	<html:if expression="!string.IsNullOrEmpty(styleArray[3])">color:<%=styleArray[3]%>; </html:if>
+        	<html:if expression="!string.IsNullOrEmpty(styleArray[4])">font-size:<%=styleArray[4]%>px; </html:if>
+        }                        
+        .Likegoods_con .sec .top span.productPrice{           
+        	<html:if expression="!string.IsNullOrEmpty(styleArray[5])">color:<%=styleArray[5]%>; </html:if>
+        	<html:if expression="!string.IsNullOrEmpty(styleArray[6])">font-size:<%=styleArray[6]%>px; </html:if>
+        }
+    </style>
+</head>
+<body>
+    <html:include file="_TopBanner.htm" />
+    <html:include file="_Top.htm" />
+    
+    <div class="w1210" <html:if expression="!string.IsNullOrEmpty(styleArray[1])">style="background:url(<%=styleArray[1]%>) no-repeat;"</html:if>>
+        <!--顶部图片 start-->
+        <html:if expression="!string.IsNullOrEmpty(styleArray[0])">
+            <div>
+                <img src="<%=styleArray[0]%>" />
+            </div>
+        </html:if>
+        <!--顶部图片 end-->
+        <!--商品列表 start-->
+        <html:if expression="productGroupArray.Length > 0">
+            <div class="Likegoods w">
+                <html:for init="int i=0" condtion="i<productGroupArray.Length" expression="i++">
+                    <html:csharp>
+                        string[] tempArray=productGroupArray[i].Split('|');
+                        var group = productGroup.FirstOrDefault(k => k.index == i);
+                    </html:csharp>
+                    <html:if expression="!string.IsNullOrEmpty(tempArray[0])">
+                        <img src="<%=tempArray[0]%>" class="block" />
+                    </html:if>
+                    <html:if expression="!string.IsNullOrEmpty(tempArray[1])">
+                        <div class="fr">
+                            <span>
+                                <a href="<%=tempArray[1]%>" target="_blank" 
+                                    style="<html:if expression="!string.IsNullOrEmpty(styleArray[7])">color:<%=styleArray[7]%>; </html:if>"
+                                    <html:if expression="!string.IsNullOrEmpty(styleArray[8])">font-size:<%=styleArray[8]%>px; </html:if>>
+                                    更多
+                                </a>
+                            </span>
+                        </div>
+                    </html:if>
+                    <div class="Likegoods_con">
+                        <html:foreach expression="var item in group.list">
+                            <div class="sec <%if(group.list.IndexOf(item) % 4 == 0){%>ml10<%}%>">
+                                <a href="/detail/<%=item.Id%>.html" target="_blank" title="<%=item.Name%>">
+                                    <div class="img">
+                                        <img src="<%=item.Photo.Replace("Original","350-350") %>">
+                                    </div>
+                                    <div class="top">
+                                        <h4 class="productName"><%=StringHelper.Substring(item.Name, 12)%></h4>
+                                        <span class="productPrice"><%=item.SalePrice.ToString("C")%></span>
+                                    </div>
+                                </a>
+                            </div>
+                        </html:foreach>
+                    </div>
+                </html:for>
+            </div>
+        </html:if>
+        <!--商品列表 end-->
+        <!--底部图片 start-->
+        <html:if expression="!string.IsNullOrEmpty(styleArray[2])">
+            <div class="bottom">
+                <img src="<%=styleArray[2]%>" />
+            </div>
+        </html:if>
+        <!--底部图片 end-->
+    </div>
+    <div class="h50"></div>
+
+    <html:include file="_Foot.htm" />
+</body>
+</html>

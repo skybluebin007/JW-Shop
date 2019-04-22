@@ -1,0 +1,33 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<html:include file="/_Head.htm" />
+</head>
+
+<body>
+<div class="single sHeader">
+	<div class="logo"><a href="/" title="<$ShopConfig.ReadConfigInfo().Title$>"><img src="<$ShopConfig.ReadConfigInfo().LogoAddress$>" alt="<$ShopConfig.ReadConfigInfo().Title$>" title="<$ShopConfig.ReadConfigInfo().Title$>"/></a><span>用户激活</span></div>
+</div>
+<div class="single sWrapper" style="border: 0px;">
+	
+        <html:if expression="result!=string.Empty">
+        <div class="alertMessage registaddS">
+            <html:if expression="result.IndexOf("错")<0"><s class="icon"></s></html:if>
+            <$result$></div>
+        </html:if>
+	<div class="clear"></div>
+    <div class="shadow"></div>
+</div>
+<html:include file="/_Foot.htm" />
+<script type="text/javascript" src="<html:templatePath>/js/single.js"></script>
+<div class="hidden" title="codes"></div>
+    <script type="text/javascript">
+        //$(function () {
+        //    var msg = '<%=result %>';
+        //    if (msg != "")
+        //        alertMessage(msg);
+        //});
+    </script>
+</body>
+</html>   

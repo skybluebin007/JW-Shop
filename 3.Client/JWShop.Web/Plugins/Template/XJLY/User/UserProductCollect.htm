@@ -1,0 +1,65 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <html:include file="/_Head.htm" />
+</head>
+<body>
+<html:include file="/_UTop.htm" />
+    <div id="myOrder">
+        <div class="w1210 clearfix">
+            <html:include file="/User/UserLeft.htm" />
+            <div id="right" class="content fr">
+        <html:include file="/User/UserTop.htm" />
+                <div class="orderList" id="orderList">
+                    <div class="tab">
+                        <a href="javascript:;" class="item cur" value="">关注的商品</a>
+                        <div class="clear">
+                        </div>
+                    </div>
+                    <div class="container">
+                        <table cellpadding="0" cellspacing="0" border="0" width="100%" class="tableThemes_2 collection">
+                            <thead>
+                                <tr>
+                                    <td align="center" width="150" height="35">
+                                        商品图片
+                                    </td>
+                                    <td align="center" width="">
+                                        商品信息
+                                    </td>
+                                    <td align="center" width="130">
+                                        关注时间
+                                    </td>
+                                    <td align="center" width="100">
+                                        操作
+                                    </td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <html:foreach expression="ProductCollectInfo productCollect in productCollectList">
+                        <%ProductInfo product=ProductBLL.ReadProductByProductList(productList,productCollect.ProductId);%>
+                        <tr class="even">
+                            <td align="center" height="150" class="g"><a href="/ProductDetail-I<$productCollect.ProductId$>.html" target="_blank" title="<$product.Name$>"><img src="<$ShopCommon.ShowImage(product.Photo.Replace("Original","150-150"))$>" alt="<$product.Name$>" /></a>
+                            </td>
+                            <td align="left" class="link"><p><a href="/ProductDetail-I<$productCollect.ProductId$>.html" target="_blank" title="<$product.Name$>"><$product.Name$></a><br/><b class="red">价格：￥ <$ProductBLL.GetCurrentPrice(product.SalePrice,base.GradeID)$></b></p></td>
+                            <td align="center" ><$productCollect.Tm$></td>
+                            <td align="center" class="link"><a href="javascript:void(0);" onclick="handleCart(<$product.Id$>,'<$product.Name$>',<$product.StandardType$>,<$ProductBLL.GetCurrentPrice(product.SalePrice,base.GradeID)$>)">加入购物车</a><br/><a href="?Action=Delete&ID=<$productCollect.Id$>" onclick="return deleteRecord(this);">取消收藏</a></td>
+                        </tr>
+                         </html:foreach>
+                            </tbody>
+                        </table>
+                        <$commonPagerClass.ShowPage()$>
+                        <div class="clear">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="clear">
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="<html:templatePath>/js/UserProductCollect.js"></script>
+    <html:include file="/_Foot.htm" />
+</body>
+</html>

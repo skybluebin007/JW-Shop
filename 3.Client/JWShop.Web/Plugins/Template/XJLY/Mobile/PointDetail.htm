@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+ <html:include file="/Mobile/Head.htm" />
+</head>
+<body>
+<header class="header-min header-jf" id="header">
+	<p style="padding-right:1rem;">当前积分有：<span><%=CurrentUser.PointLeft%></span></p>
+	<s class="icon"></s>积分兑换
+        <html:include file="/Mobile/TopLink.htm" />
+</header>
+<div class="jfListbox">
+	<div class="jfContent">
+		<img class="img" src="<%=gift.Photo.Replace("Original", "400-300") %>" alt="<%=gift.Name %>" />
+		<h3 class="title"><%=gift.Name %></h3>
+		<p class="jf">需要积分：<span><%=gift.Point %></span></p>
+		<div class="txt"><%=gift.Introduction1%> </div>
+		<a href="javascript:checkPoint(<%=gift.Id%>)" title="立即兑换" class="btn">立即兑换</a>
+	</div>
+</div>
+
+
+ <html:include file="/Mobile/Foot.htm" />
+ <html:include file="/Mobile/FootScript.htm" />
+           <script type="text/javascript" src="<html:templatePath>/js/jquery.validator.js"></script>
+    <script type="text/javascript" src="<html:templatePath>/js/zh-CN.js"></script>
+        <script type="text/javascript" src="<html:templatePath>/mobile/js/pointproduct.js"></script>
+</body>
+</html>

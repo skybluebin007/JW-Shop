@@ -1,0 +1,75 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <html:include file="/MobileAdmin/_Head.htm" />
+</head>
+<body class="loginbody">
+
+    <header class="header-min" id="header">
+        <h2><$ShopConfig.ReadConfigInfo().Title$></h2>
+    </header>
+    <section class="dl_logo"><img src="<html:templatePath>/mobileadmin/uploadfile/logo.png" alt="" /></section>
+    <section class="logreg">
+        <form action="" method="post" id="loginForm" name="loginForm">
+            <div class="logreg-wram" id="logregWram"></div>
+            <div class="row">
+                <span class="tit">账号</span>
+                <input type="text" class="txt" name="UserName" id="UserName" value="" placeholder="用户名" maxlength="20" null="请输入用户名">
+            </div>
+            <div class="row">
+                <span class="tit">密码</span>
+                <input type="password" class="txt" name="UserPassword" id="UserPassword" value="" placeholder="请输入密码" maxlength="10" null="请输入密码">
+                <label class="btn-password_del icon hide"></label>
+                <label class="btn-password btn-on icon"></label>
+            </div>
+            <div class="row row2">
+                <input type="button" class="submit" value="登录" id="loginbtn"/>
+            </div>
+            <div class="row row2 clearfix">
+                <a href="/mobileadmin/findpassword.html" class="findpasswod">找回密码</a>
+            </div>
+            <input type="hidden" name="redirecturl" value="<%=RequestHelper.GetQueryString<string>("redirecturl")%>"/>
+            <input type="hidden" name="action" value="login"/>
+        </form>
+    </section>
+
+
+ 
+    <script type="text/javascript" src="<html:templatePath>/mobileadmin/js/app.js"></script>
+    <script>
+        $("#loginbtn").bind('click', function () {
+            if ($("#UserName").val() == '') {
+                Msg("请输入用户名");
+                $("#UserName").focus();
+                return false;
+            }
+            if ($("#UserPassword").val() == '') {
+                Msg("请输入密码");
+                $("#UserPassword").focus();
+                return false;
+            }
+            $.ajax({
+                url: '/mobileadmin/ajax.html',
+                data:$("#loginForm").serialize(),
+                type: 'Post',
+                dataType: 'Json',
+                cache: false,
+                async:false,
+                success: function (res) {
+                    if (res.ok) {
+                        //登录成功,默认进入待处理订单
+                        window.location.href = res.url!=""?res.url:"/mobileadmin/index.html?orderstatus=2";
+                    }
+                    else {
+                        Msg(res.msg);
+                        return false;
+                    }
+                },
+                error: function () {
+                    Msg("系统忙，请稍后重试");
+                }
+            })
+        })
+    </script>
+</body>
+</html>

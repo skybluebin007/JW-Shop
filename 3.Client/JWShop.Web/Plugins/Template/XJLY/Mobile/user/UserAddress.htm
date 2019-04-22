@@ -1,0 +1,80 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<html:include file="/Mobile/Head.htm" />
+    <script language="javascript" type="text/javascript" src="/Admin/Js/UnlimitClass.js" ></script>
+</head>
+<body>
+<header class="header-min clearfix" id="header">
+    <div class="back" ig-back></div>
+    <h2>收货地址</h2>
+    <html:include file="/Mobile/TopLink.htm" />
+</header>
+<section class="wrapper user" id="wrapper">
+
+	<div class="user-address-form" <%if(string.IsNullOrEmpty(Request["Action"])){%> ig-hide<%}%> id="userAddressForm">
+    	<form action="/Mobile/User/UserAddress.html" method="post" name="form" id="addressForm">
+            <input type="hidden" class="input"  name="ID" value="<$userAddress.Id$>"/>
+            <div class="row">
+                <div class="head">设为默认：</div>
+                <ul class="radio">
+                    <li><label class="ug-radio <%if(userAddress.IsDefault!=1){%>checked<%}%>"><input type="radio" name="IsDefault" <%if(userAddress.IsDefault!=1){%>checked="checked"<%}%> value="0" />不要设为默认地址</label></li>
+                    <li><label class="ug-radio  <%if(userAddress.IsDefault==1){%>checked<%}%>"><input type="radio" name="IsDefault"  value="1" <%if(userAddress.IsDefault==1){%>checked="checked"<%}%> />设为默认地址</label></li>
+                </ul>
+            </div>
+            <div class="row required">
+                <div class="head">收货人：</div>
+                <input type="text" class="txt" name="Consignee" id="Consignee" value="<$userAddress.Consignee$>" placeholder="收货人" maxlength="10" null="请输入收货人姓名" />
+            </div>
+            <div class="row required">
+                <div class="head">移动电话：</div>
+                <input type="text" class="txt" name="Mobile" id="Mobile" value="<$userAddress.Mobile$>" placeholder="移动电话" maxlength="11" null="请输入收货人的手机号码" error="请输入正确的手机号码" />
+            </div>
+            <div class="row">
+                <div class="head">固定电话：</div>
+                <input type="text" class="txt" name="Tel" id="Tel" value="<$userAddress.Tel$>" placeholder="固定电话" maxlength="15" error="请输入正确的固定电话号码" />
+            </div>
+            <div class="row">
+                <div class="head">邮编：</div>
+                  <input type="tel" class="txt" name="ZipCode" id="ZipCode" value="<$userAddress.ZipCode$>" placeholder="邮编" maxlength="6" error="请输入正确的邮编" />
+            </div>
+            <div class="row">
+                <div class="head">所在地区：</div>
+                <$singleUnlimitClass.ShowContent()$>
+            </div>
+            <div class="row">
+                <div class="head">详细地址：</div>
+                <textarea class="text" id="Address" name="Address" placeholder="详细地址" error="请输入详细地址"><$userAddress.Address$></textarea>
+            </div>
+            <div class="logreg-wram" id="logregWram"></div>
+            <div class="row">
+                <input type="submit" class="submit" value="提交" /><input type="hidden" name="Action" value="PostBack" />
+            </div>
+        </form>
+    </div>
+    <dl class="user-address" id="userAddress">
+        <html:foreach expression="UserAddressInfo tempUserAddress in userAddressList">
+        <dd class="item <%if(tempUserAddress.IsDefault==1){%>item-default<%}%>">
+            <div class="head">
+                <span class="name"><$tempUserAddress.Consignee$></span>
+                <span class="phone"><$tempUserAddress.Mobile$></span>
+                <%if(tempUserAddress.IsDefault==1){%><a href="javascript:;" class="default">默认地址</a><%}%>
+            </div>
+            <div class="main">
+            	<$RegionBLL.RegionNameList(tempUserAddress.RegionId)$> <$tempUserAddress.Address$>
+            </div>
+            <div class="foot">
+            	<a href="?Action=Delete&ID=<$tempUserAddress.Id$>" onclick="return deleteRecord(this);" class="del">删除</a>
+                <a href="UserAddress.html?Action=Update&ID=<$tempUserAddress.Id$>" class="edit">编辑</a>
+            </div>
+        </dd>
+        </html:foreach>
+    </dl>
+    <div class="user-address-addbtn" id="addAddAddress">新增收货地址</div>
+</section>
+
+    <html:include file="/Mobile/Foot.htm" />
+    <html:include file="/Mobile/FootScript.htm" />
+ 
+</body>
+</html>

@@ -1,0 +1,274 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<html:include file="/Mobile/VHead.htm" />    
+<link rel="stylesheet" href="<html:templatePath>/mobile/static/lotteryactivity/css/style.css" />
+<link rel="stylesheet" href="<html:templatePath>/mobile/static/lotteryactivity/css/animate.css" />
+<script src="<html:templatePath>/mobile/static/lotteryactivity/js/jweixin-1.0.0.js"></script>
+</head>
+
+<body>
+<section class="icon"><img src="<html:templatePath>/mobile/static/lotteryactivity/images/icon.png" /></section>
+<section class="wrapper">
+	<section class="content" id="content">
+        <article class="game">
+        	<div class="head"><img src="<html:templatePath>/mobile/static/lotteryactivity/images/title.png" /></div>
+            <div class="disc" id="disc">
+            	<div class="wheel" style="background: url(<$activity.ActivityPic$>) center center no-repeat;background-size: contain;">
+                	
+                </div>
+                <div class="pointer" id="start">
+                	<em></em>
+                    <span></span>
+                </div>
+                <div class="timer">
+                	
+                </div>
+            </div>
+            <commend class="button clearfix">
+            	<a href="javascript:app.showLayout('rule');">抽奖规则</a>
+                <a href="javascript:app.showLayout('explain');">奖品说明</a>
+                <a href="javascript:app.showLayout('winning');">中奖名单</a>
+            </commend>
+        </article>
+    </section>
+    
+    <!-- 背景音乐 ↓-->
+    <section class="audio play" id="audio">
+        <audio loop src="<html:templatePath>/mobile/static/lotteryactivity/audio/1.mp3" id="media" autoplay preload></audio>
+    </section>
+    <!-- 背景音乐 ↑-->
+    
+    <!-- 弹出组件 ↓-->
+    <section class="layout centerfix" data-title="联系人" id="form">
+        <div class="main">
+            <div class="box">
+                <div class="conten">
+                    <div class="form">
+                    	<div class="row">
+                        	<input type="text" name="realName" id="realName" class="txt" value="" placeholder="您的称呼" maxlength="4" null="请输入您的称呼" error="请输入中文姓名" />
+                        </div>
+                        <div class="row">
+                        	<input type="text" name="company" id="company" class="txt" value="" placeholder="您的公司" maxlength="20" null="请输入您的公司" />
+                        </div>
+                        <div class="row">
+                        	<input type="text" name="cellPhone" id="cellPhone" class="txt" value="" placeholder="手机号码" maxlength="11" null="请输入您的手机号码" error="请输入正确的手机号码" />
+                        </div>
+                        <div class="row">
+                        	<input type="button" name="submit" class="submit" value="马上抽奖" />
+                            <span style="font-size:10px; color:#fff701">短信可能被拦截，请注意查收</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="layout centerfix" data-title="活动规则" id="rule">
+        <div class="main">
+            <div class="box">
+                <div class="conten">
+                    <a href="javascript:app.hideLayout('rule');" class="close" >×</a>
+                    <div class="rule-head"></div>
+                    <div class="rule">
+                      <$activity.ActivityDesc$>                       
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="layout centerfix" data-title="奖品说明" id="explain">
+        <div class="main">
+            <div class="box">
+                <div class="conten">
+                    <a href="javascript:app.hideLayout('explain');" class="close" >×</a>
+                    <div class="explain-head"></div>
+                    <div class="explain" id="explainscroll">
+                        <dl class="list">
+                            <html:foreach expression="var item in activity.PrizeSettingList">
+                             <dd>
+                            	<h3><$item.PrizeTitle$></h3>
+                                <p><$item.PrizeName$></p>
+                            </dd>
+                            </html:foreach>
+                        	
+                            <!--<dd>
+                            	<h3>2000元企业红包</h3>
+                                <p>纷享逍客500元代金券<br/>竞网建站300元代金券<br/>行业客服深度优化账户1次 价值999元<br/>本地直通车合作礼品 价值80元<br/>企慕课堂百度推广课程惊喜价9.9</p>
+                            </dd>
+                            -->
+                        </dl>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="layout centerfix" data-title="中奖名单" id="winning">
+        <div class="main">
+            <div class="box">
+                <div class="conten">
+                    <a href="javascript:app.hideLayout('winning');" class="close" >×</a>
+                    <div class="winning-head"></div>
+                    <div class="winning" id="winn">
+                        <dl class="list">
+                        <html:foreach expression="var item in precordList">
+                            <dd><span class="tel"><$item.UserName$></span><span class="prize autocut"><$item.Prizelevel$></span></dd>
+                        </html:foreach>
+                        </dl>
+                        <dl class="list">
+                        <html:foreach expression="var item in precordList">
+                            <dd><span class="tel"><$item.UserName$></span><span class="prize autocut"><$item.Prizelevel$></span></dd>
+                        </html:foreach>
+                        </dl>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="layout centerfix" data-title="抽奖时间未开始或者已结束" id="dateline">
+        <div class="main">
+            <div class="box">
+                <div class="conten">
+                    <a href="javascript:app.hideLayout('dateline');" class="close" >×</a>
+                    <div class="failure">
+                        <img src="<html:templatePath>/mobile/static/lotteryactivity/images/cry.png" />
+                        <p>抽奖时间未开始或者已结束~</p>
+                        <br/>
+                        <br/>
+                        <br/>
+                        <br/>
+                        <br/>
+                        <br/>                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="layout centerfix" data-title="今天已经没有机会了" id="failure">
+        <div class="main">
+            <div class="box">
+                <div class="conten">
+                    <a href="javascript:app.hideLayout('failure');" class="close" >×</a>
+                    <div class="failure">
+                        <img src="<html:templatePath>/mobile/static/lotteryactivity/images/cry.png" />
+                        <h2>每个账号只有1次机会哦~</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="layout centerfix" data-title="奖品已抽完，下次快点来哦" id="lotteryfinished">
+        <div class="main">
+            <div class="box">
+                <div class="conten">
+                    <a href="javascript:app.hideLayout('lotteryfinished');" class="close" >×</a>
+                    <div class="failure">
+                        <img src="<html:templatePath>/mobile/static/lotteryactivity/images/cry.png" />
+                        <h2>奖品已抽完，下次快点来哦~</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="layout centerfix" data-title="已经中奖的用户不能再参与抽奖" id="havePrized">
+        <div class="main">
+            <div class="box">
+                <div class="conten">
+                    <a href="javascript:app.hideLayout('havePrized');" class="close" >×</a>
+                    <div class="failure">
+                        <img src="<html:templatePath>/mobile/static/lotteryactivity/images/cry.png" />
+                        <p>已经中奖的用户不能再参与抽奖~</p>
+                        <br/>
+                        <br/>
+                        <br/>
+                        <br/>                       
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="layout centerfix bounceIn" data-title="恭喜中奖" id="layout">
+        <div class="main">
+            <div class="box">
+                <div class="conten">
+                    <a href="javascript:app.hideLayout('layout');" class="close" >×</a>
+                    <div class="success-head"></div>
+                    <a class="kf" href="tel:4000731177"></a>
+                    <div class="success" id="success">
+                    	
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 弹出组件 ↑-->
+
+    <!-- 红包雨 ↓-->
+    <section class="redbag" id="redbag"></section>
+    <!-- 红包雨 ↑-->
+</section>
+
+<script src="<html:templatePath>/mobile/static/lotteryactivity/js/app.js"></script>
+  
+  <!--  <asp:Literal runat="server" ID="ticket" />
+    <asp:Literal runat="server" ID="access_token" />-->
+    <script>
+        /*
+        wx.config({
+            debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+            appId: '<asp:Literal runat="server" ID="appId" />', // 必填，公众号的唯一标识
+            timestamp: '<asp:Literal runat="server" ID="timestamp" />', // 必填，生成签名的时间戳
+            nonceStr: '<asp:Literal runat="server" ID="nonceStr" />', // 必填，生成签名的随机串
+            signature: '<asp:Literal runat="server" ID="signature" />',// 必填，签名，见附录1
+            jsApiList: ['onMenuShareTimeline', 'onMenuShareAppMessage', 'onMenuShareQQ', 'onMenuShareWeibo', 'onMenuShareQZone', 'startRecord', 'stopRecord', 'onVoiceRecordEnd', 'playVoice', 'pauseVoice', 'stopVoice', 'onVoicePlayEnd', 'uploadVoice', 'downloadVoice', 'chooseImage', 'previewImage', 'uploadImage', 'downloadImage', 'translateVoice', 'getNetworkType', 'openLocation', 'getLocation', 'hideOptionMenu', 'showOptionMenu', 'hideMenuItems', 'showMenuItems', 'hideAllNonBaseMenuItem', 'showAllNonBaseMenuItem', 'closeWindow', 'scanQRCode', 'chooseWXPay'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+        });
+
+        wx.ready(function () {
+            wx.checkJsApi({
+                jsApiList: ['onMenuShareTimeline', 'getLocation', 'chooseImage'], // 需要检测的JS接口列表，所有JS接口列表见附录2,
+                success: function (res) {
+                    // 以键值对的形式返回，可用的api值true，不可用为false
+                    // 如：{"checkResult":{"chooseImage":true},"errMsg":"checkJsApi:ok"}
+                }
+            });
+            wx.onMenuShareTimeline({
+                title: '竞网红包，恭喜发财，大吉大利', // 分享标题
+                link: 'http://dzwz25.ncms5.hnjing.net/Vshop/BigWheel.aspx?activityid=5', // 分享链接
+                success: function () {
+                    alert("分享成功");
+                    //$.get("/Vshop/Ajax.aspx", { action: 'HasShared' }, function (data) {
+                    //    if (data == "error") {
+                    //        alert("无效用户");
+                    //    } else {
+                    //        location.href = "/Vshop/BigWheel.aspx?activityid=4";
+                    //    }
+                    //});
+                },
+                cancel: function () {
+                    //alert("分享取消")
+                }
+            });
+            wx.onMenuShareAppMessage({
+                title: '竞网红包，恭喜发财，大吉大利', // 分享标题
+                link: 'http://dzwz25.ncms5.hnjing.net/Vshop/BigWheel.aspx?activityid=5', // 分享链接
+                desc: '竞网红包，恭喜发财，大吉大利。新年大红包，码上扫竞网', // 分享描述
+                type: '', // 分享类型,music、video或link，不填默认为link
+                dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+                success: function () {
+                    alert("分享成功");
+                },
+                cancel: function () {
+                }
+            });
+
+        });
+         */
+</script>
+   
+</body>
+</html>

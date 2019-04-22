@@ -1,0 +1,339 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <html:include file="/Mobile/Head.htm" />
+    <script language="javascript" type="text/javascript" src="/Admin/Js/UnlimitClass.js"></script>
+</head>
+<body id="checkoutPage">
+    <header class="header-min clearfix" id="header">
+    <div class="back" ig-back></div>
+    <h2>填写订单</h2>
+    <html:include file="/Mobile/TopLink.htm" />
+</header>
+    <form action="/Mobile/CheckOut.html" method="post" name="form">
+    <section class="wrapper" id="wrapper">
+	<div class="order-address">
+        <%
+        UserAddressInfo defaultAddr=new UserAddressInfo();
+        if(addressList.Count>0)
+            {            
+            int defid=0;
+            foreach (var tempUserAddress in addressList){
+                if(tempUserAddress.IsDefault==(int)BoolType.True)
+                {
+                    defid=tempUserAddress.Id;
+                    break;
+                }
+            }
+            if(defid==0) 
+            {
+                if(addressList.Count>0) defaultAddr=addressList[0];
+            }else
+            {
+                defaultAddr=UserAddressBLL.Read(defid,base.UserId);
+            }       
+        }else
+        {
+            Response.Write("<script>alert(\"您还没有设置收货地址，请至少设置一个收货地址。\"); location.href = '/Mobile/User/UserAddress.html';</script>");
+            Response.End();
+        }
+        %>
+    	<div class="name" ig-cut><$defaultAddr.Consignee$></div><input type="hidden" id="defaultAddrId" value="<$defaultAddr.Id$>" />
+        <div class="phone"><$defaultAddr.Mobile$></div>
+        <div class="address" ig-cut><$RegionBLL.RegionNameList(defaultAddr.RegionId)$> <$defaultAddr.Address$></div>
+        <section class="panel-filter">
+            <div class="head">
+                <div class="cancel"></div>
+                <h2>选择收货地址</h2>
+                <div class="ok">确定</div>
+            </div>
+            <div class="main" id="addressRadio">
+                <div class="scroll">
+                    <dl class="radio">
+                        <html:foreach expression="var tempUserAddress in addressList">
+                        <dt><label>
+                        	<input type="radio" name="UserAddress" value="<$tempUserAddress.Id$>" <%if(tempUserAddress.IsDefault==(int)BoolType.True){%>checked<%}%> />
+                            <span name><$tempUserAddress.Consignee$></span>
+                            <span phone><$tempUserAddress.Mobile$></span>
+                            <span address><$RegionBLL.RegionNameList(tempUserAddress.RegionId)$> <$tempUserAddress.Address$></span>
+                        </label></dt>
+                        </html:foreach>                     
+                    </dl>
+                    <div id="CheckOutAddressAjax" style="display:none;">
+                        </div> 
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <div class="order-row order-logistics">
+    	<label>配送方式</label>
+        <span></span>
+        <section class="panel-filter">
+            <div class="head">
+                <div class="cancel"></div>
+                <h2>选择配送方式</h2>
+                <div class="ok">确定</div>
+            </div>
+            <div class="main" id="logisticsRadio">
+                <div class="scroll">
+                    <dl class="radio" id="ShippingListAjax">
+                        
+                    </dl>
+                </div>
+            </div>
+        </section>
+    </div>
+    <div class="order-row order-paytype">
+    	<label>付款方式</label>
+        <span></span>
+        <section class="panel-filter">
+            <div class="head">
+                <div class="cancel"></div>
+                <h2>选择付款方式</h2>
+                <div class="ok">确定</div>
+            </div>
+            <div class="main" id="paytypeRadio">
+                <div class="scroll">
+                    <dl class="radio">
+  <html:csharp>int i=0;</html:csharp>
+                    <html:foreach expression="PayPluginsInfo payPlugins in payPluginsList">
+                       <!--如果是手机客户端-->
+                      <%if(RequestHelper.UserAgent()){%>
+                        <!--如果是微信浏览器--> 
+                      <html:if expression="RequestHelper.IsMicroMessenger()">
+                        <html:if expression="payPlugins.Key=="WxPay" || payPlugins.IsOnline==0"> 
+                    <dd <%if(i==0){%>class="checked"<%}%>><label>
+                        	<input type="radio" name="Pay" value="<$payPlugins.Key$>" <%if(i==0){%>checked<%}%>/>
+                            <$payPlugins.Name$>
+                        </label></dd> 
+                            </html:if>
+                          <!--如果不是微信浏览器-->  
+                          <html:else>
+                              <%if(payPlugins.Key!="AliPay"){%>
+                          <dd  <%if(i==0){%>class="checked"<%}%>><label>
+                        	<input type="radio" name="Pay" value="<$payPlugins.Key$>" <%if(i==0){%>checked<%}%> />
+                            <$payPlugins.Name$>
+                        </label></dd>
+                              <%}%>
+                        </html:if>
+                        <!--如果不是手机客户端-->
+                        <%}else{%>
+                            <dd  <%if(i==0){%>class="checked"<%}%>><label>
+                        	<input type="radio" name="Pay" value="<$payPlugins.Key$>" <%if(i==0){%>checked<%}%> />
+                            <$payPlugins.Name$>
+                        </label></dd>                          
+                        <%}%>                   
+                    <html:csharp>i++;</html:csharp>
+                    </html:foreach>                   
+                        
+                    </dl>
+                </div>
+            </div>
+        </section>
+    </div>
+    <!--发票 start 如果后台开启了提供发票才显示-->
+    <html:if expression="ShopConfig.ReadConfigInfo().Invoicing==1">
+    <div class="order-row order-invoice" >
+    	<label>发票</label>
+        <span ig-cut></span>
+        <section class="panel-filter">
+            <div class="head">
+                <div class="cancel"></div>
+                <h2>索要发票</h2>
+                <div class="ok">确定</div>
+            </div>
+            <div class="main" id="invoiceRadio">
+                <div class="scroll">
+                    <dl class="order-invoice-row">
+                    	<dd class="invoice-checkbox" id="showInvoiceRow">索要发票</dd>
+                    </dl>
+                    <div class="order-invoice-row" ig-hide>
+                        <div class="heads">发票抬头</div>
+                        <div class="input">
+                        	<input type="" class="txt" name="InvoiceTitle" value="" placeholder="" maxlength="20" />
+                        </div>
+                    </div>
+                    <div class="order-invoice-row" ig-hide>
+                        <div class="heads">发票内容</div>
+                        <dl class="input">
+                        	<dd>
+                            	<label class="ug-radio checked">
+                            		<input type="radio" name="InvoiceContent" value="商品明细" checked />
+                                	商品明细
+                            	</label>
+                            </dd>
+                        	<dd>
+                            	<label class="ug-radio" >
+                            		<input type="radio" name="InvoiceContent" value="电脑配件"  />
+                                	电脑配件
+                            	</label>
+                            </dd>
+                            <dd>
+                            	<label class="ug-radio">
+                            		<input type="radio" name="InvoiceContent" value="电脑耗材" />
+                                	电脑耗材
+                            	</label>
+                            </dd>
+                            <dd>
+                            	<label class="ug-radio">
+                            		<input type="radio" name="InvoiceContent" value="办公用品" />
+                                	办公用品
+                            	</label>
+                            </dd>
+                        </dl>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+      </html:if>
+    <!--发票  end-->
+        <!--优惠券 start-->
+    
+    <div class="order-row order-coupon">
+    	<label>优惠券</label>
+        <span  style="max-width: 6rem;" ></span>
+        <section class="panel-filter">
+            <div class="head">
+                <div class="cancel"></div>
+                <h2>选择优惠券</h2>
+                <div class="ok">确定</div>
+            </div>
+            <div class="main" id="couponRadio">
+                <div class="scroll">
+                    <dl class="radio">
+                   <html:if expression="userCouponList.Count>0">
+                 <html:foreach expression="UserCouponInfo userCoupon in userCouponList">
+                <dd><label><input type="radio" name="UserCoupon" value="<$userCoupon.Id$>|<$CouponBLL.Read(userCoupon.CouponId).Money$>" onclick="selectUserCoupon()">编号：<$userCoupon.Number$>（<$CouponBLL.Read(userCoupon.CouponId).Money$> 元）</label></dd>            
+          </html:foreach>                                                
+            </html:if>                                  
+                    </dl>
+                <h2 style="font-weight:normal; text-indent:1em;">添加优惠券</h2>
+              
+                  <div class="order-invoice-row" >
+                        <div class="heads">卡号</div>
+                        <div class="input">
+                        	<input type="text" class="txt" name="Number" id="Number" value="" placeholder=""/>
+                        </div>
+                    </div>
+                 <div class="order-invoice-row" >
+                        <div class="heads">密码</div>
+                        <div class="input">
+                        	<input type="text" class="txt" name="Password" id="Password" value="" placeholder=""/>
+                        </div>
+                    </div>
+                  <div class="order-invoice-row">                      
+                        <div class="input">
+                        	 <input class="addbtn" type="button" value="添加" name="" onclick="addUserCoupon()" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    
+        <!--优惠券 end-->
+        <!--商品优惠start-->
+  <html:if expression="productFavorableActivityList.Count>0">                                              
+    <%int pf=0;%>
+    <div class="order-other">
+商品优惠：<br />
+        <div>
+    <html:foreach expression="var favor in productFavorableActivityList">
+          <input type="radio" name="ProductFavorableActivity" value="<%=favor.Id%>" id="ProductFavor<%=favor.Id%>" onclick="selectProductFavor()" <html:if expression="pf==0"> checked="checked"</html:if>  /> 
+            <label for="ProductFavor<%=favor.Id%>">
+                <%=favor.Name%>:<%=favor.Content%>
+            </label><br/>
+<%pf++;%>
+    </html:foreach>
+            </div>
+        </div>
+      </html:if>
+        <!--商品优惠end-->
+        <!--订单优惠活动 START-->
+        <div class="order-other" id="FavorList">
+        </div>
+        <!--订单优惠活动 END-->
+        <!--礼品信息 START-->
+        <div class="order-other" id="giftlist" style="display: none;">
+           礼品信息：
+            <div class="giftList clearfix">
+            </div>
+        </div>
+        <!--礼品信息 End-->
+        <!--如果设置了开启积分抵现功能  使用积分 start-->
+        <html:if expression="ShopConfig.ReadConfigInfo().EnablePointPay==1">
+            <div class="text_r buy-use-point" id="usePoint" >
+                <div class="buy-point-discharge ">
+                    <p class="price g_price" style="display:none;">
+                        <span>¥</span><em class="style-middle-bold-black" id="M_pointTotalDischarge">0.00</em>
+                    </p>
+                </div>
+                <div class="userPoint M_UserPoint">
+                    <!-- <input type="checkbox" id="M_UsePoint" class="userPoint-togglePoint" name="UsePoint">
+                    <label for="M_UsePoint">
+                        使用积分</label> -->
+                    <div class="gongcheckbox" id="M_UsePoint">使用积分</div>
+                    <span class="point-ips point-input-box M-hide M-point-hide hidden addjifen">
+                        <input name="costPoint" type="text" class="text userPoint-usePoint M_MakePoint c2c-text-default"
+                            value="0" id="M_pointToUse" _old="0">个 </span>
+                    <div class="userPoint-useTip M-hide M-point-hide hidden addjifenTxt">
+                        （您现有<em id="M_AvailablePoint">
+                            <%=pointLeft%></em> 积分）
+                    </div>
+                    <div class="msg M-msg M-piont-msg hidden">
+                        <p class="error" id="u-point-msg">
+                            您本次最多可使用<%=pointLeft%>积分</p>
+                    </div>
+                </div>
+            </div>
+       </html:if>
+        <!--使用积分 end-->
+    <div class="order-other">
+    	<div class="head">订单留言：</div>
+        <div class="main">
+        	<textarea class="text" id="UserMessage" name="UserMessage" placeholder="您的备注留言信息"></textarea>
+        </div>
+    </div>
+    <!-- <div class="order-other" <%if(islpProd==0){ %>style="display:none" <%} %>>
+    	<div class="head">定制贺卡留言：</div>
+        <div class="main">
+        	<textarea class="text" id="GiftMessige" name="GiftMessige" placeholder="定制贺卡留言"></textarea>
+        </div>
+    </div>-->
+    <dl class="order-bill" id="MoneyDetail">
+    	
+    </dl>
+        <input type="hidden" id="RegionID" name="RegionID" value="" />
+        <input type="hidden" id="ProductMoney" name="ProductMoney" value="<$totalProductMoney$>" />
+        <input type="hidden" id="FavorableMoney" name="FavorableMoney" value="0" />
+        <input type="hidden" id="ShippingMoney" name="ShippingMoney" value="0" />       
+        <input type="hidden" id="CouponMoney" name="CouponMoney" value="0" />      
+        <input type="hidden" id="hiProductBuyCount" name="hiProductBuyCount" value="<$cartList.Sum(a=>a.BuyCount)$>" />
+        <input type="hidden" id="point" name="point" value="0" />
+        <input type="hidden" id="pointLeft" value="<%=pointLeft%>" />
+        <input type="hidden" id="pointRate" value="<%=ShopConfig.ReadConfigInfo().PointToMoney%>" />
+        <input type="hidden" id="pointMoney" value="0" />
+        <input type="hidden" id="orderfavorableMoney" name="orderfavorableMoney" value="0" />
+        <input type="hidden" id="productfavorableMoney" name="productfavorableMoney" value="0" />
+    </section>
+    <commend class="car-button">
+	<ul class="list clearfix">
+    	<li class="total red">合计：<b class="js-money" id="totalmoney">￥0.00</b></li>
+        <li class="pay"><a href="javascript:;" onclick="if(checkSubmit()){$('#submit').click();}">立即下单</a></li>
+        <input type="submit" id="submit" style="display: none;" />
+                    <input type="hidden" name="Action" value="PostBack" />
+    </ul>
+</commend>
+    </form>
+    <html:include file="/Mobile/FootScript.htm" />
+    <script type="text/javascript" src="<html:templatePath>/Mobile/js/CheckOut.js"></script>  
+    <script type="text/javascript">
+        //默认第一个配送方式赋值给checkout页面
+        var value = $("#paytypeRadio").find('.checked').find('label').text();
+        $(".order-paytype > span").text(value);
+    </script>
+     
+</body>
+</html>

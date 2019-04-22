@@ -1,0 +1,46 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <html:include file="/_Head.htm" />
+</head>
+<body>
+  <html:include file="/_UTop.htm" />
+    <!--header start-->
+    <!--nav start-->
+    <!--main content start-->
+    <div id="myOrder">
+        <div class="w1210 clearfix">
+            <html:include file="/User/UserLeft.htm" />
+             <div id="right" class="content fr receMsg">
+                   <html:include file="/User/UserTop.htm" />
+                <div class="tab">
+                     <h2 class="boxOrder">消息详情</h2><a href="/User/ReceiveMessage.html">返回我的消息</a>
+                    <div class="clear">
+                    </div>
+                </div>
+              <div class="boxOrder">
+                    <div class="orderTid">
+                        <ul>
+                            <li>消息标题：<span style="font-weight: bold;"><$theMsg.Title$></span></li>
+                            <li>发送时间：<span style="font-size:12px; color: #888;"><%=theMsg.Date.ToString("yyyy-MM-dd HH:mm:ss")%></span></li>
+                            <li>消息状态：<span style="font-size:12px; color: #888;"><%=(theMsg.IsRead==0?"未读":"已读")%></span></li>
+                            <li>消息内容：<span><%=theMsg.Content%></span></li>
+                            
+                        </ul>
+                        <div class="clear">
+                        </div>
+                    
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="clear">
+        </div>
+    </div>
+    <html:include file="/_Foot.htm" />
+    <div class="hidden" title="codes">
+    </div>
+
+</body>
+</html>

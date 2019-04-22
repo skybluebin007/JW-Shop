@@ -1,0 +1,185 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <html:include file="/_Head.htm" />
+</head>
+<body>
+ <html:include file="/_UTop.htm" />
+    <!--header start-->
+    <!--nav start-->
+    <!--main content start-->
+    <div id="myOrder">
+        <div class="w1210 clearfix">
+            <html:include file="/User/UserLeft.htm" />
+             <div id="right" class="fr showOrder">
+                <div class="tab">
+                     <h2 class="boxOrder">订单信息</h2>
+                    <div class="clear">
+                    </div>
+                </div>
+              <div class="boxOrder">
+
+                    <div class="orderTid">
+                        <ul>
+                            <li>订单号：<span class="green"><$order.OrderNumber$></span></li>
+                            <li>订单状态：<span class="orange" id="OrderStatus<$order.Id$>"><$OrderBLL.ReadOrderStatus(order.OrderStatus,order.IsDelete)$></span></li>
+                        </ul>
+                        <div class="clear">
+                        </div>
+                        <div class="button">
+                  <html:if expression="order.OrderStatus!=(int)OrderStatus.HasDelete && order.IsDelete!=(int)BoolType.True"> 
+        	<a class="red" href="javascript:;" onclick="deleteOrder(<$order.Id$>,<$base.UserId$>)">删除</a>
+                 </html:if>
+                            <$OrderBLL.ReadOrderUserOperate(order.Id,order.OrderStatus,order.PayKey,base.UserId)$>
+
+                             <%if(order.OrderStatus==(int)OrderStatus.ReceiveShipping){%>
+                                    <%if(!isPL){%><a href="/User/OrderEval.html?ID=<$order.Id$>" title="评价商品" class="red">评价商品</a>
+                                    <%}else{ %><span  class="green" ><strong>您已发表评论</strong></span><%} %>
+                                    <%} %>
+                       
+                        </div>
+                    </div>
+                    <ul class="orderPro">
+                        <li class="circle complate"><span>提交订单</span></li>
+                        <li class="line <%if(order.IsDelete == (int)BoolType.False){%>complate<%}%>"><span></span></li>
+                        <li class="circle <%if(order.OrderStatus>1&&order.OrderStatus!=3 && order.IsDelete == (int)BoolType.False){%>complate<%}%>"><span>
+                            付款</span></li>
+                        <li class="line <%if(order.OrderStatus>1&&order.OrderStatus!=3 && order.IsDelete == (int)BoolType.False){%>complate<%}%>"><span>
+                        </span></li>
+                        <li class="circle <%if(order.OrderStatus>2&&order.OrderStatus!=3 && order.IsDelete == (int)BoolType.False){%>complate<%}%>"><span>
+                            审核</span></li>
+                        <li class="line <%if(order.OrderStatus>2&&order.OrderStatus!=3 && order.IsDelete == (int)BoolType.False){%>complate<%}%>"><span>
+                        </span></li>
+                        <li class="circle <%if(order.OrderStatus>4&&order.OrderStatus!=3 && order.IsDelete == (int)BoolType.False){%>complate<%}%>"><span>
+                            发货</span></li>
+                        <li class="line <%if(order.OrderStatus>4&&order.OrderStatus!=3 && order.IsDelete == (int)BoolType.False){%>complate<%}%>"><span>
+                        </span></li>
+                        <li class="circle <%if(order.OrderStatus>5&&order.OrderStatus!=3 && order.IsDelete == (int)BoolType.False){%>complate<%}%>"><span>
+                            等待收货</span></li>
+                        <li class="line <%if(order.OrderStatus>5&&order.OrderStatus!=3 && order.IsDelete == (int)BoolType.False){%>complate<%}%>"><span>
+                        </span></li>
+                        <li class="circle <%if(order.OrderStatus>5&&order.OrderStatus!=3 && order.IsDelete == (int)BoolType.False){%>complate<%}%>"><span>
+                            完成</span></li>
+                    </ul>
+                    <div class="orderAd">
+                        <h3>
+                            收货人信息</h3>
+                        <p>
+                            收货人：<$order.Consignee$><br />
+                            固定电话：<$order.Tel$><br />
+                            手机：<$order.Mobile$><br />
+                            Email：<$order.Email$><br />
+                            邮编：<$order.ZipCode$><br />
+                            地址：<$RegionBLL.RegionNameList(order.RegionId)$> <$order.Address$><br />
+                            <br />
+                            发票标题：<$order.InvoiceTitle$><br />
+                            发票内容：<$order.InvoiceContent$><br />
+                            用户留言：<$order.UserMessage$><br />
+                         <%if(order.GiftMessige!=string.Empty){%>礼品贺卡留言：<$order.GiftMessige$><br />
+                         <%} %>
+                            <%if(order.OrderNote!=string.Empty){%>
+
+                            <br />
+                            备注信息：<%=order.OrderNote%>
+                            <%}%>
+                        </p>
+                    </div>
+                  <html:if expression="gift.Id>0">
+                  <div class="orderAd">
+                      <h3>礼品信息</h3>
+                      <p>
+                       <$gift.Name$>
+                      </p>
+                  </div>
+                    </html:if>
+                    <div class="orderAd">
+                        <h3>
+                            付款方式</h3>
+                        <p>
+                            付款方式：<$order.PayName$><br />
+                            运费：￥ <$order.ShippingMoney$></p>
+                    </div>
+                    <div class="orderAd">
+                        <h3>
+                            商品清单</h3>
+                        <table cellpadding="0" cellspacing="0" border="0" width="100%" class="tableThemes_4">
+                            <thead>
+                                <tr>
+                                    <td align="center" width="100" height="35">
+                                        商品图片
+                                    </td>
+                                    <td align="center" width="">
+                                        商品名称
+                                    </td>
+                                    <td align="center" width="100" style="display:none">
+                                        赠送积分
+                                    </td>
+                                    <td align="center" width="100" style="display:none">
+                                        重量
+                                    </td>
+                                    <td align="center" width="100">
+                                        金额
+                                    </td>
+                                    <td align="center" width="50">
+                                        数量
+                                    </td>
+                                    <td align="center" width="100">
+                                        商品总额
+                                    </td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <html:foreach expression="var orderDetail in orderDetailList">  
+                <html:csharp>ProductInfo product = ProductBLL.Read(orderDetail.ProductId);</html:csharp>
+                        	<tr>
+                            	<td align="center" height="35"><a href="/ProductDetail-I<$product.Id$>.html" title="<$product.Name$>" target="_blank"><img src="<$product.Photo.Replace("Original","90-90")$>" onload="photoLoad(this,60,60)" alt="<$product.Name$>" /></a></td>
+                                <td align="center" class="link"><a href="/ProductDetail-I<$product.Id$>.html" title="<$product.Name$>" target="_blank"><$orderDetail.ProductName$></a></td>
+                                <td align="center" style="display:none"><$product.SendPoint$></td>
+                                <td align="center" style="display:none"><$product.Weight$> 克</td>
+                                <td align="center" class="orange">￥<$orderDetail.ProductPrice$></td>
+                                <td align="center" ><$orderDetail.BuyCount$></td>
+                                <td align="center" class="orange"><strong>￥<$orderDetail.ProductPrice*orderDetail.BuyCount$></strong></td>
+                            </tr>
+                            </html:foreach>
+                            </tbody>
+                        </table>
+                        <div class="total">
+                            <!--如果是正常购物订单，不是积分兑换订单-->
+                            <html:if expression="order.IsActivity!=1">
+                            商品总额：<$order.ProductMoney$> 元 + 物流费用：<$order.ShippingMoney$> 元 + 其它费用：<$order.OtherMoney$> 元 - 优惠金额：<$order.FavorableMoney$> 元  -优惠券：<$order.CouponMoney$> 元-积分抵扣<$order.PointMoney$>元 =应付：<strong class="red">￥<$(OrderBLL.ReadNoPayMoney(order)-order.PointMoney)$>元</strong>
+                            <html:else>
+                                商品总额：<$order.ProductMoney$> 元 + 物流费用：<$order.ShippingMoney$> 元 + 其它费用：<$order.OtherMoney$> 元 - 优惠金额：<$order.FavorableMoney$> 元  -优惠券：<$order.CouponMoney$> 元 =应付：<strong class="red">￥<$OrderBLL.ReadNoPayMoney(order)$>元</strong>    
+                            </html:if>
+                                </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="clear">
+        </div>
+    </div>
+    <html:include file="/_Foot.htm" />
+    <div class="hidden" title="codes">
+    </div>
+ 
+    <script language="javascript" type="text/javascript" src="<html:templatePath>/Js/Order.js"></script>
+     <script type="text/ecmascript">
+
+         function deleteOrder(orderID, userID) {
+             if (window.confirm("确定要删除该订单？")) {
+                 var url = "/Ajax.aspx?Action=DeleteOrder&OrderID=" + orderID + "&UserID=" + userID;
+                 Ajax.requestURL(url, dealDeleteOrder);
+             }
+         }
+         function dealDeleteOrder(data) {
+             if (data == "ok") {
+                 reloadPage();
+             }
+             else{
+                 alertMessage(data);
+             }
+         }
+    </script>
+</body>
+</html>

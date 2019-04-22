@@ -1,0 +1,127 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <html:include file="/_Head.htm" />
+</head>
+<body>
+    <!--top start-->
+   <html:include file="/_UTop.htm" />
+    <!--header start-->
+    <!--nav start-->
+    <!--main content start-->
+    <div id="myOrder">
+        <div class="w1210 clearfix">
+            <html:include file="/User/UserLeft.htm" />
+            <div id="right" class="content fr">
+                 <html:include file="/User/UserTop.htm" />
+           <h2 class="boxOrder">兑换记录</h2>
+                <div class="boxOrder" style="padding: 0 0 16px;">
+            
+           
+                    <div class="orderList">
+                        <ul class="orderTit clearfix">
+                            <li class="a1">兑换商品</li>
+                            <li class="a3">花费积分</li>                           
+                            <li class="a3">数量</li>
+                             <li class="a2">收货人</li>
+                            <li class="a4">订单状态</li>                           
+                        </ul>
+                        <% if(orderList.Count>0)
+                            { %>
+                         <html:csharp>var productList = PointProductBLL.ReadList(orderList.Select(k => k.ProductId).Distinct().ToArray());</html:csharp>            
+                        <html:foreach expression="var order in orderList">
+                                 <html:csharp>var _product = productList.FirstOrDefault(k => k.Id == order.ProductId) ?? new PointProductInfo();</html:csharp>                    
+                          
+                               <table class="item" border="" cellspacing="" cellpadding="">
+                            <tr class="item_top">
+                                <td colspan="5">
+                                    <span class="time"><$order.AddDate.ToString("yyyy-MM-dd")$></span> 
+                                    <span class="num">订单号:<em><$order.OrderNumber$></em></span> 
+                                    <html:if expression="order.OrderStatus >= (int)PointProductOrderStatus.HasShipping">
+                                        <span class="num"><%=order.ShippingName %>：<em><%=order.ShippingNumber %></em></span>
+                                        <span class="num">发货日期：<em><%=order.ShippingDate %></em></span>
+                                    </html:if>
+                                   
+                                </td>
+                            </tr>
+                       
+                            <tr class="item_bottom">
+                                <td class="a1" width="35%">
+                                    <div class="img clearfix" style="width:auto;">
+                                        <a class="fl" href="/PointDetail-I<$order.ProductId$>.html" title="<$order.ProductName$>" target="_blank">
+                                            <img class="fl" src="<$ShopCommon.ShowImage(_product.Photo.Replace("Original","90-90"))$>" alt="<$order.ProductName$>" title="<$order.ProductName$>" />
+                                            <h3 style="width:auto;"><$order.ProductName$></h3>
+                                        </a>                                       
+                                    </div>
+                                </td>                               
+                                <td class="a3" width="10%">
+                                    <div>
+                                      <%=order.Point %>
+                                    </div>
+                                </td>
+                                <td class="a3" width="10%">
+                                    <div>
+                                      <%=order.BuyCount %>
+                                    </div>
+                                </td>
+                                <td class="a2" width="35%">
+                                   <div style="width: auto;">收货人：<%=order.Consignee%></div>
+                                    <div style="width: auto;">收货地址：<%=RegionBLL.RegionNameList(order.RegionId)%> <%=order.Address%></div>
+                                    <div style="width: auto;">联系电话：<%=order.Tel%></div>
+                                </td>
+                              
+                                <td class="a4"  width="10%">
+                                    <div>
+                                    <%=EnumHelper.ReadEnumChineseName<PointProductOrderStatus>(order.OrderStatus) %>
+                                     <html:if expression="order.OrderStatus == (int)PointProductOrderStatus.HasShipping">
+                                  <br />
+                                        <a href="javascript:;" onclick="receive('<%=order.Id%>')" >确认收货</a>
+                                   
+                                </html:if>
+                                          
+                                    </div>
+                              
+                                </td>                             
+                            
+                                  
+                            </tr>
+                        
+                        </table>
+                         
+                        </html:foreach>
+                        <$pager.ShowPage()$>
+                        <%}else{ %>
+                        <table border="0" cellpadding="0" cellspacing="0">
+                            <tr>
+                                <td>                                   
+                                 <h5>您还没有兑换商品哦~</h5>
+                                    <br />
+                                     <a href="/pointproduct.html"  target="_blanck">去兑换</a>
+                                </td>
+                            </tr>
+                        </table>
+                        <%} %>
+                    </div>
+   
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- footer start -->
+    <html:include file="/_Foot.htm" />
+         <script>
+             function receive(id) {
+                 if (confirm('请确认收到货物，是否继续？')) {
+                     $.ajax({
+                         url: '/User/OrderPoint.aspx?Action=ReceiveShipping',
+                         type: 'GET',
+                         data: { orderId: id },
+                         success: function () {
+                             window.location.reload();
+                         }
+                     });
+                 }
+             }
+    </script>
+</body>
+</html>

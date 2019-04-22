@@ -1,0 +1,150 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <html:include file="/MobileAdmin/_Head.htm" />
+    <style>
+        .marketing .itembox .item .txt.dptime1 {
+    width: 50%;
+}
+    </style>
+</head>
+<body>
+    <header class="header" id="header">
+        <a class="goBack icon" href="/mobileadmin/info.html" ig-back=""></a>
+        <h2>订单设置</h2>
+    </header>
+    <section class="userlist marketing">
+        <form id="form1">
+            <div class="itembox">          
+                <div class="item clearfix">
+                    <span class="tit">订单付款时限（0表示不限制）<s class="why icon"></s></span>
+                    <input type="text" class="txt dptime" id="OrderPayTime" name="OrderPayTime" value="<%=ShopConfig.ReadConfigInfo().OrderPayTime%>" maxlength="3" />分钟
+                </div>               
+                <div class="item clearfix">
+                    <span class="tit">订单收货时限（0表示不启用）<s class="why icon"></s></span>
+                    <input type="text" class="txt dptime" id="OrderRecieveShippingDays" name="OrderRecieveShippingDays" value="<%=ShopConfig.ReadConfigInfo().OrderRecieveShippingDays%>" maxlength="3" />天
+                </div> 
+            </div>
+            <div class="itembox">
+                <div class="item labbox clearfix">
+                    <span class="tit">付款时积分抵现<s class="why icon"></s></span>
+                    <label for="p1" class="sex <%if (ShopConfig.ReadConfigInfo().EnablePointPay == 1){ %>checked<%}%>"><input type="radio" name="EnablePointPay" id="p1" value="1" <%if (ShopConfig.ReadConfigInfo().EnablePointPay == 1){ %>checked<%}%> />开启 </label>
+                    <label for="p2" class="sex <%if (ShopConfig.ReadConfigInfo().EnablePointPay == 0){ %>checked<%}%>"><input type="radio" name="EnablePointPay" id="p2" value="0" <%if (ShopConfig.ReadConfigInfo().EnablePointPay == 0){ %>checked<%}%> />关闭 </label>
+                </div>
+                <div class="item clearfix" id="div1" <%if (ShopConfig.ReadConfigInfo().EnablePointPay == 0){ %>style="display:none;"<%}%>>
+                    <span class="tit">积分抵现百分比<s class="why icon"></s></span>
+                    <input type="text" class="txt" id="PointToMoney" name="PointToMoney" value="<%=ShopConfig.ReadConfigInfo().PointToMoney%>" maxlength="5" />
+                </div>
+               
+            </div>
+            <div class="itembox">
+                <div class="item clearfix">
+                    <span class="tit">订单支付模板Id<s class="why icon"></s></span>
+                    <input type="text" class="txt dptime1" id="OrderPayTemplateId" name="OrderPayTemplateId" value="<%=ShopConfig.ReadConfigInfo().OrderPayTemplateId%>" maxlength="50" />
+                </div>
+                <div class="item clearfix">
+                    <span class="tit">订单自提模板Id<s class="why icon"></s></span>
+                    <input type="text" class="txt dptime1" id="SelfPickTemplateId" name="SelfPickTemplateId" value="<%=ShopConfig.ReadConfigInfo().SelfPickTemplateId%>" maxlength="50" />
+                </div>
+                <div class="item clearfix">
+                    <span class="tit">开团成功模板Id<s class="why icon"></s></span>
+                    <input type="text" class="txt dptime1" id="OpenGroupTemplateId" name="OpenGroupTemplateId" value="<%=ShopConfig.ReadConfigInfo().OpenGroupTemplateId%>" maxlength="50" />
+                </div>
+                <div class="item clearfix">
+                    <span class="tit">参团成功模板Id<s class="why icon"></s></span>
+                    <input type="text" class="txt dptime1" id="GroupSignTemplateId" name="GroupSignTemplateId" value="<%=ShopConfig.ReadConfigInfo().GroupSignTemplateId%>" maxlength="50" />
+                </div>
+                <div class="item clearfix">
+                    <span class="tit">拼团成功模板Id<s class="why icon"></s></span>
+                    <input type="text" class="txt dptime1" id="GroupSuccessTemplateId" name="GroupSuccessTemplateId" value="<%=ShopConfig.ReadConfigInfo().GroupSuccessTemplateId%>" maxlength="50" />
+                </div>
+                 <div class="item clearfix"  style="display:none;">
+                    <span class="tit">拼团失败模板Id<s class="why icon"></s></span>
+                    <input type="text" class="txt dptime1" id="GroupFailTemplateId" name="GroupFailTemplateId" value="<%=ShopConfig.ReadConfigInfo().GroupFailTemplateId%>" maxlength="50" />
+                </div>
+            </div>
+            <!--end itembox-->
+            <input type="hidden" name="action" value="shopconfig" />
+            <input type="hidden" name="param" value="orderSet" />
+            <input type="button" value="保存" class="btnok" />
+        </form>
+
+
+    </section>
+
+    <script type="text/javascript" src="<html:templatePath>/mobileadmin/js/app.js"></script>
+    <script>
+        /*************************积分抵现****************************/
+        var enablePointPay = $("input[name=EnablePointPay]:checked").val();
+        $(document).ready(function () {
+            $("input[name=EnablePointPay]").each(function () {
+                $(this).click(function () {
+                    enablePointPay = $(this).val();
+                    if (enablePointPay == "0") {
+                        $("#div1").hide();                     
+                    }
+                    if (enablePointPay == "1") {
+                        $("#div1").show();                       
+
+                    }
+                });
+            });
+        });
+        /*************************积分抵现****************************/
+
+        /*********************表单提交*********************/
+        $(".btnok").bind('click', function () {
+                    
+                //正整数
+            var reg2 = /^[|+\\-]*[\\d|\\.|,]+$/;
+
+                if ($("#OrderPayTime").val() == "" || !reg2.test($("#OrderPayTime").val())) {
+                    Msg("订单付款时限必填且不小于0");
+                    $("#OrderPayTime").focus();
+                    return false;
+                }
+
+                if ($("#OrderRecieveShippingDays").val() == "" || !reg2.test($("#OrderRecieveShippingDays").val())) {
+                    Msg("订单收货时限必填且不小于0");
+                    $("#OrderRecieveShippingDays").focus();
+                    return false;
+                }
+
+           //如果开启了积分抵现
+                if (parseInt(enablePointPay) == 1) {
+                    var reg = /^[0-9]*[1-9][0-9]*$/;
+                    if ($("#PointToMoney").val() == "" || !reg.test($("#PointToMoney").val())) {
+                        Msg("积分抵现百分比必填且大于0");
+                        $("#PointToMoney").focus();
+                        return false;
+                    }
+                    if ($("#PointToMoney").val()>100) {
+                        Msg("积分抵现百分比不得大于100");
+                        $("#PointToMoney").focus();
+                        return false;
+                    }
+                }
+            $.ajax({
+                url: '/mobileadmin/ajax.html',
+                type: 'Post',
+                data: $("#form1").serialize(),
+                dataType: 'Json',
+                cache: false,
+                async: false,
+                success: function (res) {
+                    if (res.ok) {
+                        Msg("操作成功");
+                       setTimeout(location.reload(),5000);
+                    }
+                    else {
+                        Msg(res.msg);
+                    }
+                },
+                error: function () {
+                    Msg("系统忙，请稍后重试");
+                }
+            })
+        })
+    </script>
+</body>
+</html>

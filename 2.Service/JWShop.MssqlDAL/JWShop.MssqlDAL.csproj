@@ -1,0 +1,219 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.21022</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{885F23A3-8145-49B3-8BFB-F3851B947026}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>JWShop.MssqlDAL</RootNamespace>
+    <AssemblyName>JWShop.MssqlDAL</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <UpgradeBackupLocation />
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccProvider>
+    </SccProvider>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.Practices.EnterpriseLibrary.Common, Version=4.1.0.0, Culture=neutral, PublicKeyToken=7f2f4d7aece0749d, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\3.Client\JWShop.Web\Lib\Microsoft.Practices.EnterpriseLibrary.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.EnterpriseLibrary.Data, Version=4.1.0.0, Culture=neutral, PublicKeyToken=7f2f4d7aece0749d, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\3.Client\JWShop.Web\Lib\Microsoft.Practices.EnterpriseLibrary.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.ObjectBuilder2, Version=2.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\3.Client\JWShop.Web\Lib\Microsoft.Practices.ObjectBuilder2.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AdImageDAL.cs" />
+    <Compile Include="AdKeywordDAL.cs" />
+    <Compile Include="AdminDAL.cs" />
+    <Compile Include="AdminGroupDAL.cs" />
+    <Compile Include="AdminLogDAL.cs" />
+    <Compile Include="ArticleClassDAL.cs" />
+    <Compile Include="ArticleDAL.cs" />
+    <Compile Include="BackupRestoreDAL.cs" />
+    <Compile Include="BargainDAL.cs" />
+    <Compile Include="BargainDetailsDAL.cs" />
+    <Compile Include="BargainOrderDAL.cs" />
+    <Compile Include="BookingProductDAL.cs" />
+    <Compile Include="Data\ShopMssqlHelper.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Data\ShopMssqlPagerClass.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Data\ShopMssqlExtensions.cs" />
+    <Compile Include="DistributorGradeDAL.cs" />
+    <Compile Include="DistributorProductQrcodeDAL.cs" />
+    <Compile Include="EmailSendRecordDAL.cs" />
+    <Compile Include="FlashDAL.cs" />
+    <Compile Include="GroupBuyDAL.cs" />
+    <Compile Include="GroupSignDAL.cs" />
+    <Compile Include="HotSearchKeyDAL.cs" />
+    <Compile Include="LinkDAL.cs" />
+    <Compile Include="LotteryActivityDAL.cs" />
+    <Compile Include="MenuDAL.cs" />
+    <Compile Include="NavMenuDAL.cs" />
+    <Compile Include="OrderRefundActionDAL.cs" />
+    <Compile Include="OrderRefundDAL.cs" />
+    <Compile Include="OrderRefundPhotoDAL.cs" />
+    <Compile Include="OtherDuihuanDAL.cs" />
+    <Compile Include="OtherShiyaDAL.cs" />
+    <Compile Include="PhotoSizeDaL.cs" />
+    <Compile Include="PickUpCodeDAL.cs" />
+    <Compile Include="PointProductOrderDAL.cs" />
+    <Compile Include="PrizeRecordDAL.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RebateDAL.cs" />
+    <Compile Include="ReceiveMessageDAL.cs" />
+    <Compile Include="RecordingDAL.cs" />
+    <Compile Include="RegionDAL.cs" />
+    <Compile Include="UploadDAL.cs" />
+    <Compile Include="UserDAL.cs" />
+    <Compile Include="UserMessageDAL.cs" />
+    <Compile Include="NavigationDAL.cs" />
+    <Compile Include="BaseDAL.cs" />
+    <Compile Include="ProductClassDAL.cs" />
+    <Compile Include="ProductBrandDAL.cs" />
+    <Compile Include="ProductTypeDAL.cs" />
+    <Compile Include="ProductTypeAttributeDAL.cs" />
+    <Compile Include="ProductTypeAttributeRecordDAL.cs" />
+    <Compile Include="ProductTypeStandardDAL.cs" />
+    <Compile Include="ProductTypeStandardRecordDAL.cs" />
+    <Compile Include="ProductDAL.cs" />
+    <Compile Include="ProductPhotoDAL.cs" />
+    <Compile Include="ProductCommentDAL.cs" />
+    <Compile Include="CartDAL.cs" />
+    <Compile Include="UserAddressDAL.cs" />
+    <Compile Include="PointProductDAL.cs" />
+    <Compile Include="OrderDAL.cs" />
+    <Compile Include="OrderDetailDAL.cs" />
+    <Compile Include="OrderActionDAL.cs" />
+    <Compile Include="ShippingDAL.cs" />
+    <Compile Include="ShippingRegionDAL.cs" />
+    <Compile Include="UserAccountRecordDAL.cs" />
+    <Compile Include="ThemeActivityDAL.cs" />
+    <Compile Include="ProductCollectDAL.cs" />
+    <Compile Include="UserRechargeDAL.cs" />
+    <Compile Include="UserGradeDAL.cs" />
+    <Compile Include="ProductMemberPriceDAL.cs" />
+    <Compile Include="FavorableActivityGiftDAL.cs" />
+    <Compile Include="FavorableActivityDAL.cs" />
+    <Compile Include="CouponDAL.cs" />
+    <Compile Include="UserCouponDAL.cs" />
+    <Compile Include="VoteDAL.cs" />
+    <Compile Include="VoteItemDAL.cs" />
+    <Compile Include="VoteRecordDAL.cs" />
+    <Compile Include="WechatMenuDAL.cs" />
+    <Compile Include="WithdrawDAL.cs" />
+    <Compile Include="Withdraw_OperateDAL.cs" />
+    <Compile Include="WxFormIdDAL.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\0.Libraries\JWShop.Common\JWShop.Common.csproj">
+      <Project>{132a8616-e78a-4a4f-93e1-e299da9868df}</Project>
+      <Name>JWShop.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\0.Libraries\SqlMapper\SqlMapper.csproj">
+      <Project>{91019817-8593-4c72-a0cd-950826c826aa}</Project>
+      <Name>SqlMapper</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\JWShop.Entity\JWShop.Entity.csproj">
+      <Project>{e65f00f5-9549-4d83-a1dc-f04a3374bab7}</Project>
+      <Name>JWShop.Entity</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\JWShop.IDAL\JWShop.IDAL.csproj">
+      <Project>{4dd06394-c81e-4b90-951a-7f20dc178808}</Project>
+      <Name>JWShop.IDAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\0.Libraries\SkyCES.EntLib\SkyCES.EntLib.csproj">
+      <Project>{b77e4f27-61fd-45fc-a232-afb8cb25b2f0}</Project>
+      <Name>SkyCES.EntLib</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

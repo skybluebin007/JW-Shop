@@ -1,0 +1,133 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <html:include file="/Mobile/Head.htm" />
+    <style type="text/css">
+        body, html {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            font-family: "微软雅黑";
+        }
+
+        #allmap {
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+   
+        <div id="allmap">正在加载地图，请稍等</div>
+
+        <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=PZR7nEhG5cUHouZPOVKEohGuaZIyT7Iu"></script>
+        <script src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
+        <script src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js" type="text/javascript"></script>
+        <script type="text/javascript">
+        var dataForWeixin = {
+            appId: "<%=ShopConfig.ReadConfigInfo().AppID%>",
+            MsgImg: "<%=WeChatImg%>",
+            TLImg: "<%=WeChatImg%>",
+            url: "<%=url%>",
+            title: "<%=title%>",
+            desc: "<%=desc%>",
+            timestamp: '<%=timestamp%>',
+            nonceStr: '<%=nonce%>',
+            signature: '<%=signature%>',
+            jsApiList: ['onMenuShareTimeline', 'onMenuShareAppMessage', 'onMenuShareQQ', 'onMenuShareWeibo', 'chooseImage', 'getNetworkType', 'getLocation', 'openLocation'],
+            fakeid: "",
+            callback: function () { }
+        };
+        wx.config({
+            debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+            appId: dataForWeixin.appId, // 必填，公众号的唯一标识
+            timestamp: dataForWeixin.timestamp, // 必填，生成签名的时间戳
+            nonceStr: dataForWeixin.nonceStr, // 必填，生成签名的随机串
+            signature: dataForWeixin.signature,// 必填，签名，见附录1
+            jsApiList: dataForWeixin.jsApiList  // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+        });
+        wx.ready(function () {
+            var _latitude = 0, _longitude = 0;
+            //获取地理位置接口
+            wx.getLocation({
+                type: 'wgs84', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
+                success: function (res) {
+                    _latitude = res.latitude; // 纬度，浮点数，范围为90 ~ -90
+                    _longitude = res.longitude; // 经度，浮点数，范围为180 ~ -180。
+                    var speed = res.speed; // 速度，以米/每秒计
+                    var accuracy = res.accuracy; // 位置精度
+
+                    alert("转换前:" + _longitude + "," + _latitude);
+                    //使用百度地图显示附近诊所
+                    var ggPoint = new BMap.Point(_longitude, _latitude);
+                    var convertor = new BMap.Convertor();
+                    var pointArr = [];
+                    pointArr.push(ggPoint);
+                    //坐标转换完之后的回调函数                     
+                    convertor.translate(pointArr, 1, 5, function (data) {
+                        if (data.status === 0) {
+                            var point = data.points[0];
+
+                            alert("转换后:" + point.lng + "," + point.lat);
+
+                            //获取所有门诊店的信息
+                            var address_info = [];
+                            $.ajax({
+                                url: "?action=GetHospitals",
+                                type: "get",
+                                data: {},
+                                dataType: "json",
+                                cache: false,
+                                async: false,
+                                success: function (data) {
+                                    if (data.length > 0) {
+                                        for (var i in data) {
+                                            address_info.push([data[i].lng, data[i].lat, "名称：" + data[i].name, "地址：" + data[i].address, "电话：" + data[i].tel]);
+                                        }
+                                        //console.log(address_info);
+
+                                        // 百度地图API功能
+                                        map = new BMap.Map("allmap");
+                                        //当前位置坐标
+                                        map.centerAndZoom(new BMap.Point(point.lng, point.lat), 13);
+                                        var opts = {
+                                            width: 300,     // 信息窗口宽度
+                                            height: 200,     // 信息窗口高度
+                                            title: "门诊信息", // 信息窗口标题
+                                            enableMessage: true//设置允许信息窗发送短息
+                                        };
+                                        for (var i = 0; i < address_info.length; i++) {
+                                            var marker = new BMap.Marker(new BMap.Point(address_info[i][0], address_info[i][1]));  // 创建标注
+                                            var content = address_info[i][2] + "<br>" + address_info[i][3] + "<br>" + address_info[i][4];
+                                            map.addOverlay(marker);               // 将标注添加到地图中
+                                            addClickHandler(content, marker);
+                                        }
+                                        function addClickHandler(content, marker) {
+                                            marker.addEventListener("click", function (e) {
+                                                openInfo(content, e)
+                                            }
+                                            );
+                                        }
+                                        function openInfo(content, e) {
+                                            var p = e.target;
+                                            var point = new BMap.Point(p.getPosition().lng, p.getPosition().lat);
+                                            var infoWindow = new BMap.InfoWindow(content, opts);  // 创建信息窗口对象
+                                            map.openInfoWindow(infoWindow, point); //开启信息窗口
+                                        }
+                                    }
+
+                                },
+                                error: function () { }
+                            })
+
+                        }
+                    });
+                }
+            });
+        })
+
+       
+        </script>
+    </body>
+
+</html>

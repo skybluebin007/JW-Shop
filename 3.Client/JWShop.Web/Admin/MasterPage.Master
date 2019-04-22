@@ -1,0 +1,49 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="MasterPage.Master.cs" Inherits="JWShop.Web.Admin.MasterPage" %>
+<%@ Import Namespace="JWShop.Common" %>
+<%@ Import Namespace="JWShop.Business" %>
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <title><%=Global.ProductName%></title>
+    <link rel="stylesheet" href="/Admin/static/css/main.min.css" />
+    <link rel="stylesheet" href="/Admin/static/css/ao.css" />
+    <script type="text/javascript" src="/Admin/Js/Common.js"></script>
+    <script type="text/javascript" src="/Admin/Js/Admin.js"></script>
+    <script type="text/javascript" src="/Admin/Js/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript">var globalPopCloseRefresh=<%=ShopConfig.ReadConfigInfo().PopCloseRefresh.ToString() %>; var globalNamePrefix = "<%=ShopConfig.ReadConfigInfo().NamePrefix%>"; var globalIDPrefix = "<%=ShopConfig.ReadConfigInfo().IDPrefix%>";</script>
+</head>
+<body>
+    <form id="aspnetForm" runat="server">
+        <asp:ContentPlaceHolder ID="ContentPlaceHolder" runat="server">
+        </asp:ContentPlaceHolder>
+    </form>
+
+    
+    <script src="/Admin/static/js/app.min.js"></script>
+    <script src="/Admin/static/js/nav.js"></script>
+    <script src="/Admin/layer/layer.js"></script>  
+    <%--移动端访问进入移动端后台--%>
+  <script>
+    var host = window.location.host;
+    var hrefs = window.location.href;
+    var system = {
+        win: false,
+        mac: false,
+        xll: false
+    };
+    //检测平台
+    var p = navigator.platform;
+    system.win = p.indexOf("Win") == 0;
+    system.mac = p.indexOf("Mac") == 0;
+    system.x11 = (p == "X11") || (p.indexOf("Linux") == 0);
+    if (system.win || system.mac || system.xll) {
+    } else {
+        var urlsprit = hrefs.replace("http://" + host, "");
+
+        //window.location.href = "http://" + host + "/mobile" + urlsprit;
+        window.location.href = "http://" + host + "/mobileadmin/index.html";
+    }
+</script>
+</body>
+</html>

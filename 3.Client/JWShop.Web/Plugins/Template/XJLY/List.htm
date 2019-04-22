@@ -1,0 +1,416 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <html:include file="/_Head.htm" />
+    
+</head>
+<body>
+    <!--top start-->
+    <html:include file="/_Top.htm" />
+    <!--header start-->
+    <html:csharp>
+                var _baseQueryString = "/list.html?cat=" + StringHelper.AddSafe(HttpUtility.UrlDecode(Request.QueryString["cat"]));
+                var _kw=StringHelper.AddSafe(HttpUtility.UrlDecode(RequestHelper.GetQueryString<string>("kw")));
+                    if(!string.IsNullOrEmpty(_kw))_baseQueryString+="&kw="+_kw;
+                var _brand = StringHelper.AddSafe(HttpUtility.UrlDecode(RequestHelper.GetQueryString<string>("brand")));
+                var _at = RequestHelper.GetQueryString<string>("at");
+                var _ex = StringHelper.AddSafe(HttpUtility.UrlDecode(RequestHelper.GetQueryString<string>("ex")));
+                var _ats = _at.Split(new char[]{';'}, StringSplitOptions.RemoveEmptyEntries).ToList();
+                var _exs = _ex.Split(new char[]{';'}, StringSplitOptions.RemoveEmptyEntries).ToList();
+            </html:csharp>
+    <!--nav start-->
+    <!--main content start-->
+    <div id="location" class="w1210 clearfix">
+            
+            <%if(string.IsNullOrEmpty(keywords)){ %>
+        <div class="crumbs-nav-item" style="margin-right:20px;">
+           <div class="crumbs-nav-item one-level"><a href="/list.html?cat=<%=levelClass["level1"].Id%>" class="crumbs-link"><%=levelClass["level1"].Name%></a> <i class="crumbs-arrow">&gt;</i></div>
+                                <div class="menu-drop">
+                                <div class="trigger">
+                                    <span class="curr">
+                                        <html:if expression="levelClass["level2"].Id > 0">
+                                            <%=levelClass["level2"].Name%>
+                                        <html:else>
+                                            选择分类
+                                        </html:if>
+                                    </span>
+                                    <i class="menu-drop-arrow"></i>
+                                </div>
+                                <div class="menu-drop-main">
+                                    <ul class="menu-drop-list">
+                                        <html:foreach expression="var item in showClassList.Where(k => k.ParentId == levelClass["level1"].Id)">
+                                            <li>
+                                                <a href="/list.html?cat=<%=levelClass["level1"].Id%>,<%=item.Id%>" title="<%=item.Name%>">
+                                                    <%=item.Name%>
+                                                </a>
+                                            </li>
+                                        </html:foreach>
+                                    </ul>
+                                </div>
+                            </div>
+                  <html:if expression="levelClass["level2"].Id > 0 && showClassList.Where(k => k.ParentId == levelClass["level2"].Id).ToList().Count>0">
+                                <i class="crumbs-arrow">&gt;</i>
+                            </html:if>
+            </div>
+                                <html:if expression="levelClass["level2"].Id > 0 && showClassList.Where(k => k.ParentId == levelClass["level2"].Id).ToList().Count>0">
+                            <div class="crumbs-nav-item">
+                                <div class="menu-drop">
+                                    <div class="trigger">
+                                        <span class="curr">
+                                            <html:if expression="levelClass["level3"].Id > 0">
+                                                <%=levelClass["level3"].Name%>
+                                            <html:else>
+                                                选择分类
+                                            </html:if>
+                                        </span>
+                                        <i class="menu-drop-arrow"></i>
+                                    </div>
+                                    <div class="menu-drop-main">
+                                        <ul class="menu-drop-list clearfix">
+                                            <html:foreach expression="var item in showClassList.Where(k => k.ParentId == levelClass["level2"].Id)">
+                                                <li>
+                                                    <a href="/list.html?cat=<%=levelClass["level1"].Id%>,<%=levelClass["level2"].Id%>,<%=item.Id%>" title="<%=item.Name%>">
+                                                        <%=item.Name%>
+                                                    </a>
+                                                </li>
+                                            </html:foreach>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </html:if>
+            <%}else{ %>
+            <div class="crumbs-nav-item" style="margin-right:20px;">
+            <a href="">全部结果</a> > <strong>"<$keywords$>"</strong></div>
+                <%} %>
+                
+       
+        <!--品牌导航 start-->
+                <html:if expression="!string.IsNullOrEmpty(_brand)">
+                    <div class="crumbs-nav-item">
+                        <div class="selector-set">
+                            <html:csharp>
+                                var _selectBrands = "";
+                                var _brands = _brand.Split(',');
+                                var _brandUrl = StringHelper.AddSafe(HttpUtility.HtmlDecode(Request.RawUrl)).Replace("?brand=" + _brand, "").Replace("&brand=" + _brand, "");
+                               
+                                if(string.IsNullOrEmpty(_at)) _brandUrl = _brandUrl.Replace("&at=","");
+                                if(string.IsNullOrEmpty(_ex)) _brandUrl = _brandUrl.Replace("&ex=","");
+                            </html:csharp>
+                            <html:foreach expression="var item in _brands">
+                                <html:csharp>
+                                    var _showBrand = showBrandList.FirstOrDefault(k => k.Id.ToString() == item) ?? new ProductBrandInfo();
+                                    _selectBrands += string.IsNullOrEmpty(_selectBrands)  ? _showBrand.Name : "、" + _showBrand.Name;
+                                </html:csharp>
+                            </html:foreach>
+                            <a href="<%=StringHelper.AddSafe(HttpUtility.HtmlEncode(_brandUrl)) %>" title="<%=StringHelper.AddSafe(HttpUtility.HtmlEncode(_selectBrands))%>" class="ss-item">
+                                <b>品牌：</b>
+                                <em>
+                                    <%=StringHelper.AddSafe(_selectBrands)%>
+                                    <input type="hidden" id="_brand" value="<$_brand$>" />
+                                </em>
+                                <i></i>
+                            </a>
+                        </div>
+                    </div>
+                </html:if>
+                <!--品牌导航 end-->
+                <!--属性导航 start-->
+                <html:if expression="_ats.Count > 0">
+                    <html:for init="int ai = 0" condtion="ai < _ats.Count" expression="ai++">
+                        <div class="crumbs-nav-item">
+                            <div class="selector-set">
+                                <html:csharp>
+                                    var _selectAts = _ats.Where(k => k != _ats[ai]).ToList();                                  
+                                    var _selectExs = _exs.Where(k => k != _exs[ai]).Select(k=>HttpUtility.UrlEncode(k)).ToList();
+                                
+                                    var _showAt = showAttributeList.FirstOrDefault(k => k.Id.ToString() == _ats[ai]) ?? new ProductTypeAttributeInfo();                                
+                                    var _atNavUrl = StringHelper.AddSafe(HttpUtility.UrlDecode(Request.RawUrl));
+                                    if(_selectAts.Count == 0) _atNavUrl = _atNavUrl.Replace("&at=" + _at, "").Replace("?at=" + _at, "?"); else _atNavUrl = _atNavUrl.Replace("&at=" + _at, "&at=" + string.Join(";", _selectAts)).Replace("?at=" + _at, "?at=" + string.Join(";", _selectAts));
+                                    if(_selectExs.Count == 0) _atNavUrl = _atNavUrl.Replace("&ex=" + _ex, "").Replace("?ex=" + _ex, "?"); else _atNavUrl = _atNavUrl.Replace("&ex=" + _ex, "&ex=" + string.Join(";", _selectExs)).Replace("?ex=" + _ex, "?ex=" + string.Join(";", _selectExs));
+                                </html:csharp>                              
+                                <a href="<%=_atNavUrl%>" title="<%=StringHelper.AddSafe(HttpUtility.UrlEncode(_exs[ai]))%>" class="ss-item">
+                                    <b><%=_showAt.Name%>：</b>
+                                    <em>
+                                        <%=StringHelper.AddSafe(HttpUtility.HtmlEncode(_exs[ai]))%>
+                                    </em>
+                                    <i></i>
+                                </a>
+                            </div>
+                        </div>
+                    </html:for>
+                </html:if>
+                <!--属性导航 end-->
+        </div>
+    <div id="pageProduct">
+        
+        <div id="floor_1_main" class="proSort w1210">
+            <div class="selector-head">
+            <h2>商品筛选共 <span><%=pager.Count%>个商品</span></h2>
+        </div>
+            <html:if expression="showBrandList.Count > 0 && string.IsNullOrEmpty(_brand)">
+                <div class="pSelect por s_brand clearfix">
+                    <h2 class="fl">
+                        品牌：
+                    </h2>
+                    <div class="pSelectCon fl">
+                        <div class="sl_list">
+                            <ul class="clearfix">
+                                <html:foreach expression="var item in showBrandList">
+                                    <li id="brand-<%=item.Id%>"> <a href="<%=(Request.RawUrl.IndexOf("?")>-1?StringHelper.AddSafe(HttpUtility.HtmlEncode(Request.RawUrl))+"&":StringHelper.AddSafe(HttpUtility.HtmlEncode(Request.RawUrl))+"?") + "brand=" + item.Id%>" title="<%=item.Name%>"><i class="icon"></i> <%=item.Name%></a></li>
+                                </html:foreach>
+                            </ul>
+                        </div>
+                        <div class="sl_ext poa">
+                            <a class="sl_extMore" href="javascript:;" title="">更多<s class="icon"></s></a> <a class="sl_extMultiple" href="javascript:;" title=""><s class="icon"></s>多选</a>
+                        </div>
+                        <div class="sl_selected clearfix hidden">
+                            <span class="fl">已选条件：</span>
+                            <ul class="fl"></ul>
+                        </div>
+                        <div class="sureClose hidden">
+                            <a href="javascript:;" title="" class="sure">确定</a><a href="javascript:;" title=""
+                             class="close">取消</a>
+                        </div>
+                    </div>
+                     
+                </div>
+                </html:if>
+                <html:if expression="showAttributeList.Count > 0">
+                    <html:foreach expression="var item in showAttributeList">
+                        <html:csharp> if(_ats.Contains(item.Id.ToString())) continue;</html:csharp>
+                        <div class="pSelect por clearfix">
+                            <h2 class="fl">
+                                <%=item.Name%>：
+                            </h2>
+
+                            <div class="pSelectCon fl">
+                                <div class="sl_list">
+                                    <ul class="clearfix">
+                                        <html:foreach expression="var value in item.InputValue.Split(';').Distinct().ToArray()">
+                                            <html:csharp>
+                                                string _attUrl = StringHelper.AddSafe(HttpUtility.UrlDecode(Request.RawUrl));
+                                                if (_attUrl.IndexOf("?") < 0) _attUrl += "?";
+                                                _attUrl = _ats.Count > 0
+                                                ? _attUrl.Replace("&at=" + _at, "&at=" + _at + ";" + item.Id)
+                                                : _attUrl + "&at=" + item.Id;
+                                                _attUrl = _ats.Count > 0
+                                                ? _attUrl.Replace("&ex=" + _ex, "&ex=" + StringHelper.AddSafe(HttpUtility.UrlEncode(_ex)) + ";" + StringHelper.AddSafe(HttpUtility.UrlEncode(value)))
+                                                : _attUrl + "&ex=" + StringHelper.AddSafe(HttpUtility.UrlEncode(value));
+                                            </html:csharp>
+                                            <html:if expression="!String.IsNullOrEmpty(value)">
+                                            <li><a href="<%=GetReplacePage(_attUrl)%>" title="<%=value%>"><i class="icon"></i><%=StringHelper.AddSafe(value)%></a></li>
+                                             </html:if>
+                                        </html:foreach>
+                                    </ul>
+                                </div>
+                               <!-- <div class="sl_ext poa">
+                                    <a class="sl_extMore" href="javascript:;" title="">更多<s class="icon"></s></a>
+                                </div>-->
+                                <div class="sl_selected clearfix hidden">
+                                    <span class="fl">已选条件：</span>
+                                    <ul class="fl"></ul>
+                                </div>
+                            </div>
+
+                        </div>
+                    </html:foreach>
+                </html:if>
+</div>
+               
+        <div id="floor_2_main" class="w1210 clearfix">        
+            <div id="right" >
+                <html:csharp>
+                    if(!string.IsNullOrEmpty(_brand)) _baseQueryString += "&brand=" + _brand;
+                    if(!string.IsNullOrEmpty(_at)) _baseQueryString += "&at=" + _at;
+                    if(!string.IsNullOrEmpty(_ex)) _baseQueryString += "&ex=" + _ex;
+
+                    string _sort = Request.QueryString["sort"] ?? "";                    
+                    string _orderType = _sort == "SalePrice_asc" ? "desc" : "asc";
+                    string _isNew = Request.QueryString["IsNew"] ?? "";
+                    string _isHot = Request.QueryString["IsHot"] ?? "";
+                    string _isSpecial = Request.QueryString["IsSpecial"] ?? "";
+                    string _isTop = Request.QueryString["IsTop"] ?? "";
+                    
+                    int _minPrice = RequestHelper.GetQueryString<int>("min");
+                    int _maxPrice = RequestHelper.GetQueryString<int>("max");
+
+                        if(!string.IsNullOrEmpty(_isNew)) _baseQueryString += "&IsNew=" + _isNew;
+                        if(!string.IsNullOrEmpty(_isHot)) _baseQueryString += "&IsHot=" + _isHot;
+                        if(!string.IsNullOrEmpty(_isSpecial)) _baseQueryString += "&IsSpecial=" + _isSpecial;
+                        if(!string.IsNullOrEmpty(_isTop)) _baseQueryString += "&IsTop=" + _isTop;
+                </html:csharp>
+                <div class="right_top s_filter clearfix">
+                    <div class="f_sort fl">
+                        <a href="<%=StringHelper.AddSafe(HttpUtility.HtmlEncode(_baseQueryString))%>&sort=" <%if(_sort == ""){%>class="cur" <%}%>>默认</a>
+                        <a href="<%=StringHelper.AddSafe(HttpUtility.HtmlEncode(_baseQueryString))%>&sort=OrderCount" <%if(_sort == "OrderCount"){%>class="cur"
+                            <%}%>>销量</a> <a href="<%=StringHelper.AddSafe(HttpUtility.HtmlEncode(_baseQueryString))%>&sort=SalePrice_<%=_orderType%>" <%if(_sort.ToLower().IndexOf("saleprice")>-1){%>class="cur"
+                            <%}%>>价格</a>
+                        <a href="<%=StringHelper.AddSafe(HttpUtility.HtmlEncode(_baseQueryString))%>&sort=CommentCount" <%if(_sort == "CommentCount"){%>class="cur"
+                            <%}%>>评论</a> <a href="<%=StringHelper.AddSafe(HttpUtility.HtmlEncode(_baseQueryString))%>&sort=CollectCount" <%if(_sort == "CollectCount"){%>class="cur"
+                                <%}%>>关注</a>
+                    </div>
+                    <div class="f_search fl">
+                        <html:csharp>
+                            string _attUrls = StringHelper.AddSafe(Request.RawUrl);
+                            </html:csharp>
+                        <input type="text" class="txt fl" name="" id="SearchTxts" value="" placeholder="在结果中搜索" />
+                        <input type="button" class="btn fl" name="btn" value="搜索" id="SearchSubmits" />
+                        <script type="text/javascript">
+                            var artUls = "<%= _attUrls%>";
+                            $("#SearchSubmits").click(function () {
+                                if ($("#SearchTxts").val() == "") { alert("请输入搜索关键字"); $("#SearchTxts").focus(); }
+                                else { window.location.href = artUls + "&stf_Keyword=" + encodeURIComponent($("#SearchTxts").val()); }
+                            })
+                            // 按Enter键,执行事件
+                            function entersearch() {
+                                var event = window.event || arguments.callee.caller.arguments[0];
+                                if (event.keyCode == 13) {
+                                    $("#SearchSubmits").click();
+                                }
+                            }
+                        </script>
+                    </div>
+                    <$pager.ShowLoadPages()$>
+                </div>
+                <div class="right_body">
+                    <div class="gridlist clearfix">
+                        <html:if expression="productList.Count > 0">
+                         <html:foreach expression="ProductInfo product in productList">
+                        <div class="item">
+                            <a href="/ProductDetail-I<$product.Id$>.html" title="<$product.Name$>" target="_blank" class="img">
+                                <img src="<$ShopCommon.ShowImage(product.Photo.Replace("Original","350-350"))$>" alt="<$product.Name$>" title="<$product.Name$>" /></a>
+                            <p class="price">
+                                ￥<span><$ProductBLL.GetCurrentPrice(product.SalePrice,base.GradeID)$></span></p>
+                            <h3>
+                                <a href="/ProductDetail-I<$product.Id$>.html" title="<$product.Name$>" target="_blank"><$StringHelper.Substring(product.Name,15)$></a></h3>
+                            <div class="p1">
+                                已有<span class="fwb"><$product.CommentCount$></span>人评价</div>
+                            <div class="p2 clearfix">
+                                <a href="javascript:collectProduct(<$product.Id$>)" class="focus fl" title=""><s class="icon"></s>关注</a> 
+                                <a onclick="handleCart(<$product.Id$>,'<$product.Name$>',<$product.StandardType$>,<$ProductBLL.GetCurrentPrice(product.SalePrice,base.GradeID)$>)"  class="addcart fl" title="" target="_blank"><s class="icon"></s>加入购物车</a>
+                            </div>
+                        </div>
+                        </html:foreach>
+                         
+                        <html:else>
+                            <div class="notice-filter-noresult">
+                                <div class="nf-n-wrap clearfix">
+                                    <span class="nf-icon"></span>
+                                    <div class="nf-content">
+                                        <span class="result">抱歉，没有找到相关的商品</span><p>
+                                            建议您：</p>
+                                        <p>
+                                            1、适当减少筛选条件</p>
+                                        <p>
+                                            2、调整价格区间</p>
+                                        <p>
+                                            3、尝试其他关键字</p>
+                                        <a href="javascript:window.history.back(-1);" class="btn btn-default mt20">返回上一步操作</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </html:if>
+                    </div>
+                    <!--<div class="pager"><$pager.ShowPages()$></div>-->
+                    <div class="pager">
+                        <$pager.ShowLoadPage()$> <!--<span class="p-skip fl" style="display: none"><em>共<b>81</b>页&nbsp;到第</em>
+                            <input type="text" name="" id="" value="1" />
+                            <em>页</em> <a class="btn btn-default" href="javascript:;">确定</a> </span>-->
+                    </div>
+                </div>
+            </div>
+        </div>
+         <html:if expression="hotProductList.Count>0">
+        <div id="floor_3_main" class="w1210">
+            <div id="floor_3">
+                <h3 class="title">
+                    热销商品</h3>
+                <div class="floor_3_body gridlist clearfix">
+                    <html:foreach expression="ProductInfo proInfo  in hotProductList">
+                    <div class="item">
+                        <a href="/ProductDetail-I<$proInfo.Id$>.html" title="<$proInfo.Name$>" target="_blank" class="img">
+                            <img src="<$ShopCommon.ShowImage(proInfo.Photo.Replace("Original","350-350"))$>" alt="<$proInfo.Name$>" title="<$proInfo.Name$>" /></a>
+                        <h3>
+                            <a href="/ProductDetail-I<$proInfo.Id$>.html" title="<$proInfo.Name$>" target="_blank"><$StringHelper.Substring(proInfo.Name,13)$></a></h3>
+                        <span class="price fwb">￥<$ProductBLL.GetCurrentPrice(proInfo.SalePrice,base.GradeID)$></span>
+                        <div class="p1">
+                            <span><$proInfo.CommentCount$></span>人评价</div>
+                    </div></html:foreach>
+                </div>
+            </div>
+        </div>
+             </html:if>
+        <html:if expression="tempProductList.Count>0">
+         <div id="floor_4_main" class="w1210">
+            <div id="floor_4">
+                <h3 class="title">
+                    我的足迹</h3>
+                <div class="floor_3_body gridlist clearfix">
+                    <%int ti=1;
+                    for(int i=tempProductList.Count-1;i>=0;i--){
+                    var proInfo=tempProductList[i];
+                    if(ti<=5){%>
+                    <div class="item">
+                        <a href="/ProductDetail-I<$proInfo.Id$>.html" title="<$proInfo.Name$>" target="_blank" class="img">
+                            <img src="<$ShopCommon.ShowImage(proInfo.Photo.Replace("Original","190-190"))$>" alt="<$proInfo.Name$>" title="<$proInfo.Name$>" /></a>
+                        <h3>
+                            <a href="/ProductDetail-I<$proInfo.Id$>.html" title="<$proInfo.Name$>" target="_blank"><$StringHelper.Substring(proInfo.Name,13)$></a></h3>
+                        <span class="price fwb">￥<$ProductBLL.GetCurrentPrice(proInfo.SalePrice,base.GradeID)$></span>
+                        <div class="p1">
+                            <span><$proInfo.CommentCount$></span>人评价</div>
+                    </div><%ti++;}}%>
+                </div>
+            </div>
+        </div>
+         </html:if>
+        <html:if expression="!string.IsNullOrEmpty(keywords)">
+          <div id="floor_5_main" class="w1210">
+            <div id="floor_5" class="clearfix">
+                <div class="again fwb fl">
+                    重新搜索：</div>
+                <div class="search_main fl">
+                    <form class="por clearfix" method="post" >
+                    <input type="text" id="kw" name="kw" class="txt fl" value="<%=StringHelper.AddSafe(HttpUtility.HtmlEncode(keywords))%>" placeholder="请输入商品关键字" />
+                    <input type="button" id="sbtn" name="btn" class="btn fl" value="搜索" />
+                    <script >
+                        $("#sbtn").click(function () {
+                            if ($("#kw").val() == "") {
+                                alert("请输入商品关键字 ");
+                                $("#kw").focus();
+                                return false;
+                            }
+                            else {
+                                window.location.href = "/list.html?kw=" + encodeURIComponent($("#kw").val());
+                            }
+                        })
+                    </script>
+                    </form>
+                </div>
+            </div>
+        </div>
+</html:if>
+    </div>
+    <!-- footer start -->
+    <html:include file="/_Foot.htm" />
+    <script type="text/javascript">
+        $(function () {
+            var u = $("#pagewz").val();
+            var max = parseInt($("#pagemaxCount").val());
+            $(".pager .btn").click(function () {
+                var n = parseInt($("#userpagenum").val());
+                u = u.replace("$Page", n);
+                if (n <= max) {
+                    window.location.href = u;
+                } else {
+                    window.location.reload();
+                }
+            });
+
+            if($("#floor_1_main").html().trim().length<1){
+                $("#floor_1_main").hide();
+            }
+        })
+    </script>
+</body>
+</html>

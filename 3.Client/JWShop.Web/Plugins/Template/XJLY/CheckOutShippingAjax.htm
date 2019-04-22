@@ -1,0 +1,36 @@
+﻿<html:namespace name="JWShop.Entity" />
+<html:namespace name="JWShop.Business" />
+
+<html:csharp>int i=0;</html:csharp>
+<div class="dist_info" >
+    <html:foreach expression="ShippingInfo shipping in shippingList">
+        <div style="height: auto;">
+            <input type="radio" name="ShippingId" value="<%=shipping.Id%>" id="Shipping<%=shipping.Id%>" onclick="selectShipping()" <html:if expression="i==0"> checked="checked"</html:if>  /> 
+            <label for="Shipping<%=shipping.Id%>">
+                <%=shipping.Name%>&nbsp;
+            </label>
+        </div>
+    <html:csharp>i++;</html:csharp>
+    </html:foreach>
+</div>
+||
+寄送至:<$RegionBLL.RegionNameList(address.RegionId)$>&nbsp;<$address.Address$><br />
+    收货人 <$address.Consignee$>&nbsp;<$address.Mobile$>
+||
+<html:if expression="favorableActivityList.Count>0">
+    <%int f=0;%>
+    <div class="dist_info" >
+订单优惠:<br />
+        <div style="height: auto;">
+    <html:foreach expression="var favor in favorableActivityList">
+          <input type="radio" name="FavorableActivity" value="<%=favor.Id%>" id="Favor<%=favor.Id%>" onclick="selectShipping()" <html:if expression="f==0"> checked="checked"</html:if>  /> 
+            <label for="Favor<%=favor.Id%>">
+                <%=favor.Name%>:<%=favor.Content%>
+            </label>
+        <br />
+<%f++;%>
+    </html:foreach>
+            </div>
+        </div>
+</html:if>
+

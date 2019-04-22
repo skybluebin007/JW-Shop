@@ -1,0 +1,149 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <html:include file="/_Head.htm" />
+
+</head>
+<body>
+  <html:include file="/_UTop.htm" />
+    <div id="myOrder">
+        <div class="w1210 clearfix">
+            <html:include file="/User/UserLeft.htm" />
+        <div id="right" class="content fr">
+            <html:include file="/User/UserTop.htm" />
+            <div class="orderList" id="userTab">
+                <div class="tab">
+                    <a href="javascript:;" class="item cur">验证邮箱</a> 
+                    <div class="clear">
+                    </div>
+                </div>
+                <div class="container">
+                    <html:if expression="result!=string.Empty">
+        <div class="conIndex userInfo" style="color:red;"><$result$></div>
+        <html:else>
+      
+                    <div class="conIndex userInfo">
+                        <form action="/User/UpdateEmail.html" method="post" name="form">
+                      
+                        <table cellpadding="0" cellspacing="0" border="0" width="100%" class="tableThemes_6">
+                            <tr>
+                                <td align="right" width="120" height="40">
+                                    用户名：
+                                </td>
+                                <td align="left">
+                                    <$base.UserName$>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td align="right" height="40">邮箱：
+                                </td>
+                                <td align="left">
+                                    <input type="text" name="Email" id="Email" value="<$CurrentUser.Email$>" maxlength="30" onblur="checkEmail()" /><span class="red">*</span><input id="CheckEmail" value="0" type="hidden" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td align="right" height="40">验证码：
+                                </td>
+                                <td align="left">
+                                    <input type="text" name="SafeCode" id="SafeCode" value="" placeholder="请输入验证码" maxlength="4" />
+                                   <img src="CheckCode.ashx" onclick="this.src='CheckCode.ashx?t=' + new Date();" style="cursor:pointer" alt="点击刷新验证码" align="absmiddle" />
+                                </td>
+                            </tr>
+                            <tr valign="middle">
+                                <td align="right" height="40">
+                                </td>
+                                <td align="left">
+                                    <input type="button" value="确定" id="submit_info" name="" class="submit" />
+                                </td>
+                            </tr>
+                        </table>
+                        </form>
+                    </div>
+         </html:if>   
+                    <div class="clear">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="clear">
+        </div>
+        </div>
+    </div>
+    <html:include file="/_Foot.htm" />
+    <div class="hidden" title="codes">
+    </div>
+<script type="text/javascript">
+    function checkEmail() {
+         if ($("#Email").val() != "") {
+             if (!Validate.isEmail($("#Email").val())) {//格式不对
+                 $("#CheckEmail").val("1");
+                 return;
+             }
+             else {
+
+                 $.ajax({
+                     type: 'post',
+                     url: "/Ajax.html?Email=" + encodeURIComponent($("#Email").val()) + "&Action=CheckEmail2",
+                     //data: {},
+                     cache: false,
+                     //dataType: 'json',
+                     success: function (data) {
+                         if (data == "2") {
+                             $("#CheckEmail").val("0");
+                         }
+                         else {//被占用
+                             $("#CheckEmail").val("2");
+                         }
+                     },
+                     error: function () { }
+                 });
+
+             }
+         }
+
+
+    }
+
+    $(function () {
+
+
+        $("#submit_info").click(function () {  
+       
+            if ($("#Email").val() == "" || !Validate.isEmail($("#Email").val())) {
+                alertMessage("邮箱输入错误");
+                $("#Email").focus();
+                return false;
+            }
+            if ($("#CheckEmail").val() == "2") {
+                alertMessage("邮箱已被其他会员绑定");
+                $("#Email").focus();
+                return false;
+            }
+            if ($("#SafeCode").val() == "") {
+                alertMessage("验证码不能为空");
+                $("#SafeCode").focus();
+                return false;
+            }
+            $.ajax({
+                url: '/User/updateemail.html?Action=UpdateEmail',
+                type: 'POST',
+                data: $("form").serialize(),
+                success: function (result) {
+                    var arr = result.split('|');
+                    if (arr[0] == "ok") {
+                        //alertMessage("修改成功", 500);
+                        window.location.href = arr[1];
+                    }
+                    else {
+                        alertMessage(arr[1], 500);
+                    }
+                }
+            });
+        })  
+    })
+
+   
+</script>
+</body>
+</html>

@@ -1,0 +1,27 @@
+﻿<html:namespace name="JWShop.Common" />
+
+<li class="row">
+    <div class="e"><span class="red">*</span> 收货人姓名：</div>
+    <input type="text" name="Consignee"  id="Consignee"  value="<$userAddress.Consignee$>" class="txt_200" maxlength="10"  />
+</li>
+<li class="row">
+    <div class="e"><span class="red">*</span> 固定电话：</div>
+    <input type="text" name="Tel" id="Tel" value="<$userAddress.Tel$>" class="txt_200" maxlength="12" /> 如：020-12341234，18888888888
+</li>
+<li class="row">
+    <div class="e"><span class="red">*</span> 手机：</div>
+    <input type="text" name="Mobile" id="Mobile" value="<$userAddress.Mobile$>" class="txt_200" maxlength="11"/>
+</li>
+<li class="row">
+    <div class="e"><span class="red">*</span> 地址：</div>
+    
+    <$singleUnlimitClass.ShowContent()$> 邮编：<input type="text"  name="ZipCode" id="ZipCode" value="<$userAddress.ZipCode$>" class="txt_200" style="width:80px" maxlength="6" />
+    <br /><input type="text"  name="Address" id="Address" value="<$userAddress.Address$>" class="txt_200" maxlength="50" style="width:400px" /> <span>*</span>
+</li>
+<html:if expression="base.UserId==0">
+<li class="row">
+    <div class="e"><span class="red">*</span> Email：</div>
+    <input type="text" name="Email" id="Email" value="" class="txt_200" maxlength="50"  />（用于订单状态改变时发送邮件）
+</li>
+    </html:if>
+

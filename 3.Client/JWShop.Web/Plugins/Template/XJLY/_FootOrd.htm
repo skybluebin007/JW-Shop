@@ -1,0 +1,86 @@
+﻿<div id="footer_main">
+    <ul id="footer_1_main" class="slogen w990 clearfix">
+        <li class="a1"><strong>品质保证</strong>品质护航 购物无忧</li>
+        <li class="a2"><strong>七天无理由退换货</strong>为您提供售后无忧保障</li>
+        <li class="a3"><strong>特色服务体验</strong>为您呈现不一样的服务</li>
+        <li class="a4"><strong>帮助中心</strong>您的购物指南</li>
+    </ul>
+    <div id="footer_2_main" class="w990 clearfix">
+        <div class="footer_2_1 fl">
+            <html:foreach expression="var item in ArticleClassBLL.ReadChilds(2)">
+            <div class="item">
+                <h3>
+                    <$item.Name$></h3>
+                <ul>
+                <html:foreach expression="var childItem in ArticleClassBLL.ReadChilds(item.Id)">
+                    <li><a href="/HelpList-C<$childItem.Id$>.html" title="<$childItem.Name$>"><$childItem.Name$></a></li></html:foreach>
+                    
+                </ul>
+            </div>
+           </html:foreach>
+        </div>
+        <div class="footer_2_2 fr">
+            <div class="qrcode">
+                <img src="<$ShopConfig.ReadConfigInfo().MobileImage$>" alt="扫描二维码进入手机端" title="扫描二维码进入手机端" /></div>
+        </div>
+    </div>
+    <div id="footer_3_main">
+        <div id="footer_3" class="w990">
+            <div class="bottomNav">
+                <a href="/" title="网站首页">网站首页</a><span>|</span> <a href="/About-C3.html" title="关于我们">
+                    关于我们</a><span>|</span><a href="/About-C4.html" title="联系我们">
+                    联系我们</a><span>|</span> <a href="/User/Index.html" title="会员中心">会员中心</a>
+            </div>
+            <div class="copyright">
+             Copyright © <$ShopConfig.ReadConfigInfo().Copyright$> 版权所有 <$ShopConfig.ReadConfigInfo().RecordCode$>
+            </div>
+            <ul class="list" style="display: none">
+                <li><a href="" title="" target="_blank">
+                    <img src="<html:templatePath>/uploadfile/footercximg.png" alt="" /></a></li>
+                <li><a href="" title="" target="_blank">
+                    <img src="<html:templatePath>/uploadfile/footercximg.png" alt="" /></a></li>
+                <li><a href="" title="" target="_blank">
+                    <img src="<html:templatePath>/uploadfile/footercximg.png" alt="" /></a></li>
+                <li><a href="" title="" target="_blank">
+                    <img src="<html:templatePath>/uploadfile/footercximg.png" alt="" /></a></li>
+                <li><a href="" title="" target="_blank">
+                    <img src="<html:templatePath>/uploadfile/footercximg.png" alt="" /></a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="toolbar_wrap" id="toolbar">
+    <div class="toolbar">
+        <div class="toolbar_tabs">
+            <div class="toolbar_tab tab_person" onclick="javascript:window.location.href='/user/index.html'">
+                <i class="tab_ico"></i><em class="tab_text">会员中心</em>
+            </div>
+            <div class="toolbar_tab tab_cart" onclick="javascript:window.location.href='/Cart.html'">
+                <i class="tab_ico"></i><em class="tab_text">购物车 </em><span class="tab_sub J-count" id="rightProductBuyCount"><$Sessions.ProductBuyCount$></span>
+            </div>
+            <div class="toolbar_tab tab_follow" onclick="javascript:window.location.href='/User/UserProductCollect.html'">
+                <i class="tab_ico"></i><em class="tab_text">我的收藏 </em>
+            </div>
+            <div class="toolbar_tab tab_history" onclick="javascript:window.location.href='/User/OrderList.html'">
+                <i class="tab_ico"></i><em class="tab_text">我的订单 </em>
+            </div>
+            <div class="toolbar_tab tab_kf">
+                <a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=<$ShopConfig.ReadConfigInfo().QQ$>&menu=yes"><i class="tab_ico"></i><em class="tab_text">在线客服</em>
+                </a>
+            </div>
+        </div>
+        <div class="toolbar_footer">
+            <div class="toolbar_tab tab_top">
+                <i class="tab_ico"></i><em class="tab_text">顶部 </em>
+            </div>
+            <div class="toolbar_tab tab_feedback hidden">
+                <i class="tab_ico"></i><em class="tab_text">反馈 </em>
+            </div>
+        </div>
+    </div>
+</div>
+<!--<script type="text/javascript" src="<html:templatePath>js/jquery-1.11.3.min.js"></script>-->
+<script type="text/javascript" src="<html:templatePath>js/app.js"></script>
+<script type="text/javascript" src="<html:templatePath>/js/list.js"></script>
+<script type="text/javascript" src="<html:templatePath>/js/a.js"></script> 
+<div style="display:none;"></div>

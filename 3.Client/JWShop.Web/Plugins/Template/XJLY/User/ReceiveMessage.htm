@@ -1,0 +1,69 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <html:include file="/_Head.htm" />
+</head>
+<body>
+    <!--top start-->
+<html:include file="/_UTop.htm" />
+    <!--header start-->
+    <!--nav start-->
+    <!--main content start-->
+    <div id="myOrder">
+        <div class="w1210 clearfix">
+            <html:include file="/User/UserLeft.htm" />
+            <div id="right" class="content fr">
+                 <html:include file="/User/UserTop.htm" />
+              <!--  <h2 class="boxOrder">
+                    我的订单</h2>-->
+
+                <div class="orderList" id="orderList">
+                    <div class="tab">
+                        <a href="/User/ReceiveMessage.html" class="item  <%if(isRead!=1 && isRead!=0){%>cur<%}%>">全部消息(<%=allCount%>)</a>
+                         <a class="item <%if(isRead==1){%>cur<%}%>" href="/User/ReceiveMessage.html?isread=1" title="">已读消息(<%=readCount%>)</a>
+                            <a class="item <%if(isRead==0){%>cur<%}%>" href="/User/ReceiveMessage.html?isread=0" title="">未读消息(<%=(allCount-readCount)%>)</a> 
+                        <div class="clear">
+                        </div>
+                    </div>
+                    <div class="container">
+                        <table cellpadding="0" cellspacing="0" border="0" width="100%" class="tableThemes_2 collection">
+                            <thead>
+                                <tr>
+                                    <td align="center"  height="20">
+                                        消息标题
+                                    </td>
+                                    <td align="center" width="150">
+                                        发送时间
+                                    </td>
+                                    <td align="center" width="100">
+                                        状态
+                                    </td>
+                                    <td align="center" width="120">
+                                        操作
+                                    </td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <html:foreach expression="ReceiveMessageInfo msg in msgList">                    
+                        <tr class="even">
+                            <td align="center" height="50" class="g"><%=msg.Title%></td>
+                            <td align="center" class="link"><%=msg.Date.ToString("yyyy-MM-dd HH:mm:ss")%></td>
+                            <td align="center" ><%=(msg.IsRead==0?"未读":"已读")%></td>
+                            <td align="center" class="link"><a href="/User/ReceiveMessageDetail.html?Id=<%=msg.Id%>" >查看详细</a></td>
+                        </tr>
+                         </html:foreach>
+                            </tbody>
+                        </table>
+                        <$pager.ShowPage()$>
+                        <div class="clear">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- footer start -->
+    <html:include file="/_Foot.htm" />
+       <script language="javascript" type="text/javascript" src="<html:templatePath>/Js/Order.js"></script>
+</body>
+</html>

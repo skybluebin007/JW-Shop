@@ -1,0 +1,56 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <html:include file="/_Head.htm" />
+</head>
+<body>
+    <!--top start-->
+   <html:include file="/_UTop.htm" />
+    <!--header start-->
+    <!--nav start-->
+    <!--main content start-->
+    <div id="myOrder">
+        <div class="w1210 clearfix">
+            <html:include file="/User/UserLeft.htm" />
+            <div id="right" class="content fr">
+                 <html:include file="/User/UserTop.htm" />
+                 <h2 class="boxOrder">
+                    我的足迹</h2>
+     
+                <div id="myBLH_2" class="clearfix">
+                    <div class="myBLH_2_left fl">
+                      
+                        <div class="myBLH_2_left_2 historyList" style="width:950px;">
+                                <div class="hotlist">
+                                    <html:if expression="proHistoryList.Count>0">
+                                <div class="conlist" style="width:950px; margin-left:0;">
+                                    <ul class="clearfix">
+                                        <html:foreach expression="ProductInfo proInfo in proHistoryList">
+                                        <li><a href="/ProductDetail-I<$proInfo.Id$>.html" title="<$proInfo.Name$>" target="_blank" class="img">
+                                            <img src="<$ShopCommon.ShowImage(proInfo.Photo.Replace("Original","150-150"))$>" alt="<$proInfo.Name$>" title="<$proInfo.Name$>" />
+                                            <div class="b">
+                                                <span class="price fwb">￥<$ProductBLL.GetCurrentPrice(proInfo.SalePrice,base.GradeID)$></span>
+                                            </div>
+                                            <h3>
+                                                <$proInfo.Name$></h3>
+                                            
+                                        </a></li></html:foreach>
+                                    </ul>
+                                      <$commonPagerClass.ShowPage()$>
+                                </div>
+                                    <html:else>
+                                <div class="conlist">您还未留下足迹哦，快快开启您的购物之旅吧</div>
+                            </html:if>
+                            </div>
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- footer start -->
+    <html:include file="/_Foot.htm" />
+    
+</body>
+</html>

@@ -1,0 +1,32 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head>
+    <html:include file="Head.htm" />
+    </head>
+<body>
+    <html:include file="/Topper.htm" />
+    <html:include file="Top.htm" />   
+<div class="wrapper" id="wrapper">
+	<html:include file="/User/UserLeft.htm" /> 
+    <div class="content">
+    	<html:include file="//User/UserTop.htm" /> 
+        <div class="orderList" id="userTab">
+        	<div class="tab">
+            	<a href="javascript:readMessage('ReceiveMessage')" class="item cur" id="ReceiveMessage">收件箱</a>
+                <a href="javascript:readMessage('SendMessage')" class="item" id="SendMessage">发件箱</a>
+                <a href="javascript:readMessage('WriteMessage')" class="item" id="WriteMessage">写新信息</a>
+            	<div class="clear"></div>
+            </div>
+            <div class="container" id="MessageAjax">
+            	
+                
+                
+            </div>
+        </div>
+    </div>
+    <div class="clear"></div>
+</div>
+    <script language="javascript" type="text/javascript" src="<html:templatePath>/Js/Message.js" ></script>
+<html:include file="/_Foot.htm" />
+</body>
+</html>

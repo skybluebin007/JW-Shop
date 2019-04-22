@@ -1,0 +1,49 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<html:include file="/Mobile/Head.htm" />
+</head>
+<body>
+<header class="header-min clearfix" id="header">
+    <div class="back" ig-back></div>
+    <h2>我的留言</h2>
+    <html:include file="/Mobile/TopLink.htm" />
+</header>
+<section class="wrapper user" id="wrapper">
+    <div class="user-feedbook-form">
+    	<form action="?" method="get" id="feedbookForm">
+            <div class="row">
+                <div class="head">类型：</div>
+                <ul class="radio">
+                    <li><label class="ug-radio checked"><input type="radio" name="MessageClass" checked value="1" />留言</label></li>
+                    <li><label class="ug-radio "><input type="radio" name="MessageClass"  value="2" />投诉</label></li>
+                    <li><label class="ug-radio "><input type="radio" name="MessageClass"  value="3" />询问</label></li>
+                    <li><label class="ug-radio "><input type="radio" name="MessageClass"  value="4" />售后</label></li>
+                    <li><label class="ug-radio "><input type="radio" name="MessageClass"  value="5" />求购</label></li>
+                </ul>
+            </div>
+            <div class="row">
+                <div class="head">标题：</div>
+                <input type="text" class="txt" id="title" name="title" value="" placeholder="请输入标题" maxlength="20" null="请输入标题" />
+            </div>
+            <div class="row">
+                <div class="head">内容：</div>
+                <textarea class="text" name="content" id="content" placeholder="请输入内容,至少输入10个文字" null="请您输入描述内容" error="内容至少输入10个文字"></textarea>
+            </div>
+            <div class="logreg-wram" id="logregWram"></div>
+            <div class="row">
+                <input type="button" class="submit" value="提交"  onclick="addUserMessage()" />
+            </div>
+        </form>
+    </div>
+    <div id="UserMessageAjax">
+
+    </div>      
+    
+</section>
+
+    <html:include file="/Mobile/Foot.htm" />
+    <html:include file="/Mobile/FootScript.htm" />
+    <script type="text/javascript" src="<html:templatePath>/Mobile/js/UserMessage.js"></script>
+</body>
+</html>

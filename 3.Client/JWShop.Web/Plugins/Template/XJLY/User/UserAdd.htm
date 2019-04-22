@@ -1,0 +1,247 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <html:include file="/_Head.htm" />
+    <script language="javascript" type="text/javascript" src="/Admin/Js/Calendar.js"></script>
+    <script language="javascript" type="text/javascript" src="/Admin/Js/UnlimitClass.js"></script>
+    <script src="/laydate/laydate.js"></script>
+
+    <script src="<html:templatePath>/js/ajaxfileupload.js" type="text/javascript"></script>
+</head>
+<body>
+    <html:include file="/_UTop.htm" />
+    <div id="myOrder">
+        <div class="w1210 clearfix">
+            <html:include file="/User/UserLeft.htm" />
+        <div id="right" class="content fr">
+            <html:include file="/User/UserTop.htm" />
+            <div class="orderList" id="userTab">
+                <div class="tab">
+                    <a href="javascript:;" class="item cur">基本资料</a> <a href="javascript:;" class="item">
+                        用户头像</a>
+                    <div class="clear">
+                    </div>
+                </div>
+                <div class="container">
+                    <div class="conIndex userInfo">
+                        <form action="/User/UserAdd.html" method="post" name="form" enctype="multipart/form-data">
+                        <input type="hidden" name="file_code" value="" />
+                        <table cellpadding="0" cellspacing="0" border="0" width="100%" class="tableThemes_6">
+                            <tr>
+                                <td align="right" width="120" height="40">
+                                    用户名：
+                                </td>
+                                <td align="left">
+                                    <$base.UserName$>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td align="right" height="40">手机：
+                                </td>
+                                <td align="left">
+                                    <html:if expression="!string.IsNullOrEmpty(CurrentUser.Mobile)">
+                  <$ShopCommon.GetStarString(CurrentUser.Mobile)$>     若已丢失或停用，请立即更换，<span style="color:#cc0000;">避免账户被盗。</span> <a href="/user/updatemobile.html" style="color: #005ea7;padding-left:10px;">修改</a>
+                                    <html:else>
+                                        <span style="color:#cc0000;">还没绑定手机</span> <a href="/user/updatemobile.html" style="color: #005ea7;padding-left:10px;">去绑定</a>
+                                </html:if>
+                                    
+                                
+                                </td>
+                            </tr>
+                            <tr>
+                                <td align="right" height="40">
+                                    邮箱：
+                                </td>
+                                <td align="left">
+<!--                                    <input type="text" name="Email" id="Email" value="<$CurrentUser.Email$>" maxlength="30" class="txt_300 mail" onblur="checkEmail();" /><span class="red">*</span>
+                                <input type="hidden" id="CheckEmail" value="0" />-->
+                                <html:if expression="!string.IsNullOrEmpty(CurrentUser.Email)">
+                <%if(CurrentUser.Email.Split('@').Length>1){%>
+                                            <%=ShopCommon.GetStarString(CurrentUser.Email.Split('@')[0])+"@"+CurrentUser.Email.Split('@')[1]%>
+                                            <%}else{%>
+                                            <%=ShopCommon.GetStarString(CurrentUser.Email)%>
+                                            <%}%>
+                                       <span style="color:#cc0000;">已绑定</span> <a href="/user/updateemail.html" style="color: #005ea7;padding-left:10px;">修改</a>
+                                    <html:else>
+                                        <span style="color:#cc0000;">还没绑定邮箱</span> <a href="/user/updateemail.html" style="color: #005ea7;padding-left:10px;">去绑定</a>
+                                </html:if>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td align="right" height="40">
+                                    性别：
+                                </td>
+                                <td align="left">
+                                <input type="radio" name="Sex" value="1" <html:if expression="CurrentUser.Sex==1">checked="checked"</html:if>  class="radio"/><label>男</label><input type="radio" name="Sex" value="2" <html:if expression="CurrentUser.Sex==2">checked="checked"</html:if> class="radio"/><label>女</label><input type="radio" name="Sex" value="3" <html:if expression="CurrentUser.Sex==3">checked="checked"</html:if> class="radio"/><label>保密</label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td align="right" height="40">
+                                    生日：
+                                </td>
+                                <td align="left">
+                                    <input type="text" name="Birthday" onclick="laydate()" value="<$CurrentUser.Birthday$>"
+                                        maxlength="30" class="txt_300 " placeholder="请选择"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td align="right" height="40">
+                                    MSN：
+                                </td>
+                                <td align="left">
+                                    <input type="text" name="MSN" value="<$CurrentUser.MSN$>" maxlength="30" class="txt_300 " />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td align="right" height="40">
+                                    QQ：
+                                </td>
+                                <td align="left">
+                                    <input type="text" name="QQ" id="QQ" value="<$CurrentUser.QQ$>" maxlength="20" class="txt_300 " />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td align="right" height="40">
+                                    固定电话：
+                                </td>
+                                <td align="left">
+                                    <input type="text" name="Tel" id="Tel" value="<$CurrentUser.Tel$>" maxlength="20" class="txt_300" />
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td align="right" height="40">
+                                    所在地区：
+                                </td>
+                                <td align="left">
+                                    <div class="worldCity" id="worldCity">
+                                        <$singleUnlimitClass.ShowContent()$>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td align="right" height="40">
+                                    详细地址：
+                                </td>
+                                <td align="left">
+                                    <input type="text" name="Address" value="<$CurrentUser.Address$>" class="txt_300" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td align="right" height="40">
+                                    个人介绍：
+                                </td>
+                                <td align="left">
+                                    <textarea type="text" name="Introduce" maxlength="10" class="text_300"><$CurrentUser.Introduce$></textarea>
+                                </td>
+                            </tr>
+                            <tr valign="middle">
+                                <td align="right" height="40">
+                                </td>
+                                <td align="left">
+                                    <input type="submit" value="确定" id="submit_info" name="" class="submit" /><input
+                                        type="hidden" name="Action" value="PostBack" />
+                                </td>
+                            </tr>
+                        </table>
+                        </form>
+                    </div>
+                    <div class="conIndex hidden userPic">
+                        <form action="/User/UserAdd.html" method="post" name="form" enctype="multipart/form-data">
+                        <input type="hidden" name="file_code" value="" />
+                        <div class="pic">
+                            <img src="<$UserBLL.ReadUserPhoto()$>" alt="" id="UserPhoto" onload="photoLoad(this,100,100)" />
+                            <input type="hidden" id="postFile" name="postFile" value="" />
+                        </div>
+                        <ul class="">
+                            <li id="inputFileUpload">
+                                <input type="file" name="Photo" id="image"/></li>
+                            <li>个人形象会展示在你的个人首页、商品点评、讨论区中。想让您受到更多人的关注，请上传：<br />
+                                1、自己的真实的单人照片；<br />
+                                2、清晰、正面、近距离的照片；<br />
+                                3、照片无其他站点的水印或logo。</li>
+                            <li>
+                                <input type="submit" class="submit" value="确定" id="submit_file" /><input type="hidden"
+                                    name="Action" value="PostBack" /></li>
+                        </ul>
+                        <div class="clear">
+                        </div>
+                        </form>
+                    </div>
+                    <div class="clear">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="clear">
+        </div>
+        </div>
+    </div>
+    <html:include file="/_Foot.htm" />
+    <script type="text/javascript" src="<html:templatePath>/js/User.js"></script>
+<script type="text/javascript" src="<html:templatePath>/js/UserAdd.js"></script>
+    <script type="text/javascript">
+        $(function () {
+          //ajax上传头像
+            $("#image").change(function () {
+                if ($("#image").val() == "") {
+                    alert("请选择上传图片！");
+                    return false;
+                }
+                ajaxFileUpload();
+            })
+        })
+
+       
+        function ajaxFileUpload() {
+            $.ajaxFileUpload
+            (
+                {
+                    url: '/User/UserAdd.html?Action=UploadPhoto', //用于文件上传的服务器端请求地址
+                    type: 'post',
+                    //data: { Id: '123', name: 'lunis' }, //此参数非常严谨，写错一个引号都不行
+                    secureuri: false, //一般设置为false
+                    fileElementId: 'image', //文件上传空间的id属性  <input type="file" id="file" name="file" />
+                    dataType: 'json', //返回值类型 一般设置为json
+                    success: function (data, status)  //服务器成功响应处理函数
+                    {
+                        //alert(data);
+                        if (data.flag) {
+                            if (data.imgPath != "" && data.imgPath != null) {
+                                $("#UserPhoto").attr("src", data.imgPath);
+                                $("#postFile").val(data.imgPath);
+                            }
+                        }
+                        else {
+                            alert("上传出错，稍后重试");
+                        }
+
+                    },
+                    error: function (data, status, e)//服务器响应失败处理函数
+                    {
+                        alert(e);
+                    }
+                }
+            )
+            //删掉上传控件并重新生成同名控件，绑定change事件
+            $("#image").remove();
+            var input = "<input type='file' name='Photo' id='image'/>";
+            $("#inputFileUpload").append(input);
+            $("#image").change(function () {
+                if ($("#image").val() == "") {
+                    alert("请选择上传图片！");
+                    return false;
+                }
+                ajaxFileUpload();
+            })
+
+            return false;
+
+
+        }
+    </script>
+    <div class="hidden" title="codes">
+    </div>
+</body>
+</html>

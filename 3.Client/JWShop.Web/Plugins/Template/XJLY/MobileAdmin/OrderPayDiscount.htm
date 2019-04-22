@@ -1,0 +1,110 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <html:include file="/MobileAdmin/_Head.htm" />
+</head>
+<body>
+    <header class="header" id="header">
+        <a class="goBack icon" href="/MobileAdmin/marketing.html" ig-back=""></a>
+        <h2>满立减</h2>
+    </header>
+    <section class="userlist marketing">
+        <form id="form1">       
+
+            <div class="itembox">
+                <div class="item labbox clearfix">
+                    <span class="tit">是否启用<s class="why icon"></s></span>
+                   <label for="p1" class="sex <%if (ShopConfig.ReadConfigInfo().PayDiscount == 1){ %>checked<%}%>"><input type="radio" name="PayDiscount" id="p1" value="1" <%if (ShopConfig.ReadConfigInfo().PayDiscount == 1){ %>checked<%}%> />开启 </label>
+                    <label for="p2" class="sex <%if (ShopConfig.ReadConfigInfo().PayDiscount == 0){ %>checked<%}%>"><input type="radio" name="PayDiscount" id="p2" value="0" <%if (ShopConfig.ReadConfigInfo().PayDiscount == 0){ %>checked<%}%> />关闭 </label>
+                </div>
+                <div class="item clearfix" id="div1" <%if (ShopConfig.ReadConfigInfo().PayDiscount == 0){ %>style="display:none;"<%}%>>
+                    <span class="tit">商品金额满<s class="why icon"></s></span>
+                    <input type="text" class="txt" id="OrderMoney" name="OrderMoney" value="<%=ShopConfig.ReadConfigInfo().OrderMoney%>" maxlength="5" />元
+                </div>
+                <div class="item clearfix" id="div2" <%if (ShopConfig.ReadConfigInfo().PayDiscount == 0){ %>style="display:none;"<%}%>>
+                    <span class="tit">优惠(减)<s class="why icon"></s></span>
+                    <input type="text" class="txt" id="OrderDisCount" name="OrderDisCount" value="<%=ShopConfig.ReadConfigInfo().OrderDisCount%>" maxlength="5"  />元
+                </div>
+                
+            </div><!--end itembox-->
+            <input type="hidden" name="action" value="shopconfig" />
+            <input type="hidden" name="param" value="orderPayDisCount" />
+            <input type="button" value="保存" class="btnok" />
+        </form>
+    
+
+    </section>
+    <script type="text/javascript" src="<html:templatePath>/mobileadmin/js/app.js"></script>
+    <script>
+        var discount = $("input[name=PayDiscount]:checked").val();
+        $(document).ready(function () {
+            $("input[name=PayDiscount]").each(function () {
+                $(this).click(function () {
+                     discount = $(this).val();
+                    if (discount == "0") {
+                        $("#div1").hide();
+                        $("#div2").hide();
+                    }
+                    if (discount == "1") {
+                        $("#div1").show();
+                        $("#div2").show();
+                     
+                    }
+                });
+            });
+        });
+        $(".btnok").bind('click', function () {
+            if (parseInt(discount) == 1) {
+                //金额
+                var reg1 = /(^[1-9]([0-9]+)?(\\.[0-9]{1,2})?$)|(^(0){1}$)|(^[1-9]\\.[0-9]([0-9])?$)/;
+                if ($("#OrderMoney").val() == "") {
+                    Msg("请输入有效的商品金额");
+                    $("#OrderMoney").focus();
+                    return false;
+                }
+                if (!reg1.test($("#OrderMoney").val()) || parseFloat($("#OrderMoney").val()) <= 0) {
+                    Msg("请输入有效的商品金额");
+                    $("#OrderMoney").focus();
+                    return false;
+                }
+                if ($("#OrderDisCount").val() == "") {
+                    Msg("请输入有效的优惠金额");
+                    $("#OrderDisCount").focus();
+                    return false;
+                }
+                if (!reg1.test($("#OrderDisCount").val()) || parseFloat($("#OrderDisCount").val()) <= 0) {
+                    Msg("请输入有效的优惠金额");
+                    $("#OrderDisCount").focus();
+                    return false;
+                }
+                if (parseFloat($("#OrderMoney").val()) <= parseFloat($("#OrderDisCount").val())) {
+                    Msg("优惠金额必须小于商品金额");
+                    $("#OrderDisCount").focus();
+                    return false;
+                }
+            }
+        
+        $.ajax({
+            url: '/mobileadmin/ajax.html',
+            type: 'Post',
+            data: $("#form1").serialize(),
+            dataType: 'Json',
+            cache: false,
+            async: false,
+            success: function (res) {
+                if (res.ok) {
+                    Msg("操作成功");
+//                  setTimeout(location.reload(),5000);
+                }
+                else{
+                    Msg(res.msg);
+                }
+            },
+            error: function () {
+                Msg("系统忙，请稍后重试");
+            }
+        })
+        })
+    </script>
+</body>
+</html>

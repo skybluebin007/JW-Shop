@@ -1,0 +1,179 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build">
+  <PropertyGroup>
+    <ProjectType>local</ProjectType>
+    <ProjectVersion>7.10.377</ProjectVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{B77E4F27-61FD-45FC-A232-AFB8CB25B2F0}</ProjectGuid>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <AssemblyName>SkyCES.EntLib</AssemblyName>
+    <OutputType>Library</OutputType>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccProvider>
+    </SccProvider>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>0</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <Reference Include="ICSharpCode.SharpZipLib, Version=0.86.0.518, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\SharpZipLib.0.86.0\lib\20\ICSharpCode.SharpZipLib.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Office.Interop.Excel, Version=12.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <HintPath>..\Web\Lib\Microsoft.Office.Interop.Excel.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI, Version=2.3.0.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\NPOI.2.3.0\lib\net20\NPOI.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NPOI.OOXML, Version=2.3.0.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\NPOI.2.3.0\lib\net20\NPOI.OOXML.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NPOI.OpenXml4Net, Version=2.3.0.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\NPOI.2.3.0\lib\net20\NPOI.OpenXml4Net.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NPOI.OpenXmlFormats, Version=2.3.0.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\NPOI.2.3.0\lib\net20\NPOI.OpenXmlFormats.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="Microsoft.Office.Interop.Word" />
+    <Reference Include="System.Configuration" />
+    <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="Global.cs" />
+    <Compile Include="SkyCES\EntLib\BaseTag.cs" />
+    <Compile Include="SkyCES\EntLib\DateTimeType.cs" />
+    <Compile Include="SkyCES\EntLib\SwitchTag.cs" />
+    <Compile Include="SkyCES\EntLib\ProcessingEventArgs.cs" />
+    <Compile Include="SkyCES\EntLib\ForeachTag.cs" />
+    <Compile Include="SkyCES\EntLib\URLInfo.cs" />
+    <Compile Include="SkyCES\EntLib\CsharpTag.cs" />
+    <Compile Include="SkyCES\EntLib\TimeType.cs" />
+    <Compile Include="SkyCES\EntLib\ConditionType.cs" />
+    <Compile Include="SkyCES\EntLib\BasePager.cs" />
+    <Compile Include="SkyCES\EntLib\CommonPager.cs" />
+    <Compile Include="SkyCES\EntLib\ServerHelper.cs" />
+    <Compile Include="SkyCES\EntLib\MultiUnlimitClass.cs" />
+    <Compile Include="SkyCES\EntLib\PreWriteEventArgs.cs" />
+    <Compile Include="SkyCES\EntLib\ExceptionHelper.cs" />
+    <Compile Include="SkyCES\EntLib\EnumInfo.cs" />
+    <Compile Include="SkyCES\EntLib\OrderType.cs" />
+    <Compile Include="SkyCES\EntLib\BasePagerClass.cs" />
+    <Compile Include="SkyCES\EntLib\AjaxPagerClass.cs" />
+    <Compile Include="SkyCES\EntLib\CookiesHelper.cs" />
+    <Compile Include="SkyCES\EntLib\EnumAttribute.cs" />
+    <Compile Include="SkyCES\EntLib\MssqlPagerClass.cs" />
+    <Compile Include="SkyCES\EntLib\UnlimitClassInfo.cs" />
+    <Compile Include="SkyCES\EntLib\CommonPagerClass.cs" />
+    <Compile Include="SkyCES\EntLib\ResponseHelper.cs" />
+    <Compile Include="SkyCES\EntLib\CheckCode.cs" />
+    <Compile Include="SkyCES\EntLib\FileNameType.cs" />
+    <Compile Include="SkyCES\EntLib\XmlHelper.cs" />
+    <Compile Include="SkyCES\EntLib\AjaxPager.cs" />
+    <Compile Include="SkyCES\EntLib\BreakTag.cs" />
+    <Compile Include="SkyCES\EntLib\Hint.cs" />
+    <Compile Include="SkyCES\EntLib\ZipHelper.cs" />
+    <Compile Include="SkyCES\EntLib\URLRewriterModule.cs" />
+    <Compile Include="SkyCES\EntLib\ScriptHelper.cs" />
+    <Compile Include="SkyCES\EntLib\LogBase.cs" />
+    <Compile Include="SkyCES\EntLib\FileLog.cs" />
+    <Compile Include="SkyCES\EntLib\TextBox.cs" />
+    <Compile Include="SkyCES\EntLib\RequiredFieldTypeControlsConverter.cs" />
+    <Compile Include="SkyCES\EntLib\CanBeNullControlsConverter.cs" />
+    <Compile Include="SkyCES\EntLib\MailClass.cs" />
+    <Compile Include="SkyCES\EntLib\ControlHelper.cs" />
+    <Compile Include="SkyCES\EntLib\ClientHelper.cs" />
+    <Compile Include="SkyCES\EntLib\AdClass.cs" />
+    <Compile Include="SkyCES\EntLib\MssqlHelper.cs" />
+    <Compile Include="SkyCES\EntLib\SkyTemplateFile.cs" />
+    <Compile Include="SkyCES\EntLib\IMessage.cs" />
+    <Compile Include="SkyCES\EntLib\WebMessage.cs" />
+    <Compile Include="SkyCES\EntLib\WhileTag.cs" />
+    <Compile Include="SkyCES\EntLib\SetTag.cs" />
+    <Compile Include="SkyCES\EntLib\IfTag.cs" />
+    <Compile Include="SkyCES\EntLib\CacheHelper.cs" />
+    <Compile Include="SkyCES\EntLib\AccessCondition.cs" />
+    <Compile Include="SkyCES\EntLib\AccessPagerClass.cs" />
+    <Compile Include="SkyCES\EntLib\AccessHelper.cs" />
+    <Compile Include="SkyCES\EntLib\MailInfo.cs" />
+    <Compile Include="SkyCES\EntLib\CodeType.cs" />
+    <Compile Include="SkyCES\EntLib\ImageHelper.cs" />
+    <Compile Include="SkyCES\EntLib\DataBaseLog.cs" />
+    <Compile Include="SkyCES\EntLib\DownFinishedHandler.cs" />
+    <Compile Include="SkyCES\EntLib\DownFile.cs" />
+    <Compile Include="SkyCES\EntLib\ForTag.cs" />
+    <Compile Include="SkyCES\EntLib\FileHelper.cs" />
+    <Compile Include="SkyCES\EntLib\EnumHelper.cs" />
+    <Compile Include="SkyCES\EntLib\MssqlCondition.cs" />
+    <Compile Include="SkyCES\EntLib\TxtLog.cs" />
+    <Compile Include="SkyCES\EntLib\TagComposite.cs" />
+    <Compile Include="SkyCES\EntLib\AdType.cs" />
+    <Compile Include="SkyCES\EntLib\AccessPoolManager.cs" />
+    <Compile Include="SkyCES\EntLib\WordHelper.cs" />
+    <Compile Include="SkyCES\EntLib\LogFileNameType.cs" />
+    <Compile Include="SkyCES\EntLib\WinMessage.cs" />
+    <Compile Include="SkyCES\EntLib\FactoryHelper.cs" />
+    <Compile Include="SkyCES\EntLib\MessageType.cs" />
+    <Compile Include="SkyCES\EntLib\ProcessFinishedHandler.cs" />
+    <Compile Include="SkyCES\EntLib\ProcessingHandler.cs" />
+    <Compile Include="SkyCES\EntLib\PreWriteHandler.cs" />
+    <Compile Include="SkyCES\EntLib\SkyTemplate.cs" />
+    <Compile Include="SkyCES\EntLib\BoolType.cs" />
+    <Compile Include="SkyCES\EntLib\UploadHelper.cs" />
+    <Compile Include="SkyCES\EntLib\RequestHelper.cs" />
+    <Compile Include="SkyCES\EntLib\ChineseCharacterHelper.cs" />
+    <Compile Include="SkyCES\EntLib\ExcelHelper.cs" />
+    <Compile Include="SkyCES\EntLib\MultiUnlimitControl.cs" />
+    <Compile Include="SkyCES\EntLib\SingleUnlimitClass.cs" />
+    <Compile Include="SkyCES\EntLib\ThumbnailType.cs" />
+    <Compile Include="SkyCES\EntLib\PasswordType.cs" />
+    <Compile Include="SkyCES\EntLib\Date.cs" />
+    <Compile Include="SkyCES\EntLib\SingleUnlimitControl.cs" />
+    <Compile Include="SkyCES\EntLib\StringHelper.cs" />
+    <Compile Include="SkyCES\EntLib\HttpHelper.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
+  </Target>
+</Project>

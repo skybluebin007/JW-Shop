@@ -1,0 +1,23 @@
+﻿<html:namespace name="JWShop.Entity" />
+<html:namespace name="JWShop.Business" />
+<html:namespace name="JWShop.Common" />
+<html:namespace name="SkyCES.EntLib" />
+
+
+
+<%if(proList.Count>0){ %>
+<html:foreach expression="ProductInfo proInfo in proList">
+<div class="item">
+    <a href="/ProductDetail-I<$proInfo.Id$>.html" title="<$proInfo.Name$>" target="_blank">
+        <div class="img">
+            <img src="<$ShopCommon.ShowImage(proInfo.Photo.Replace("Original","150-150"))$>" alt="<$proInfo.Name$>" title="<$proInfo.Name$>" /></div>
+        <h3>
+            <$StringHelper.Substring(proInfo.Name.Trim(),28)$></h3>
+        <span class="price">￥<$ProductBLL.GetCurrentPrice(proInfo.SalePrice,base.GradeID)$></span>
+    </a>
+</div>
+</html:foreach>
+<%}else{ %>
+商品添加中....
+
+<%} %>

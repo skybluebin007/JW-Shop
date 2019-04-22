@@ -1,0 +1,73 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <html:include file="/MobileAdmin/_Head.htm" />
+</head>
+<body>
+    <header class="user_top clearfix">
+        <div class="QRcode poa">
+            <a href="/mobileadmin/shopqrcode.html"><em class="icon"></em>门店二维码</a>
+        </div>
+        <div class="user_tx fl"><img src="<$ShopConfig.ReadConfigInfo().AdminLogo$>" alt="<$ShopConfig.ReadConfigInfo().Title$>"/></div>
+        <div class="user_txt">
+            <h3><%=StringHelper.Substring(ShopConfig.ReadConfigInfo().Title,3,false)%></h3>
+            <a href="/mobileadmin/changepassword.html"><%=Cookies.Admin.GetAdminName(false)%><em class="icon"></em></a>
+        </div>
+    </header>
+    <section class="userlist coupon">
+        <!--<div class="itembox">
+            <div class="item clearfix">
+                <a class="clearfix" href="">
+                    <em class="tub t1 icon"></em>
+                    <span class="tit">营业状态</span>
+                    <p class="txt green"><em class="jt icobef"></em>营业中</p>
+                </a>
+            </div>
+        </div>--><!--end itembox-->
+        <div class="itembox">
+            <div class="item clearfix">
+                <a class="clearfix" href="/mobileadmin/shopinfo.html">
+                    <em class="tub t2 icon"></em>
+                    <span class="tit">门店设置</span>
+                    <p class="txt green"><em class="jt icobef"></em></p>
+                </a>
+            </div>
+            <div class="item clearfix">
+                <a class="clearfix" href="/mobileadmin/orderset.html">
+                    <em class="tub t3 icon"></em>
+                    <span class="tit">订单设置</span>
+                    <p class="txt"><em class="jt icobef"></em></p>
+                </a>
+            </div>
+            <div class="item clearfix">
+                <a class="clearfix" href="/mobileadmin/otherset.html">
+                    <em class="tub t3 icon"></em>
+                    <span class="tit">系统设置</span>
+                    <p class="txt"><em class="jt icobef"></em></p>
+                </a>
+            </div>
+            <div class="item clearfix"  style="display:none;">
+                <a class="clearfix" href="" title="">
+                    <em class="tub t4 icon"></em>
+                    <span class="tit">打印设置</span>
+                    <p class="txt"><em class="jt icobef"></em></p>
+                </a>
+            </div>
+            <div class="item clearfix"  style="display:none;">
+                <a class="clearfix" href="" title="">
+                    <em class="tub t5 icon"></em>
+                    <span class="yc">异常</span>
+                    <span class="tit">消息和铃声</span>
+                    <p class="txt"><em class="jt icobef"></em>hxddd</p>
+                </a>
+            </div>
+        </div><!--end itembox-->
+      
+        <div class="tuichu clearfix">
+        <a href="/mobileadmin/logout.html" >退出登录</a>    
+        </div>
+</section>
+    <!--navBar-->
+    <html:include file="/MobileAdmin/_Foot.htm" />
+</body>
+</html>

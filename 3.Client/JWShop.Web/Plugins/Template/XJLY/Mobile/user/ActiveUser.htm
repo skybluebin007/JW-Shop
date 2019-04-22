@@ -1,0 +1,22 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<html:include file="/Mobile/Head.htm" />
+</head>
+<body>
+<header class="header-min" id="header">
+	<a class="back" href="javascript:;" ig-back>返回</a>
+	<h2>用户激活</h2>
+</header>
+<section class="logreg">
+	
+        <html:if expression="result!=string.Empty">
+        <div class="alertMessage"><$result$></div>
+        </html:if>
+	<div class="clear"></div>
+    <div class="shadow"></div>
+</section>
+
+    <html:include file="/Mobile/FootScript.htm" />
+</body>
+</html>   

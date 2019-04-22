@@ -1,0 +1,66 @@
+﻿<html:namespace name="JWShop.Entity" />
+<html:namespace name="JWShop.Business" />
+<html:namespace name="JWShop.Common" />
+<html:namespace name="SkyCES.EntLib" />
+<%if(cartList.Count==0){%>
+    <div class="empty-car">
+    	<div class="icon">购物车还是空的，去挑几件中意的商品吧！</div>
+        <a href="/Mobile/product.html" class="buy">去逛逛</a>
+    </div>
+<%}else{ %>
+   <div class="list">
+       <html:foreach expression="var cartInfo in cartList"> 
+        <html:csharp>            
+            ProductInfo product = ProductBLL.Read(cartInfo.ProductId);
+            decimal curPrice=Convert.ToDecimal(GetPrice(product.Id,product.SalePrice,cartInfo.StandardValueList));
+        </html:csharp>
+        	<div class="item">
+            	<div class="checkbox">
+                	<label class="ug-checkbox"><input type="checkbox" class="checkbox" name="checkbox" id="cb_<$cartInfo.Id$>" value="<$cartInfo.Id$>"/></label>
+                </div>
+                <div class="info">
+                	<a href="/Mobile/ProductDetail-I<$product.Id$>.html">
+                        <figure><img src="<$ShopCommon.ShowImage(product.Photo.Replace("Original","60-60"))$>"  alt="<$product.Name$>" /></figure>
+                        <h3><$cartInfo.ProductName$></h3>
+                    </a>
+                    <div class="price">
+                        <span class="fee">¥<i class="js-price"><$curPrice$></i></span>
+                    </div>
+	                <div class="num">
+                    	<div class="normal">×<span class="js-number">1</span></div>
+                        <div class="edit">
+                        	<div class="number" ig-number>
+                                <label>-</label>
+                                <input type="hidden" id="BuyCount<$cartInfo.Id$>" value="<$cartInfo.BuyCount$>" />
+                                <input type="tel" class="txt" value="<$cartInfo.BuyCount$>" id="BuyCountval<$cartInfo.Id$>" onblur="changeOrderProductBuyCount('<$cartInfo.Id$>',this,<$curPrice$>,1,<$cartInfo.LeftStorageCount$>,<$product.Weight$>)" placeholder="" maxlength="3" />
+                                <label>+</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="btn">
+                    <a href="javascript:;" class="del">删除</a>
+                    <a href="javascript:;" class="edit">编辑</a>
+                    <a href="javascript:;" class="comp">完成</a>
+                </div>
+                <div class="total">
+                	<span>小计：¥<i class="js-total"><$curPrice*cartInfo.BuyCount$></i></span>
+                </div>
+            </div>
+        </html:foreach>      
+        </div>              
+                           
+<%}%>
+<dl class="cartMoney">
+    <dt>
+        <p>
+            商品总金额：<b class="red" id="ProductTotalPrice">￥0</b></p>
+        <a href="/Mobile/ProductClass.html"><i class="ico_gon"></i>继续购物</a> <br />
+        <a href="javascript:;" class="clearCart" onclick="clearCart();"><i class="ico_clear"></i>清空购物车</a> <br />
+        <a href="javascript:;" class="delPro" onclick="delChoose();"><i class="ico_del"></i>删除选中的商品</a>
+    </dt>
+</dl>
+<div class="cartButton">
+    <a href="javascript:;" class="toPay" onclick="goToPay()">
+        去结算</a>
+</div>

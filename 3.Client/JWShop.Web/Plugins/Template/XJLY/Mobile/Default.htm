@@ -1,0 +1,110 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<html:include file="/Mobile/Head.htm" />
+<link rel="stylesheet" href="<html:templatePath>/Mobile/static/css/style.css" />
+</head>
+<body>
+<header class="header" id="header">
+	<div class="wrap clearfix">
+        <div class="logo"><a href="/mobile/default.html" title="<$ShopConfig.ReadConfigInfo().Title$>">
+        <%if(ShopConfig.ReadConfigInfo().MobileLogoAddress!=string.Empty){%>
+            <img src="<$ShopConfig.ReadConfigInfo().MobileLogoAddress$>" alt="<$ShopConfig.ReadConfigInfo().Title$>" />
+            <%}else{%>
+            <img src="<html:templatePath>/Mobile/uploadfile/logo.png" alt="<$ShopConfig.ReadConfigInfo().Title$>" />
+            <%}%>
+         </a></div>
+        <div class="search">
+            <input type="" class="txt" value="" unselectable="on" placeholder="搜索商品" maxlength="10" id="showSearcher" />
+        </div>
+        <div class="links">
+            <html:if expression="base.UserId==0">
+                <a class="login" href="/Mobile/User/login.html">登录</a>
+            <html:else>
+                <a class="user" href="/Mobile/User/index.html">会员中心</a>
+            </html:if>
+           </div>
+    </div>
+</header>
+<section class="banner" id="banner">
+	<ul class="list clearfix">
+ <html:foreach expression="AdImageInfo myAD in MobileAdList">
+            <li><a <%if(!String.IsNullOrEmpty(myAD.LinkUrl)){%>href="<%=myAD.LinkUrl%>"<%}%>><img src="<$ShopCommon.ShowImage(myAD.ImageUrl)$>" alt="<$myAD.Title$>" /></a></li>                    		                        </html:foreach>	
+
+    </ul>
+    <div class="tip"></div>
+</section>
+<nav class="inav" id="inav">
+	<ul class="list wrap clearfix">
+    	<li><a class="ico-nav" href="/Mobile/ProductClass.html">分类查询</a></li>
+        <li><a class="ico-favo" href="/Mobile/User/index.html">我的订单</a></li>
+        <li><a class="ico-car" href="/Mobile/cart.html">购物车</a></li>
+        <li><a class="ico-user" href="/Mobile/User/index.html">个人中心</a></li>
+    </ul>
+</nav>
+<section class="iadv-first">
+    <div class="head">
+        <a href="/mobile/list.html" class="mo">更多商品&gt;</a>
+    	<h2>推荐商品</h2>
+    </div>
+	<ul class="list wrap clearfix">
+    <%List<AdImageInfo> MobileTopAdList = new List<AdImageInfo>();
+        MobileTopAdList =AdImageBLL.ReadList(9, 3);
+        int ti=1;%>
+ <html:foreach expression="AdImageInfo myAD in MobileTopAdList">
+   <li><a <%if(!String.IsNullOrEmpty(myAD.LinkUrl)){%>href="<%=myAD.LinkUrl%>"<%}%>><img src="<$ShopCommon.ShowImage(myAD.ImageUrl)$>" alt="<$myAD.Title$>" <%if(ti==1){%>scale="100:35"<%}else if(ti==2){%>scale="100:122"<%}else{%>scale="100:122"<%}%>/></a></li>    
+    <%ti++;%>
+ </html:foreach>
+
+    </ul>
+</section>
+    <!--楼层展示-->
+     <html:foreach expression="var item in ProductClassList.Where(k => k.ParentId == 0).Take(10)">
+<section class="ipro">
+	<div class="head">
+    	<h2><%=item.Name%></h2>
+        <a href="/Mobile/List.html?cat=<%=item.Id%>" class="mo">更多商品&gt;</a>
+    </div>
+	<ul class="list clearfix">
+        <%
+        int subCount=int.MinValue;
+        List<ProductInfo> productList = ProductBLL.SearchList(1, 4, new ProductSearchInfo { IsSale = (int)BoolType.True,IsTop = (int)BoolType.True,IsDelete = (int)BoolType.False,ClassId="|"+item.Id+"|" }, ref subCount);
+        %>
+        <html:foreach expression="var subItem in productList">
+    	<li class="item"><a href="/Mobile/productDetail-I<%=subItem.Id%>.html">
+        	<figure><img src="<%=ShopCommon.ShowImage(subItem.Photo.Replace("Original","190-190"))%>" title="<%=subItem.Name%>" alt="<%=subItem.Name%>" /></figure>
+            <h3><%=StringHelper.Substring(subItem.Name,25)%></h3>
+            <div class="price">¥<%=ProductBLL.GetCurrentPrice(subItem.SalePrice,base.GradeID)%></div>
+        </a></li>   
+        </html:foreach>      
+    </ul>
+</section>
+</html:foreach> 
+     <!--楼层展示End-->
+<section class="iRecom">
+    <div class="head">
+        <a href="/mobile/list.html" class="mo">更多商品&gt;</a>
+    	<h2>为您推荐</h2>
+    </div> 
+     <html:csharp>
+         int _count1 = 0;        
+        var _topList = ProductBLL.SearchList(1, 4, new ProductSearchInfo {IsTop = (int)BoolType.True, IsSale = (int)BoolType.True,IsDelete = (int)BoolType.False }, ref _count1);
+                    </html:csharp>
+	<ul class="list clearfix">
+            <html:if expression="_topList.Count>0">
+       <html:foreach expression="var product in _topList">
+    	<li class="item"><a href="/mobile/ProductDetail-I<$product.Id$>.html" title="<$product.Name$>">
+        	<figure><img src="<$ShopCommon.ShowImage(product.Photo.Replace("Original","190-190"))$>" title="<$product.Name$>" alt="<$product.Name$>" /></figure>
+            <h3><%=StringHelper.Substring(product.Name,12)%></h3>
+            <div class="price">¥<%=ProductBLL.GetCurrentPrice(product.SalePrice,base.GradeID)%></div>
+        </a></li>
+        </html:foreach>
+    <html:else><li class="item">暂无相关信息...</li></html:if>
+    </ul>
+</section>
+<html:include file="/Mobile/Foot.htm" />
+    <html:include file="/Mobile/_Search.htm" />
+    <section class="ig-top" ig-top=""></section>
+<script src="<html:templatePath>/Mobile/static/js/app.js"></script>
+</body>
+</html>

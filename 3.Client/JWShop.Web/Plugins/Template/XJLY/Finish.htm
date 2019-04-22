@@ -1,0 +1,72 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <html:include file="/_Head.htm" />
+</head>
+<body>
+    <html:include file="/_Top.htm" />
+
+    <div class="wrapper w990" id="wrapper">
+        <div class="cartFinish" id="cartFinish">
+            <h2>感谢您，订单提交成功！</h2>
+            <div class="box">
+                <div class="alertMessage">
+                    恭喜您，您的订单已 <%if(order.OrderStatus<=1 || order.OrderStatus==3 || order.OrderStatus==8){%>
+                    提交成功
+                    <%}else{%>支付成功<%}%>
+                   
+                    ，订单号：<$order.OrderNumber$></div>
+                 <%if((order.PayKey.ToLower()=="alipay" || order.PayKey.ToLower()=="wxpay") && order.OrderStatus<=1 && order.IsDelete!=(int)BoolType.True){//待付款且未删除
+        if(order.PayKey=="WxPay"){%>
+         <div id="wx" class="finishiButton" style="text-align:center;">
+             <input class="bigbutton" value="查看订单"  type="button" onclick="window.location.href = '/User/OrderDetail.aspx?ID=<$order.Id$>'" />
+            <p style="text-align:left; font-weight:bold;font-size:large; text-indent:10em;">微信支付<span id="sc" style="color:red;display:none;">，支付成功</span></p>
+            <div id="ewm" style="background: url(<html:templatePath>/images/img/1.jpg) no-repeat center;width:993px;height:558px; text-align:left;margin: 0 auto;">
+
+                <img style=" margin: 93px 0 0 90px;width: 318px; height:318px;" src="<%="/Plugins/Pay/WxPay/MakeQRCode.aspx?data=" + HttpUtility.UrlEncode("http://"+Request.Url.Host+"/Plugins/Pay/WxPay/Pay.aspx?order_id="+order.Id) %>" />
+
+           </div>
+      </div>
+        <%}else{%>
+                <div class="finishButton">
+                    <html:if expression="order.OrderStatus==(int)OrderStatus.WaitPay && payPlugins.IsOnline==(int)BoolType.True">
+            <input class="blue" value="立即支付"  type="button" onclick="window.open('/Plugins/Pay/<$order.PayKey$>/Pay.aspx?order_id=<$order.Id$>')" /> 
+            </html:if>
+                    <input class="blue" value="查看订单" type="button" onclick="window.location.href='/User/OrderDetail.html?ID=<$order.Id$>'" />
+                </div>
+                   <%}}else{%>
+                <div class="finishButton">
+                     <input class="blue" value="查看订单" type="button" onclick="window.location.href='/User/OrderDetail.html?ID=<$order.Id$>'" />
+                </div>
+                <%}%>
+            </div>
+        </div>
+    </div>
+    <html:include file="/_FootOrd.htm" />
+
+    <script type="text/javascript" src="<html:templatePath>/js/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+      
+            window.setInterval(getOrderStatus, 2000);
+            function  getOrderStatus(){             
+                var oid = <%=RequestHelper.GetQueryString<int>("id")%>;
+                $.ajax({
+                    url: '/Ajax.aspx?Action=checkOrderPay&OrderID='+oid,
+                    type: 'GET',
+                    //data: $("form").serialize(),
+                    success: function (result) {                 
+                        if (result == "ok") {                        
+                            window.location.href="/User/OrderDetail.html?id="+oid;
+                        }
+                        else {
+
+                        }
+                    }
+                });
+            }
+        })
+       
+</script>
+</body>
+</html>

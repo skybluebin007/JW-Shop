@@ -1,0 +1,118 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<html:include file="/Mobile/Head.htm" />
+</head>
+<body>
+<header class="header-min" id="header">
+	<a class="back" href="javascript:;" ig-back>返回</a>
+	<h2>快速注册</h2>
+</header>
+<section class="logreg">    
+    
+	<form action="/Mobile/User/Register.html" method="post" name="form" id="registerForm">
+        <html:if expression="result!=string.Empty">
+            <div class="getPw"><$result$></div>
+        <html:else>            
+    	<div class="logreg-wram" id="logregWram"></div>
+    	<div class="row">
+        	<input type="text" class="txt" name="UserName" id="UserName" value="" placeholder="用户名" maxlength="<$ShopConfig.ReadConfigInfo().UserNameMaxLength$>" null="请输入用户名" error="<$ShopConfig.ReadConfigInfo().UserNameMinLength$>-<$ShopConfig.ReadConfigInfo().UserNameMaxLength$>个字符组成（包括字母、数字、下划线、中文）"  onblur="checkUserName(<$ShopConfig.ReadConfigInfo().UserNameMinLength$>,<$ShopConfig.ReadConfigInfo().UserNameMaxLength$>)"/><input type="hidden" value="0" name="CheckUserName" id="CheckUserName" />
+        </div>
+        <div class="row">
+        	<input type="password" class="txt" name="UserPassword1" id="UserPassword1" value="" placeholder="密码" maxlength="<$ShopConfig.ReadConfigInfo().PasswordMaxLength$>" null="请输入密码" error="<$ShopConfig.ReadConfigInfo().PasswordMinLength$> - <$ShopConfig.ReadConfigInfo().PasswordMaxLength$>个字符组成，建议使用英文加数字或符号"  onblur="checkUserPass(<$ShopConfig.ReadConfigInfo().PasswordMinLength$>,<$ShopConfig.ReadConfigInfo().PasswordMaxLength$>)"/><input id="CheckUserPassword1" value="0" type="hidden" />
+            <label class="btn-password btn-on"></label>
+        </div>
+        <div class="row">
+        	<input type="password" class="txt" name="UserPassword2" id="UserPassword2" value="" placeholder="确认密码" maxlength="<$ShopConfig.ReadConfigInfo().PasswordMaxLength$>" null="请再次输入密码" error="请再次确认密码一致"  onblur="checkUserPass2(<$ShopConfig.ReadConfigInfo().PasswordMinLength$>,<$ShopConfig.ReadConfigInfo().PasswordMaxLength$>)"/><input id="CheckUserPassword2" value="0" type="hidden" />
+        </div>
+       
+            <input type="hidden" id="registerType" value="<$ShopConfig.ReadConfigInfo().RegisterCheck$>" />
+<html:if expression="ShopConfig.ReadConfigInfo().RegisterCheck==1">
+    <!--短信验证-->
+         <div class="row">
+        	<input type="text" class="txt" name="Phone" id="Phone" value="" placeholder="手机号码" maxlength="11" null="请输入手机号码" error="请输入正确的手机号码"  onblur="checkPhone()"/><input id="CheckPhone" value="0" type="hidden" />
+        </div>
+        <div class="row">
+        	<input type="text" class="txt" name="PhoneCode" id="PhoneCode" value="" placeholder="短信验证码" maxlength="5" null="请输入验证码" />
+            <input type="button" class="btn-password btn-on" style="width: 2rem;" id="get_code" value="获取验证码" />          
+        </div>
+    <html:else>
+         <!--邮件验证-->
+         <div class="row">
+        	<input type="text" class="txt" name="Email" id="Email" value="" placeholder="E-mail" maxlength="30" null="请输入电子邮箱地址" error="请输入正确的邮箱地址"  onblur="checkEmail()"/><input id="CheckEmail" value="0" type="hidden" />
+        </div>
+        <div class="row">
+        <input type="text" class="txt" name="SafeCode" id="SafeCode" value="" placeholder="验证码" maxlength="5" null="请输入验证码" />        
+            <label class="btn-code"><img src="CheckCode.ashx" onclick="this.src='CheckCode.ashx?t=' + new Date();" style="cursor:pointer" alt="点击刷新验证码" align="absmiddle" /></label>
+            </div>
+        </html:if>
+        <div class="row">
+        	<input type="button" class="submit" value="注册" onclick="checkRegister()" /><input type="hidden" name="Action" value="PostBack" />
+        </div>
+        <div class="row clearfix">
+        	<p class="plain">注册即视为同意<a href="./plain.html">《用户注册协议》</a></p>
+        </div>
+            </html:if>
+    </form>
+            
+</section>
+
+    <html:include file="/Mobile/FootScript.htm" />
+    <script language="javascript" type="text/javascript" src="<html:templatePath>/Mobile/Js/Register.js" ></script>    
+        <html:if expression="errorMessage!=string.Empty">
+            <script>            app.jMsg("<$errorMessage$>");</script>
+            </html:if>
+        
+</body>
+       <script type="text/javascript">
+           $(function () {
+               var util = {
+                   wait: <$wait$>,
+                   hsTime: function (that) {
+                       var _this = this;
+                       if (_this.wait == 0) {
+                           $(that).removeAttr("disabled").val('获取短信验证码');
+                           _this.wait = 60;
+                       } else {
+                           $(that).attr("disabled", true).val('在' + _this.wait + '秒后点此重发');
+                           _this.wait--;
+                           setTimeout(function () {
+                               _this.hsTime(that);
+                           }, 1000)
+                       }
+                   }
+               }
+
+               $("#get_code").click(function () {
+                   var mobile = $.trim($('#Phone').val());
+                   console.log(mobile);
+                   if (!Validate.isMobile(mobile)) {
+                       app.jMsg("请填写正确有效的手机号码");
+                       return;
+                   }
+                   if( $("#CheckPhone").val()!="1"){
+                       app.jMsg("手机号码已被注册");
+                       return;
+                   }
+
+                   $.ajax({
+                       url: '/Ajax.aspx?Action=GetVerifyCode&mobile=' + mobile,
+                       type: 'GET',
+                       success: function (result) {
+                           var arr = result.split('|');
+                           if (arr[0] == "ok") {
+                               app.jMsg("校验码已发送，请及时完成验证");
+                               util.wait = 60;
+                               util.hsTime('#get_code');
+                           }
+                           else {
+                               app.jMsg(arr[1]);
+                           }
+                       }
+                   });
+               })
+
+               //            if (wait_sec > 0) util.hsTime('#get_code');
+           })
+    </script>
+</html>

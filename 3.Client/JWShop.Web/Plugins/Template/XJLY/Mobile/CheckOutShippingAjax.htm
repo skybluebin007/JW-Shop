@@ -1,0 +1,24 @@
+﻿<html:namespace name="JWShop.Entity" />
+<html:namespace name="JWShop.Business" />
+<html:csharp>int i=0;</html:csharp>
+<html:foreach expression="ShippingInfo shipping in shippingList">
+    <dd <%if(shippingList.IndexOf(shipping)==0){%>class="checked"<%}%>>
+        <label><input type="radio" name="ShippingID"  value="<$shipping.Id$>" onclick="selectShipping()"  <%if(shippingList.IndexOf(shipping)==0){%>checked<%}%>/><$shipping.Name$></label></dd>
+<html:csharp>i++;</html:csharp>
+</html:foreach>
+||
+<html:if expression="favorableActivityList.Count>0">
+    <%int f=0;%>
+订单优惠:<br />
+        <div >
+    <html:foreach expression="var favor in favorableActivityList">
+          <input type="radio" name="FavorableActivity" value="<%=favor.Id%>" id="Favor<%=favor.Id%>" onclick="selectShipping()" <html:if expression="f==0"> checked="checked"</html:if>  /> 
+            <label for="Favor<%=favor.Id%>">
+                <%=favor.Name%>:<%=favor.Content%>
+            </label>
+        <br />
+<%f++;%>
+    </html:foreach>
+            </div>
+      
+</html:if>

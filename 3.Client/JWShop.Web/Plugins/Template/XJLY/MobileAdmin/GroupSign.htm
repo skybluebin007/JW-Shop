@@ -1,0 +1,91 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <html:include file="/MobileAdmin/_Head.htm" />
+    <link rel="stylesheet" href="<html:templatePath>/mobileadmin/css/jquery-ui.min.css">
+</head>
+<body>
+    <header class="header" id="header">
+        <a class="goBack icon" href="/mobileadmin/groupbuy.html" ig-back=""></a>
+        <h2>参团列表</h2>
+    </header>
+    <!--header-->
+    <section class="user-order">
+        <dl class="orderlist">
+            <%if(dataList.Count>0){%>
+            <%foreach(var item in dataList){%>
+            <dd class="item">
+                <div class="head status">
+                    <span><%=item.UserName%></span> <%if(item.UserId==group.Leader){%> 团长<%}%>
+                </div>
+                <div class="main">
+                    <a class="clearfix" href="javascript:void(0);">
+                        <figure><img src="<%=ShopCommon.ShowImage(item.UserAvatar)%>"></figure>
+                        <h3><%=StringHelper.Substring(item.ProductName,36)%></h3>
+                    </a>
+                </div>
+                <div class="price">
+                    <span>参团时间：<$item.SignTime$></span>
+                </div>
+                <div class="btn">
+                    <%if(item.GroupOrderStatus==3 && item.IsRefund==1){%>
+                    <a href="javascript:void(0);" class="blue">已退款</a>
+                    <%}%>
+                    <%if(item.EndTime < DateTime.Now && item.Quantity > item.SignCount && item.GroupOrderStatus == 2 && item.IsRefund == 0)
+               {%>
+                    <a href="javascript:void(0)" class="js-refund" data-orderid="<%=item.OrderId%>">退款</a>
+                    <%}%>
+                    <%if(item.StartTime <= DateTime.Now && item.EndTime >= DateTime.Now && item.SignCount >= item.Quantity && item.GroupOrderStatus == 2)
+                    {%>
+                    <a href="/mobileadmin/orderdetail.html?id=<%=item.OrderId%>" >审核</a>
+                    <%}%>
+                </div>
+            </dd>
+
+            <%}%>
+            <%}else{%>
+            <div class="nodata"><span></span>暂无</div>
+            <%}%>
+        </dl>
+    </section>
+
+    <!--bottom-->
+    <div class="g-top g-icobef"></div>
+    <!--navBar-->
+    <html:include file="/MobileAdmin/_Foot.htm" />
+
+    <script type="text/javascript">
+        $(".js-refund").bind('click', function () {
+            var orderId = $(this).attr("data-orderid");
+            //debugger;
+            if (orderId == null || orderId == undefined || orderId <= 0) {
+                Msg("参数错误");
+                return false;
+            }
+            $.ajax({
+                url: '/mobileadmin/ajax.html',
+                data: { Action: "GroupBuyOrderRefund", orderId: orderId },
+                type: 'Post',
+                dataType: 'Json',
+                cache: false,
+                async:false,
+                success: function (res) {
+                    if (res.ok)
+                    {
+                        Msg("退款成功");
+                        $(this).text("已退款").removeClass("js-refund");
+                      
+                    }
+                    else
+                    {
+                        Msg(res.msg);
+                    }
+                },
+                error: function () {
+                    Msg("系统忙，请稍后重试");
+                }
+            })
+        })
+    </script>
+</body>
+</html>

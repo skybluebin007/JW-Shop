@@ -1,0 +1,262 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.21022</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{E65F00F5-9549-4D83-A1DC-F04A3374BAB7}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>JWShop.Entity</RootNamespace>
+    <AssemblyName>JWShop.Entity</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <UpgradeBackupLocation />
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccProvider>
+    </SccProvider>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Enumeration\BargainOrderType.cs" />
+    <Compile Include="Enumeration\CommentStatus.cs" />
+    <Compile Include="Enumeration\CouponType.cs" />
+    <Compile Include="Enumeration\DateType.cs" />
+    <Compile Include="Enumeration\FavorableMoney.cs" />
+    <Compile Include="Enumeration\FavorableShipping.cs" />
+    <Compile Include="Enumeration\FavorableType.cs" />
+    <Compile Include="Enumeration\GroupBuyStatus.cs" />
+    <Compile Include="Enumeration\InputType.cs" />
+    <Compile Include="Enumeration\LinkType.cs" />
+    <Compile Include="Enumeration\LotteryActivityType.cs" />
+    <Compile Include="Enumeration\MessageType.cs" />
+    <Compile Include="Enumeration\OrderOperate.cs" />
+    <Compile Include="Enumeration\OrderRefundStatus.cs" />
+    <Compile Include="Enumeration\OrderStatus.cs" />
+    <Compile Include="Enumeration\OrderKind.cs" />
+    <Compile Include="Enumeration\PhotoType.cs" />
+    <Compile Include="Enumeration\PointProductOrderStatus.cs" />
+    <Compile Include="Enumeration\PowerCheckType.cs" />
+    <Compile Include="Enumeration\NavigationType.cs" />
+    <Compile Include="Enumeration\KeyValueType.cs" />
+    <Compile Include="Enumeration\ProductShowWay.cs" />
+    <Compile Include="Enumeration\ProductStandardType.cs" />
+    <Compile Include="Enumeration\ProductStatusType.cs" />
+    <Compile Include="Enumeration\ProductStorageType.cs" />
+    <Compile Include="Enumeration\SendStatus.cs" />
+    <Compile Include="Enumeration\SexType.cs" />
+    <Compile Include="Enumeration\ShippingType.cs" />
+    <Compile Include="Enumeration\StorageAnalyseType.cs" />
+    <Compile Include="Enumeration\UserStatus.cs" />
+    <Compile Include="Enumeration\AdImageType.cs" />
+    <Compile Include="Enumeration\AccountRecordType.cs" />
+    <Compile Include="Enumeration\UserType.cs" />
+    <Compile Include="Enumeration\PermissionType.cs" />
+    <Compile Include="Enumeration\Distributor_Status.cs" />
+    <Compile Include="Model\AdImageInfo.cs" />
+    <Compile Include="Model\AdKeywordInfo.cs" />
+    <Compile Include="Model\AdminGroupInfo.cs" />
+    <Compile Include="Model\AdminInfo.cs" />
+    <Compile Include="Model\AdminLogInfo.cs" />
+    <Compile Include="Enumeration\ChangeAction.cs" />
+    <Compile Include="Model\ArticleClassInfo.cs" />
+    <Compile Include="Model\ArticleInfo.cs" />
+    <Compile Include="Model\BargainDetailsInfo.cs" />
+    <Compile Include="Model\BargainInfo.cs" />
+    <Compile Include="Model\BargainOrderInfo.cs" />
+    <Compile Include="Model\BookingProductInfo.cs" />
+    <Compile Include="Model\CartInfo.cs" />
+    <Compile Include="Model\DistributorGradeInfo.cs" />
+    <Compile Include="Model\DistributorProductQrcodeInfo.cs" />
+    <Compile Include="Model\EmailSendRecordInfo.cs" />
+    <Compile Include="Model\FlashInfo.cs" />
+    <Compile Include="Model\GroupBuyInfo.cs" />
+    <Compile Include="Model\GroupSignInfo.cs" />
+    <Compile Include="Model\HotSearchKeyInfo.cs" />
+    <Compile Include="Model\LinkInfo.cs" />
+    <Compile Include="Model\LotteryActivityInfo.cs" />
+    <Compile Include="Model\MemberPriceInfo.cs" />
+    <Compile Include="Model\MenuInfo.cs" />
+    <Compile Include="Model\NavMenuInfo.cs" />
+    <Compile Include="Model\OrderActionInfo.cs" />
+    <Compile Include="Model\OrderDetailInfo.cs" />
+    <Compile Include="Model\OrderInfo.cs" />
+    <Compile Include="Model\OrderRefundActionInfo.cs" />
+    <Compile Include="Model\OrderRefundInfo.cs" />
+    <Compile Include="Model\OrderRefundPhotoInfo.cs" />
+    <Compile Include="Model\OtherDuihuanInfo.cs" />
+    <Compile Include="Model\OtherShiyaInfo.cs" />
+    <Compile Include="Model\PhotoSizeInfo.cs" />
+    <Compile Include="Model\PickUpCodeInfo.cs" />
+    <Compile Include="Model\PointProductOrderInfo.cs" />
+    <Compile Include="Model\PrizeRecordInfo.cs" />
+    <Compile Include="Model\PrizeSetting.cs" />
+    <Compile Include="Model\ProductClassInfo.cs" />
+    <Compile Include="Model\ProductCollectInfo.cs" />
+    <Compile Include="Model\ProductReplyInfo.cs" />
+    <Compile Include="Model\RebateInfo.cs" />
+    <Compile Include="Model\ReceiveMessageInfo.cs" />
+    <Compile Include="Model\RecordingInfo.cs" />
+    <Compile Include="Model\RegionInfo.cs" />
+    <Compile Include="Model\ShippingInfo.cs" />
+    <Compile Include="Model\ShippingRegionInfo.cs" />
+    <Compile Include="Model\ThemeActivityInfo.cs" />
+    <Compile Include="Model\UserAccountRecordInfo.cs" />
+    <Compile Include="Model\UserInfo.cs" />
+    <Compile Include="Model\UserMessageInfo.cs" />
+    <Compile Include="Model\NavigationInfo.cs" />
+    <Compile Include="Model\ProductBrandInfo.cs" />
+    <Compile Include="Model\ProductTypeInfo.cs" />
+    <Compile Include="Model\ProductTypeAttributeInfo.cs" />
+    <Compile Include="Model\ProductTypeAttributeRecordInfo.cs" />
+    <Compile Include="Model\ProductTypeStandardInfo.cs" />
+    <Compile Include="Model\ProductTypeStandardRecordInfo.cs" />
+    <Compile Include="Model\ProductInfo.cs" />
+    <Compile Include="Model\ProductPhotoInfo.cs" />
+    <Compile Include="Model\ProductCommentInfo.cs" />
+    <Compile Include="Model\UserAddressInfo.cs" />
+    <Compile Include="Model\PointProductInfo.cs" />
+    <Compile Include="Model\UserRechargeInfo.cs" />
+    <Compile Include="Model\UserGradeInfo.cs" />
+    <Compile Include="Model\ProductMemberPriceInfo.cs" />
+    <Compile Include="Model\FavorableActivityGiftInfo.cs" />
+    <Compile Include="Model\FavorableActivityInfo.cs" />
+    <Compile Include="Model\CouponInfo.cs" />
+    <Compile Include="Model\UserCouponInfo.cs" />
+    <Compile Include="Model\VoteInfo.cs" />
+    <Compile Include="Model\VoteItemInfo.cs" />
+    <Compile Include="Model\VoteRecordInfo.cs" />
+    <Compile Include="Model\WechatMenuInfo.cs" />
+    <Compile Include="Model\WithdrawInfo.cs" />
+    <Compile Include="Model\WithdrawOperateInfo.cs" />
+    <Compile Include="Model\WxFormIdInfo.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Model\UploadInfo.cs" />
+    <Compile Include="SearchModel\ArticleSearchInfo.cs" />
+    <Compile Include="SearchModel\BargainOrderSearch.cs" />
+    <Compile Include="SearchModel\BargainSearch.cs" />
+    <Compile Include="SearchModel\BookingProductSearchInfo.cs" />
+    <Compile Include="SearchModel\EmailSendRecordSearchInfo.cs" />
+    <Compile Include="SearchModel\FavorableActivityGiftSearchInfo.cs" />
+    <Compile Include="SearchModel\GroupBuySearchInfo.cs" />
+    <Compile Include="SearchModel\LotteryActivitySearchInfo.cs" />
+    <Compile Include="SearchModel\OrderRefundSearchInfo.cs" />
+    <Compile Include="SearchModel\OrderSearchInfo.cs" />
+    <Compile Include="SearchModel\OtherDuihuanSearchInfo.cs" />
+    <Compile Include="SearchModel\OtherShiyaSearchInfo.cs" />
+    <Compile Include="SearchModel\PointProductOrderSearchInfo.cs" />
+    <Compile Include="SearchModel\PrizeRecordSearchInfo.cs" />
+    <Compile Include="SearchModel\ProductBrandSearchInfo.cs" />
+    <Compile Include="SearchModel\ProductCommentSearchInfo.cs" />
+    <Compile Include="SearchModel\ProductSearchInfo.cs" />
+    <Compile Include="SearchModel\PointProductSearchInfo.cs" />
+    <Compile Include="SearchModel\RebateSearchInfo.cs" />
+    <Compile Include="SearchModel\ReceiveMessageSearchInfo.cs" />
+    <Compile Include="SearchModel\RecordingSearch.cs" />
+    <Compile Include="SearchModel\UserCouponSearchInfo.cs" />
+    <Compile Include="SearchModel\UserMessageSeachInfo.cs" />
+    <Compile Include="SearchModel\UserRechargeSearchInfo.cs" />
+    <Compile Include="SearchModel\UserSearchInfo.cs" />
+    <Compile Include="SearchModel\CouponSearchInfo.cs" />
+    <Compile Include="SearchModel\VoteItemSearchInfo.cs" />
+    <Compile Include="SearchModel\VoteRecordSearchInfo.cs" />
+    <Compile Include="SearchModel\WithdrawSearchInfo.cs" />
+    <Compile Include="Structure\ArticleClass.cs" />
+    <Compile Include="VirtualModel\ActivityPluginsInfo.cs" />
+    <Compile Include="VirtualModel\EmailContentInfo.cs" />
+    <Compile Include="VirtualModel\GroupBuyOrder.cs" />
+    <Compile Include="VirtualModel\IPLocation.cs" />
+    <Compile Include="VirtualModel\ClassRelationInfo.cs" />
+    <Compile Include="VirtualModel\PayPluginsInfo.cs" />
+    <Compile Include="VirtualModel\PowerInfo.cs" />
+    <Compile Include="VirtualModel\ShopConfigInfo.cs" />
+    <Compile Include="VirtualModel\TemplatePluginsInfo.cs" />
+    <Compile Include="VirtualModel\LoginPluginsInfo.cs" />
+    <Compile Include="VirtualModel\WxpayData.cs" />
+    <Compile Include="VirtualModel\WxXmlModel.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\0.Libraries\SkyCES.EntLib\SkyCES.EntLib.csproj">
+      <Project>{b77e4f27-61fd-45fc-a232-afb8cb25b2f0}</Project>
+      <Name>SkyCES.EntLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\0.Libraries\SqlMapper\SqlMapper.csproj">
+      <Project>{91019817-8593-4c72-a0cd-950826c826aa}</Project>
+      <Name>SqlMapper</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,114 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>Baidu Maps</title>
+		<style>
+			html { height: 100% }
+			body { height: 100%; margin: 0; padding: 0; background-color: #FFF; font-size: 12px; }
+		</style>
+        <script type="text/javascript" src="http://api.map.baidu.com/api?v=1.4"></script>
+	    <script type="text/javascript" src="http://api.map.baidu.com/library/SearchInfoWindow/1.4/src/SearchInfoWindow_min.js"></script>
+	    <link rel="stylesheet" href="http://api.map.baidu.com/library/SearchInfoWindow/1.4/src/SearchInfoWindow_min.css" />
+		<script>
+		    var map, geocoder, marker, infoWindow, mapWidth, mapHeight;
+			function initialize() {
+			    // 百度地图API功能
+			    map = new BMap.Map('map_canvas');
+			    var point = new BMap.Point(112.946052, 28.234353);
+			    map.centerAndZoom(point, 16);
+			    map.addControl(new BMap.NavigationControl());
+			    map.enableScrollWheelZoom();
+
+			    //右键创建标注
+			    map.addEventListener("rightclick", function (e) {
+			        map.clearOverlays();  //添加标注前清空以前的所有标注
+
+			        marker = new BMap.Marker(new BMap.Point(e.point.lng, e.point.lat));
+			        map.addOverlay(marker);
+			        marker.enableDragging();  //可拖拽
+
+			        marker.addEventListener("click", function (e) {
+			            infoWindow.open(marker);
+			        });
+			    });
+
+				var gc = new BMap.Geocoder();
+				gc.getLocation(point, function(rs){
+					var addComp = rs.addressComponents;
+					var address = [addComp.city].join('');
+					parent.document.getElementById("kindeditor_plugin_map_address").value = address;
+				});
+			}
+
+		    //地图名片
+			function mapCard(display) {
+			    if (display) {
+			        document.getElementById('map_card').style.display = 'block';
+			        document.getElementById('map_canvas').style.width = '65%';
+			        document.getElementById('map_canvas').style.borderRight = '1px solid #848484';
+			    } else {
+			        document.getElementById('map_card').style.display = 'none';
+			        document.getElementById('map_canvas').style.width = '100%';
+			        document.getElementById('map_canvas').style.borderRight = 'none';
+			    }
+			}
+
+            //关键字搜索
+			function search(address) {
+				if (!map) return;
+				var local = new BMap.LocalSearch(map, {
+					renderOptions: {
+						map: map,
+						autoViewport: true,
+						selectFirstResult: false
+					},
+					onMarkersSet: function () {
+                        //搜索后，不标注内容，只显示搜索范围
+					    map.clearOverlays();
+					}
+				});
+				local.search(address);
+			}
+
+		    //生成地图名片
+			function searchInfoWindow() {
+			    var _title = document.getElementById('title').value;
+			    var _content = document.getElementById('content').value;
+			    var _width = document.getElementById('map_width').value;
+			    var _height = document.getElementById('map_height').value;
+			    if (!_title || !_content || !_width || !_height) return;
+			    if (isNaN(_width) || isNaN(_height)) return;
+
+			    infoWindow = new BMapLib.SearchInfoWindow(map, _content, {
+			        title: _title,      //标题
+			        width: 290,             //宽度
+			        height: 105,              //高度
+			        panel: "panel",         //检索结果面板
+			        enableAutoPan: true,     //自动平移
+			        searchTypes: [
+                        BMAPLIB_TAB_SEARCH,   //周边检索
+                        BMAPLIB_TAB_TO_HERE,  //到这里去
+                        BMAPLIB_TAB_FROM_HERE //从这里出发
+			        ]
+			    });
+
+			    infoWindow.open(marker);
+			    mapWidth = _width;
+			    mapHeight = _height;
+			}
+		</script>
+	</head>
+	<body onload="initialize();">
+		<div id="map_canvas" style="width:100%; height:100%; float: left;"></div>
+        <div style="width: 34%; float: right; margin-top: 10px; display: none;" id="map_card">
+            <p style="padding-left: 36px;color: #f00;">右键点击地图以生成标注，左键拖拽标注。重新生成标注后，需点击"生成地图名片"以重新生成地图名片</p>
+            <p>标题：<input type="text" style="width: 80%;" id="title" /></p>
+            <p><span style="vertical-align: top;">内容：</span><textarea rows="7" style="width: 79%;" id="content"></textarea></p>
+            <p>　宽：<input type="text" style="width: 30%;" id="map_width" value="800" />　高：<input type="text" style="width: 30%;" id="map_height" value="460" /></p>
+            <p style="padding-left: 36px;">
+                <input type="button" value="生成地图名片" onclick="searchInfoWindow();" />
+            </p>
+        </div>
+	</body>
+</html>

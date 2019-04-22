@@ -1,0 +1,75 @@
+﻿<html:namespace name="JWShop.Entity" />
+<html:namespace name="JWShop.Business" />
+<html:namespace name="JWShop.Common" />
+<html:namespace name="SkyCES.EntLib" />
+<html:switch name="action">
+    <html:case value=""NotUse"">    
+    <html:case value=""HasUse"">
+    <html:case value=""TimeOut"">
+<div class="conIndex">
+                        <table cellpadding="0" cellspacing="0" border="0" width="100%" class="tableThemes_2">
+                            <thead>
+                                <tr>
+                                    <td align="center" width="" height="35">编号</td>
+                                    <td align="center" width="130">面值（元）</td>
+                                    <td align="center" width="150">单次最低消费（元）</td>
+                                    <td align="center" width="180">有效时间</td>
+                                    <td align="center" width="80">消费状态</td>
+                                    <%if(action=="HasUse"){%>
+                                    <td align="center" width="90">消费日期</td>
+                                    <td align="center" width="130">订单号</td>
+                                    <%}%>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <html:foreach expression="UserCouponInfo userCoupon in userCouponList">
+        <html:csharp>
+            CouponInfo coupon=CouponBLL.ReadCouponByCouponList(couponList,userCoupon.CouponId);
+            OrderInfo tmpOrder=OrderBLL.Read(userCoupon.OrderId); 
+        </html:csharp>
+                                <tr class="even">
+                                    <td align="center" height="35" class="link"><span><$userCoupon.Number $></span></td>
+                                    <td align="center"><$coupon.Money $></td>
+                                    <td align="center"><$coupon.UseMinAmount $></td>
+                                    <td align="center"><$coupon.UseStartDate.ToString("yyyy-MM-dd")$> 到 <$coupon.UseEndDate.ToString("yyyy-MM-dd")$></td>
+                                    <td align="center"><html:if expression="userCoupon.IsUse==1">已消费<html:else>未消费</html:if></td>
+                                     <%if(action=="HasUse"){%>
+                                    <td align="center"><%=tmpOrder.PayDate.ToString("yyyy-MM-dd")%></td>
+                                    <td align="center"><a href="/user/orderdetail.html?id=<%=userCoupon.OrderId%>" title="查看订单"><%=tmpOrder.OrderNumber%></a></td>
+                                    <%}%>
+                                </tr>
+                                </html:foreach>       
+
+                                
+                            </tbody>
+                        </table>
+    <$ajaxPagerClass.ShowPage()$>
+    <div class="clear"></div>
+                    </div>
+        <html:break>
+                    <html:case value=""AddCoupon"">
+                        <div class="conIndex createCoupon">
+                            
+                                <table cellpadding="0" cellspacing="0" border="0" width="100%" class="tableThemes_6" id="createCoupon">
+                                    <tr valign="bottom">
+                                        <th align="center" width="80" height="60">卡号</th>
+                                        <td align="left" width="">
+                                            <input type="text" value="" name="" id="Number" class="txt_300 card" /></td>
+                                    </tr>
+                                    <tr>
+                                        <th align="center" height="60">密码</th>
+                                        <td align="left">
+                                            <input type="text" value="" id="Password" name="" class="txt_300 password" /></td>
+                                    </tr>
+                                    <tr valign="top">
+                                        <th align="center" height="60"></th>
+                                        <td align="left">
+                                            <input type="button" value="确定" name="" class="submit" onclick="addUserCoupon()" /></td>
+                                    </tr>
+                                </table>
+                            
+                        </div>
+                        <div class="clear"></div>
+                        <html:break>    
+    <html:default><html:break>  
+</html:switch>

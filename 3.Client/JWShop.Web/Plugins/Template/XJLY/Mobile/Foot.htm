@@ -1,0 +1,51 @@
+﻿<div class="support">技术支持：<a href="http://z.hnjing.com/mobile" target="_blank" title="">竞网智赢</a></div>
+<footer class="footer">
+    <ul class="links">
+        <html:if expression="base.UserId==0">
+    	<li><a href="/Mobile/User/login.html">登录</a></li>
+        <li><a href="/Mobile/User/register.html">注册</a></li>
+        <html:else>
+            <li><a href="/Mobile/User/Logout.html">退出登录</a></li>
+        </html:if>
+        <!--<li><a href="javascript:;" id="markshot">生成桌面</a></li>-->
+  
+        <li><a href="javascript:;" ig-top>回到顶部</a></li>
+    </ul>
+    <!--<ul class="platforms">
+    	<li><span class="ico-mc">触屏版</span></li>
+        <li><a class="ico-pc" href="/">电脑版</a></li>
+    </ul>-->
+    <div class="copyright">Copyright © <$ShopConfig.ReadConfigInfo().Copyright$> 版权所有 <br />版权所有 技术支持：<a href="http://z.hnjing.com/mobile" title="竞网智赢">竞网智赢</a></div>
+    <section id="toolbar">
+	    <ul class="list clearfix">
+	        <li><a href="/mobile" title="首页"><s class="too-home"></s><span>首页</span></a></li>
+	        <li><a href="/Mobile/ProductClass.html" title="分类"><s class="too-list"></s><span>分类</span></a></li>
+	        <li><a href="/Mobile/cart.html" title="购物车"><s class="too-car"></s><span>购物车</span></a></li>
+	        <li><a href="/Mobile/user/index.html" title="会员中心"><s class="too-user"><em></em></s><span>会员中心</span></a></li>
+	    </ul>
+	</section>
+</footer>
+<script>   
+
+    //function getMobileShortcut(aElementId, siteId, siteName, imageUrl) {
+    //    var versions = browser_new.versions;
+    //    if (versions.android) {
+    //        companyName = encodeURI(siteName);
+    //        if (document.location.href.indexOf(document.domain + '/m/') >= 0) {
+    //            companyUrl = encodeURI("http://" + document.domain + "/m/");
+    //        } else {
+    //            companyUrl = encodeURI("http://" + document.domain);
+    //        }
+    //        companyIcon = encodeURI("http://" + document.domain + imageUrl + "?SID=" + siteId);
+    //        document.getElementById(aElementId).href = "http://cmspost.hnjing.cn/WebApkDownload.aspx?company=" + companyName + "&url=" + companyUrl + "&icon=" + companyIcon;
+    //    } else if (versions.iPhone) {
+    //        document.getElementById(aElementId).onclick = function () { addToHome.show(true); }
+    //    } else {
+    //        document.getElementById(aElementId).href = "#请使用手机浏览";
+    //    }
+    //}
+
+    //getMobileShortcut("markshot", 0, "小京东", "<html:templatePath>/images/testico.png");
+</script>
+    <!--<div style="display:none">  
+<img src="<%= new CS(1259041501).TrackPageView()%>" width="0" height="0"/></div> -->

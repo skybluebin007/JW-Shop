@@ -1,0 +1,34 @@
+﻿<html:namespace name="JWShop.Entity" />
+<html:namespace name="JWShop.Business" />
+<html:namespace name="JWShop.Common" />
+<html:namespace name="SkyCES.EntLib" />
+<html:namespace name="System.Linq" />
+
+<title><$Title$></title>
+<meta content="<$Keywords$>" name="keywords"/>
+<meta content="<$Description$>" name="description"/>
+<meta content="<$Copyright$>" name="copyright"/>
+<meta content="<$Author$>" name="author"/>
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width,height=device-height,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui" />
+<meta name="format-detection" content="telephone=no" />
+<link rel="stylesheet" href="<html:templatePath>/Mobile/static/css/style.css" />
+    <link rel="Shortcut Icon" href="<$ShopConfig.ReadConfigInfo().IcoAddress$>" type="image/x-icon">
+	<meta name="HandheldFriendly" content="True">	
+<link rel="stylesheet" type="text/css" href="<html:templatePath>/css/jquery.autocomplete.css" />
+<script src="<html:templatePath>/Mobile/static/js/jquery2.1.1.min.js"></script>
+<script language="javascript" type="text/javascript" src="/Admin/Js/Common.js" ></script>
+<script>
+    function topSearchProduct2() {
+        var keyWord = $("#keyWord").val();
+        if (keyWord == "") {
+            alert("请输入关键字");
+            $("#keyWord").focus();
+            return;
+        }
+
+        var url = "/Mobile/List.html?kw=" + encodeURIComponent(keyWord) + "";
+        window.location = url;
+    }
+    </script>

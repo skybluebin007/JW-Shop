@@ -1,0 +1,350 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <html:include file="/_Head.htm" />
+</head>
+<body>
+    <!--top start-->
+    <html:include file="/_Top.htm" />
+    
+    <!--main content start-->
+    <div class="index">
+        <div id="floor_1_main">
+            <div id="floor_1" class="w1210 clearfix">
+                <!--banner start-->
+                <div id="banner_main" class="banner fl">
+                    <ul class="list clearfix">
+                        <%List<AdImageInfo> flashList=AdImageBLL.ReadList(1,6);
+    foreach(var flash in flashList){%>
+                        <li><a <%if(!String.IsNullOrEmpty(flash.LinkUrl)){%>href="<$flash.LinkUrl$>" target="_blank"
+                            <%}%>>
+                            <img src="<$ShopCommon.ShowImage(flash.ImageUrl)$>" alt="<$flash.Title$>" title="<$flash.Title$>" />
+                        </a></li>
+                        <%} %>
+                    </ul>
+                    <div class="tip">
+                    </div>
+                </div>
+                <div id="floor_1_2" class="fr">
+                    <div class="floor_1_news">
+                        <div class="title">
+                            <!--   <a href="" class="more fr">更多></a>-->
+                            <a style="display: inline-block;float: right;" href="/news.html" target="_blank">更多>></a>
+                            <h2 style="display: inline;">
+                                竞网快报</h2>
+                        </div>
+                        <ul>
+                            <% int _newscount=0;
+            var newsList=ArticleBLL.SearchList(1, 5, new ArticleSearchInfo { ClassId = "|64|", IsTop = 1 }, ref _newscount);
+              foreach(var item in newsList){%>
+                            <li><a href="newsdetail.html?id=<$item.Id$>" title="<$item.Title$>" target="_blank"><$StringHelper.Substring(item.Title,15)$></a></li>
+                            <%} %>
+                        </ul>
+                    </div>
+                    <%flashList=AdImageBLL.ReadList(2);
+                    for(int _i=0;_i<flashList.Count;_i++){
+                    %>
+                    <div class="item a<$(_i+1)$>">
+                        <a <%if(!String.IsNullOrEmpty(flashList[_i].LinkUrl)){%> href="<$flashList[_i].LinkUrl$>"
+                            target="_blank" <%} %> title="<$flashList[_i].Title$>" target="_blank">
+                            <img class="imghOpacity" src="<$flashList[_i].ImageUrl$>" alt="<$flashList[_i].Title$>"
+                                title="<$flashList[_i].Title$>" /></a></div>
+                    <%} %>
+                </div>
+            </div>
+        </div>
+        <div id="floor_2_main" class="w1210">
+            <div id="floor_2" class="clearfix">
+                <a class="title fl" title="">
+                    <!--<img src="<html:templatePath>/uploadfile/floor_2_imgtit.jpg" alt="今日推荐" title="今日推荐" />-->
+                    <div class="mt">
+						<div class="jd-clock-wrap">
+							<div class="jd-clock">
+								<div class="jd-clock-h" id="jdClockHours"></div>
+								<div class="jd-clock-m"></div>
+								<div class="jd-clock-s"></div>
+							</div>
+						</div>
+					</div>
+                </a>
+                <ul class="floor_2_body fl">
+                    <%flashList=AdImageBLL.ReadList(4);
+              foreach(var flshinfo in flashList){%>
+                    <li><a <%if(!String.IsNullOrEmpty(flshinfo.LinkUrl)){%> href="<$flshinfo.LinkUrl$>"
+                        target="_blank" <%} %> title="<$flshinfo.Title$>">
+                        <img class="imghOpacity" src="<$flshinfo.ImageUrl$>" alt="<$flshinfo.Title$>" title="<$flshinfo.Title$>" /></a></li>
+                    <%} %>
+                </ul>
+            </div>
+        </div>
+        <div id="floor_3_main" class="w1210">
+            <div class="title">
+                竞网 · 品质生活</div>
+            <%flashList=AdImageBLL.ReadList(5);%>
+            <div class="floor_3_body clearfix">
+                <div class="item item1 fl">
+                    <%if(flashList.Count>0){ %>
+                    <a class="hovr-light" <%if(!String.IsNullOrEmpty(flashList[0].LinkUrl)){%> href="<$flashList[0].LinkUrl$>"
+                        target="_blank" <%} %> title="<$flashList[0].Title$>">
+                        <img src="<$flashList[0].ImageUrl$>" alt="<$flashList[0].Title$>" title="<$flashList[0].Title$>" /></a>
+                    <%} %>
+                </div>
+                <div class="item item2 fl">
+                    <div class="itemTit">
+                        好物100</div>
+                    <%if(flashList.Count>1){ %>
+                    <a class="a1" <%if(!String.IsNullOrEmpty(flashList[1].LinkUrl)){%> href="<$flashList[1].LinkUrl$>"
+                        target="_blank" <%} %> title="<$flashList[1].Title$>">
+                        <img src="<$flashList[1].ImageUrl$>" alt="<$flashList[1].Title$>" class="imghOpacity"
+                            title="<$flashList[1].Title$>" />
+                    </a>
+                    <%} %>
+                    <%if(flashList.Count>2){ %>
+                    <a class="a2" <%if(!String.IsNullOrEmpty(flashList[2].LinkUrl)){%> href="<$flashList[2].LinkUrl$>"
+                        target="_blank" <%} %> title="<$flashList[2].Title$>">
+                        <img src="<$flashList[2].ImageUrl$>" alt="<$flashList[2].Title$>" class="imghOpacity"
+                            title="<$flashList[2].Title$>" />
+                    </a>
+                    <%} %>
+                </div>
+                <div class="item item3 fl">
+                    <div class="itemTit">
+                        品牌街</div>
+                    <%if(flashList.Count>3){ %>
+                    <a class="a1 fl" <%if(!String.IsNullOrEmpty(flashList[3].LinkUrl)){%> href="<$flashList[3].LinkUrl$>"
+                        target="_blank" <%} %> title="<$flashList[3].Title$>">
+                        <img src="<$flashList[3].ImageUrl$>" alt="<$flashList[3].Title$>" class="imghOpacity"
+                            title="<$flashList[3].Title$>" />
+                    </a>
+                    <%} %>
+                    <%if(flashList.Count>4){ %>
+                    <a class="a2 fl" <%if(!String.IsNullOrEmpty(flashList[4].LinkUrl)){%> href="<$flashList[4].LinkUrl$>"
+                        target="_blank" <%} %> title="<$flashList[4].Title$>">
+                        <img src="<$flashList[4].ImageUrl$>" alt="<$flashList[4].Title$>" class="imghOpacity"
+                            title="<$flashList[4].Title$>" />
+                    </a>
+                    <%} %>
+                    <%if(flashList.Count>5){ %>
+                    <a class="a3 fl" <%if(!String.IsNullOrEmpty(flashList[5].LinkUrl)){%> href="<$flashList[5].LinkUrl$>"
+                        target="_blank" <%} %> title="<$flashList[5].Title$>">
+                        <img src="<$flashList[5].ImageUrl$>" alt="<$flashList[5].Title$>" class="imghOpacity"
+                            title="<$flashList[5].Title$>" />
+                    </a>
+                    <%} %>
+                </div>
+                <div class="coopeList fl">
+                    <%for(int bran=0;bran<proBranInfo.Count;bran++){ if(bran<14){ %>
+                    <a class="c<$(bran+1)$>" href="/list.html?brand=<$proBranInfo[bran].Id$>" title="<$proBranInfo[bran].Name$>"
+                        target="_blank">
+                        <img src="<$ShopCommon.ShowImage(proBranInfo[bran].ImageUrl)$>" alt="<$proBranInfo[bran].Name$>"
+                            title="<$proBranInfo[bran].Name$>" />
+                        <div class="txt">
+                            <$proBranInfo[bran].Remark$>
+                        </div>
+                    </a>
+                    <%} }%>
+                </div>
+            </div>
+        </div>
+        <!--广告位-->
+        <div class="indexXbanner" class="w1210">
+            <%flashList=AdImageBLL.ReadList(7);
+         
+              if(flashList.Count>0) {%>
+            <a <%if(!String.IsNullOrEmpty(flashList[0].LinkUrl)){%>href="<$flashList[0].LinkUrl$>"
+                target="_blank" <%} %> class="img">
+                <img src="<$ShopCommon.ShowImage(flashList[0].ImageUrl)$>" title="<$flashList[0].Title$>" />
+            </a>
+            <%} %>
+        </div>
+        <!--3F 4F 5F  可循环 注意  ipro*-->
+        <!--3F-->
+        <!--4F-->
+        <%int i=1; %>
+        <html:foreach expression="var item in ProductClassList.Where(k => k.ParentId == 0).Take(9)">
+          <!---修改此部分---->
+        <div class="indexWrap ipro2 w1210">
+            <div class="indexTit clearfix">
+                <h2 class="fl">
+                    <span><$i$>F</span><$item.Name$></h2>
+                <ul class="tab fr">
+              
+                <html:foreach expression="var childItem in  ProductClassBLL.ReadChilds(item.Id)">
+                
+                    <li class="tab-item">
+                    <a href="/list.html?cat=<$ProductClassBLL.ReadFullParentId(childItem.Id)$>" title="<$childItem.Name$>" CID="<$childItem.Id$>"  itemID="<$item.Id$>">
+                    <$childItem.Name$></a>
+                    <span></span>
+                    </li>
+                    </html:foreach>
+                </ul>
+            </div>
+            <div class="floorCon floor3 clearfix">
+                <div class="leftBigImg fl">
+                 <%flashList=AdImageBLL.ReadList(6);
+                    var _hotAdList = flashList.Where(k => k.ClassId == item.Id);
+         foreach(var flash in _hotAdList){%>
+                    <a  <%if(!String.IsNullOrEmpty(flash.LinkUrl)){%>href="<$flash.LinkUrl$>" target="_blank" <%} %> class="img">
+                        <img src="<$ShopCommon.ShowImage(flash.ImageUrl)$>" alt="<$flash.Title$>" title="<$flash.Title$>" /></a>
+                        <%} %>
+                    <div class="list">
+                        <ul class="clearfix">
+
+                          <!--  <li class="t1"><a href="" title=""><s style="background-image: url(<html:templatePath>/images/clothesiconimg1.png);">
+                            </s>男装装男</a></li>
+                            <li class="t2"><a href="" title=""><s style="background-image: url(<html:templatePath>/images/clothesiconimg1.png);">
+                            </s>男装</a></li>-->
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="indexAddImgList clearfix" id="indexAddImgListAjax<$item.Id$>">
+                     <%int floorCount=0;
+                    %>
+                      <html:foreach expression="ProductInfo proInfo in  ProductBLL.SearchList(1,8,new ProductSearchInfo {ClassId="|"+item.Id+"|",IsSale=1,IsDelete=0 },ref floorCount)">
+                      <div class="item">
+                            <a href="/ProductDetail-I<$proInfo.Id$>.html" title="<$proInfo.Name$>" target="_blank">
+                                <div class="img">
+                                    <img src="<$ShopCommon.ShowImage(proInfo.Photo.Replace("Original","150-150"))$>" alt="<$proInfo.Name$>" title="<$proInfo.Name$>" /></div>
+                                <h3>
+                                    <$StringHelper.Substring(proInfo.Name.Trim(),28)$></h3>
+                                <span class="price">￥<$ProductBLL.GetCurrentPrice(proInfo.SalePrice,base.GradeID)$></span> </a>
+                        </div>
+                      
+                      </html:foreach>
+                </div>
+            </div>
+            <div class="indexCoop" >
+                <ul class="clearfix">
+                <html:foreach expression="ProductBrandInfo probInfo in ProductBrandBLL.ReadList(item.Id).Take(10)">
+                    <li><a href="/list.html?cat=<$item.Id$>&brand=<$probInfo.Id$>" title="<$probInfo.Name$>">
+                        <img src="<$probInfo.ImageUrl$>" alt="<$probInfo.Name$>" title="<$probInfo.Name$>" /></a></li>
+                  </html:foreach>
+                </ul>
+            </div>
+        </div>
+        <!---------修改此部分结束------------------->
+        <%i++; %>
+        </html:foreach>
+        <!--5F-->
+        <!--广告位-->
+        <div class="indexXbanner" class="w1210">
+            <%flashList=AdImageBLL.ReadList(7);
+          int pro_Count=0;
+              if(flashList.Count>1) {%>
+            <a <%if(!String.IsNullOrEmpty(flashList[1].LinkUrl)){%>href="<$flashList[1].LinkUrl$>"
+                target="_blank" <%} %> class="img">
+                <img src="<$ShopCommon.ShowImage(flashList[1].ImageUrl)$>" title="<$flashList[1].Title$>" /></a>
+            <%} %>
+        </div>
+    </div>
+    <!-- footer start -->
+    <div id="elevator" class="elevator">
+        <ul class="fixul">
+            <%int louceng=1;%>
+            <html:foreach expression="var item in ProductClassList.Where(k => k.ParentId == 0).Take(9)">
+            <li><a href="javascript:;" title="" class=""><$louceng$>F</a> <span><$StringHelper.Substring(item.Name,3)$></span> </li>
+            <%louceng++; %>
+            </html:foreach>
+        </ul>
+    </div>    
+    <html:include file="/_Foot.htm" />
+    <script type="text/javascript">
+        var cid = 0;
+        var itemID = 0;
+
+        function searchProduct(cid, itemID) {
+            loading("indexAddImgListAjax" + itemID, "产品");
+            $.ajax({
+                type: 'get',
+                url: "/Ajax.html?Action=GetProductsByFloor",
+                data: { classId: cid},
+                cache: false,
+               dataType: 'json',
+                success: function (data) {
+                    if (data.count > 0) {
+                        var _html = "";
+                        for (var i in data.dataList) {
+                            var item = data.dataList[i];
+                            var itemname = item.Name;
+                            if (item.Name.length > 28) itemname = item.Name.substr(0, 28);
+                            _html += "<div class='item'><a href='/ProductDetail-I" + item.Id + ".html' title='" + item.Name + "' target='_blank'><div class='img'><img src='" + item.Photo + "'  alt='" + item.Name + "' title='" + item.Name + "' /></div><h3>" + itemname + "</h3><span class='price'>￥" + item.SalePrice.toFixed(2) + "</span> </a></div>";
+                        }
+                        $("#indexAddImgListAjax" + itemID).html(_html);
+                    }
+                    else {
+
+                        $("#indexAddImgListAjax" + itemID).html("商品添加中...");
+                    }
+                },
+                error: function () { }
+            });        
+        }
+       
+        $(".indexWrap .tab .tab-item").mouseover(function () {
+            cid = $(this).find("a").attr("cid");
+            itemID = $(this).find("a").attr("itemID");
+            searchProduct(cid, itemID);
+        });
+    </script>
+
+        <div>
+        <%var _couponList=CouponBLL.SearchListCanUse();%>
+        <html:if expression="_couponList.Count>0">
+            <html:foreach expression="var _coupon in _couponList">
+<span onclick="CatchCoupon(<$base.UserId$>,<$_coupon.Id$>,this);" _couponid="<$_coupon.Id$>" _userid="<$base.UserId$>" _iscatch="<$UserCouponBLL.UniqueUserCatch(base.UserId, _coupon.Id)$>"><$_coupon.Name$>  <html:if expression="!UserCouponBLL.UniqueUserCatch(base.UserId, _coupon.Id)">[已领]</html:if></span>
+            </html:foreach>
+        </html:if>
+    </div>
+    <script>
+
+        function CatchCoupon(uid, cpid, obj) {
+            if ($(obj).attr("_iscatch") == "False") {
+                alertMessage("您已领过此优惠券");
+                return false;
+            }
+            if (uid <= 0) {
+                alertMessage("请先登录");
+                window.setTimeout(function () { window.location.href = "/user/login.html?RedirectUrl=/default.html"; }, 1000);
+            }
+            else {
+                $.ajax({
+                    type: 'get',
+                    url: "/Ajax.html?Action=CatchUserCoupon",
+                    data: { UserId: uid, CouponId: cpid },
+                    cache: false,
+                    dataType: 'json',
+                    async: false,
+                    success: function (data) {
+                        if (data.flag == "ok") {
+                            alertMessage("领取成功");
+                            window.setTimeout(function () { window.location.href = "/User/UserCoupon.html"; }, 1000);
+                        }
+                        else if (data.flag == "no") {
+                            alertMessage(data.msg, 500);
+                            return false;
+                        }
+                        else {
+                            alertMessage("请先登录");
+                            window.setTimeout(function () { window.location.href = "/user/login.html?RedirectUrl=/default.html"; }, 1000);
+                        }
+                    },
+                    error: function () { alertMessage("系统忙，请稍后重试", 1000); }
+                });
+
+            }
+        }
+
+        $.ajax({
+            url:"/XCXAPI/Page/Index/",
+            data:{limit:10,token:'4D20E60A41A4AD83A3E8BD64E44FB6A4'},
+            method:"POST",
+            success:function(res){
+                console.log(res);
+                //alert(res);
+            }
+        })
+    </script>
+    
+</body>
+</html>

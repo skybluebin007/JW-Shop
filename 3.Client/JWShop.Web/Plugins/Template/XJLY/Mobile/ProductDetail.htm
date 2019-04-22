@@ -1,0 +1,158 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <html:include file="/Mobile/Head.htm" />
+</head>
+<body>
+<header class="header-min clearfix" id="header">
+    <div class="back" ig-back></div>
+    <ul class="tabbed clearfix" md="4" id="detailTab">
+        <li class="current">商品</li>
+        <li>详情</li>
+        <li>评价</li>
+        <li>售后</li>
+    </ul>
+    <html:include file="/Mobile/TopLink.htm" />
+</header>
+<section class="wrapper" id="wrapper">
+    <div class="detail-product" id="detailPro">
+        <div data-title="商品">
+            <div class="detail-photo" id="banner">
+                <ul class="list clearfix">
+                    <html:foreach expression="ProductPhotoInfo productPhoto in productPhotoList">
+                        <li><figure><span><a href="/mobile/productphotos.html?id=<$product.Id$>"><img src="<$ShopCommon.ShowImage(productPhoto.ImageUrl.Replace("75-75","350-350").Replace("Original","350-350"))$>" alt="<%=productPhoto.Name%>" /></a></span></figure></li>
+                    </html:foreach>		
+                </ul>
+                <div class="num"></div>
+            </div>
+            <div class="detail-title">
+                <h1 style="<$product.FontStyle$><html:if expression="product.Color!=string.Empty"> color:<$product.Color$></html:if>"><$product.Name$></h1>
+                <input id="ProductID" name="ProductID" value="<%=product.Id%>" type="hidden"" />
+                <input id="CurrentMemberPrice" value="<$ProductBLL.GetCurrentPrice(product.SalePrice,base.GradeID)$>" type="hidden"" />
+                <input type="hidden" name="standardType" id="standardType" value="<$product.StandardType$>" />
+                    <input id="StandardRecordValueList" value="<%=standardRecordValueList %>" type="hidden" />
+
+                <div class="number">商品编号：<$product.ProductNumber$></div>
+                <div class="des"><$product.SellPoint$></div>
+                <div class="price">
+                    <span class="fee"  id="salePrice">￥<$ProductBLL.GetCurrentPrice(product.SalePrice,base.GradeID)$></span>
+                    <span class="fex">￥<$product.MarketPrice$></span>
+                </div>
+                <div class="price" id="productfavor" style="display:none">
+                 </div>
+            </div>
+            <div class="detail-spec">
+                <%if(product.StandardType!=0){%>
+                <% if (product.StandardType == 1)
+                        {
+                            foreach(ProductTypeStandardInfo standard in standardList){ %>
+                            <div class="row">
+                                <div class="head"><%=standard.Name %>:</div>
+                                <ul class="list clearfix" ig-radio>
+                                    <%
+                                    string[] valueArray = standard.ValueList.Split(new char[]{';'},StringSplitOptions.RemoveEmptyEntries);
+                                   for(int i=0;i<valueArray.Length;i++){
+                                   %>
+                                        <li <%if(i==0){%>class="checked"<%} %> onClick="selectSingleStandard('<$valueArray[i]$>',<$standard.Id$>,this)"><%=valueArray[i] %></li>
+                                    <%} %>
+                                       <input id="StandardValue_<%=standard.Id %>"  name="StandardValue" type="hidden" value="<%=valueArray[0] %>" />
+                                </ul>
+                            </div>
+                            <%}
+                        }
+                        else if(product.StandardType==2)
+                        {      
+                            string recordValue=standardRecordValueList.Substring(standardRecordValueList.IndexOf("|"+product.Id+";")+1);
+                            recordValue = recordValue.Substring(0,recordValue.IndexOf('|'));
+                            string[] valueList = recordValue.Split(new char[]{';'},StringSplitOptions.RemoveEmptyEntries);
+                            int m = 0;
+                            foreach(ProductTypeStandardInfo standard in standardList)
+                            { %> 
+                                <div class="row">
+                                    <div class="head"><%=standard.Name %>:</div>
+                                    <ul class="list clearfix" ig-radio>
+                                        <%
+                                        string[] valueArray = standard.ValueList.Split(new char[]{';'},StringSplitOptions.RemoveEmptyEntries);
+                                       for(int i=0;i<valueArray.Length;i++){
+                                       %>
+                                            <li <%if(valueArray[i]==valueList[m+1]){%>class="checked"<%} %> onClick="selectMultiStandard('<$valueArray[i]$>',<$standard.Id$>)"><%=valueArray[i] %></li>
+                                        <%} %>
+                                           <input id="StandardValue_<%=standard.Id %>"  name="StandardValue" type="hidden" value="<%=valueList[m+1] %>" />
+                                    </ul>
+                                </div>
+                        <%m++;}
+                        }%>
+                <%} %>
+                <div class="row">
+                    <div class="head">库存:</div>
+                    <p  id="productStore"><$leftStorageCount$></p>
+                </div>
+                <div class="row">
+                    <div class="head">数量:</div>
+                    <div class="number" ig-number>
+                        <label>-</label>
+                        <input type="tel" class="txt" value="1" name="BuyCount" id="BuyCount" placeholder="" maxlength="3" />
+                        <label>+</label>
+                    </div>
+                </div>
+            </div>
+            <div class="detail-comment">
+                <div class="head">
+                    <h2>商品评价<strong><$product.PerPoint*20$>%</strong><span>好评</span></h2>
+                    <div class="mo"><$product.CommentCount$> 人评价</div>
+                </div>
+                <div >
+                <dl class="list">
+                    
+                </dl>
+                </div>
+            </div>
+            <div class="detail-history">
+                <div class="head">
+                    <h2>浏览过的商品</h2>
+                </div>
+                <ul class="list clearfix">
+                    <html:if expression="strHistoryProduct!=string.Empty">
+                    <html:foreach expression="string temp in strHistoryProduct.Split(',')">
+                    <html:csharp>ProductInfo tempProduct=ProductBLL.ReadProductByProductList(tempProductList,Convert.ToInt32(temp));</html:csharp>
+                        <li class="item"><a href="/Mobile/ProductDetail-I<$tempProduct.Id$>.html">
+                            <figure><img src="<$tempProduct.Photo.Replace("Original","150-150")$>" title="<$product.Name$>" alt="<$product.Name$>" /></figure>
+                            <h3><$StringHelper.Substring(tempProduct.Name,20)$></h3>
+                            <div class="price">￥<$ProductBLL.GetCurrentPrice(tempProduct.SalePrice,base.GradeID)$></div>
+                        </a></li>                    	
+                        </html:foreach>                    
+                    </html:if>                    
+                </ul>
+            </div>
+        </div>
+        <article class="information" ig-article md="photo" data-title="详情">
+            <$(String.IsNullOrEmpty(product.Introduction1)?"资料添加中...":product.Introduction1)$>
+        </article>
+        <div data-title="评价" id="ProductCommentAjax">
+            
+        </div>
+        <div class="service" ig-article data-title="售后服务">
+          <$(String.IsNullOrEmpty(product.Remark)?"暂无相关信息...":product.Remark)$>
+        </div>
+    </div>
+</section>
+<commend class="detail-button" id="detailButton">
+	<dl class="list clearfix">
+
+    	<dt><a href="javascript:;" ig-addfavo>关注</a></dt>
+        <dt><a href="/Mobile/cart.html">购物车</a><i ig-carnum></i></dt>
+        <dd buybox><a href="javascript:;" ig-addcar productid="<$product.Id$>" productname='<$product.Name$>' productstandard="<$product.StandardType$>">加入购物车</a></dd>
+        <dd buybox><a href="javascript:;" ig-addcarnow productid="<$product.Id$>" productname='<$product.Name$>' productstandard="<$product.StandardType$>" >立即购买</a></dd>
+        <dd checkinbox style="display:none"><a href="javascript:;">库存不足</a></dd>
+        <dd checkinbox style="display:none">&nbsp;</dd>
+    </dl>
+</commend>
+    <input type="hidden" id="pcid" value="<%=product.ClassId%>" />
+   <html:include file="/Mobile/FootScript.htm" />
+    <script language="javascript" type="text/javascript" src="<html:templatePath>/Mobile/Js/ProductDetail.js" ></script>   
+    <script language="javascript">
+        var productID=<$product.Id$>;
+        pageInit(<$product.AllowComment$>);
+    </script>
+</body>
+</html>

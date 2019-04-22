@@ -1,0 +1,52 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,height=device-height,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui" />
+<title>啊哦！您要找的页面不小心迷路了……</title>
+<style>
+* { padding:0; margin:0; }
+body { font:14px/2 "Microsoft YaHei UI"; color:#666; }
+.wrapper { width:900px; height:620px; text-align:center; position:fixed; left:50%; top:50%; margin:-310px 0 0 -450px; }
+.wrapper img { width:900px; height:450px; }
+.wrapper h2 { line-height:80px; font-size:30px; font-weight:400; }
+.wrapper h3 { line-height:40px; font-size:20px; font-weight:400; }
+.wrapper p { line-height:40px; }
+.red { color:#fc0000; }
+a { color:#666; text-decoration:none; }
+a:hover { color:#F00; }
+@media (max-width:900px){
+html, body { height:100%; }
+body { display:-webkit-box; -webkit-box-align:center; -webkit-box-pack:center; }
+.wrapper { width:100%; height:auto; text-align:center; position:static; left:0; top:0; margin:0; }
+.wrapper img { width:100%; height:auto; }
+.wrapper h2 { line-height:30px; font-size:18px; padding:5px 10px; }
+.wrapper h3 { line-height:40px; font-size:16px; padding:0 20px 10px; }
+.wrapper p { line-height:40px; padding:0 20px; line-height:1.5; }
+.wrapper p b, .wrapper p span { display:block; text-align:left; }
+}
+</style>
+</head>
+
+<body>
+<div class="wrapper">
+	<img src="404.png" />
+    <h2>啊哦！您要找的页面不小心迷路了…</h2>
+    <h3><span id="time" class="red">5秒</span>后自动<a href="/">返回首页</a></h3>
+    <p><b>原因可能有：</b><span>网速过慢，或网络中断；</span><span>可能页面已删除；</span><span>输入的网址不正确；</span><span>这个页面太受欢迎了，太多人访问</span></p>
+</div>
+<script>
+var time = 5;
+!function countdown(){
+	setTimeout(function(){
+		if(--time < 0){
+			window.location = '/';
+		}else{
+			document.getElementById('time').innerHTML = time + '秒';
+			countdown();
+		}
+	}, 1000);
+}()
+</script>
+</body>
+</html>

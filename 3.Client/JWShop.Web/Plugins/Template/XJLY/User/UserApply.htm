@@ -1,0 +1,32 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <html:include file="/_Head.htm" />
+</head>
+<body>
+    <html:include file="/Topper.htm" />
+    <html:include file="/Top.htm" />
+    <div class="wrapper" id="wrapper">
+        <html:include file="/User/UserLeft.htm" />
+        <div class="content">
+            <html:include file="//User/UserTop.htm" />
+            <div class="orderList" id="userTab">
+                <div class="tab">
+                    <a href="javascript:readUserApply('Add')" class="item cur" id="Add">提现申请</a> <a href="javascript:readUserApply('Read')"
+                        class="item" id="Read">申请记录</a>
+                    <div class="clear">
+                    </div>
+                </div>
+                <div class="container" id="UserApplyAjax">
+                </div>
+            </div>
+        </div>
+        <div class="clear">
+        </div>
+    </div>
+    <html:include file="/_Foot.htm" />
+    <script language="javascript" type="text/javascript" src="<html:templatePath>/Js/UserApply.js"></script>
+    <div class="hidden" title="codes">
+    </div>
+</body>
+</html>

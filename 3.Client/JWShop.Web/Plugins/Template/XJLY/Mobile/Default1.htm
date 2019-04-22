@@ -1,0 +1,121 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<html:include file="/Mobile/Head.htm" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">    
+    <!--<link rel="stylesheet" type="text/css" href="<html:templatePath>/Mobile/add2home/style/addtohomescreen.css">
+    <script src="<html:templatePath>/Mobile/add2home/src/addtohomescreen.js"></script>-->
+    <link href="<html:templatePath>/Mobile/default.css" rel="stylesheet" />
+<script src="<html:templatePath>/Mobile/default.js"></script>
+</head>
+<body>
+<header class="header" id="header">
+	<div class="wrap clearfix">
+        <div class="logo">
+            <%if(ShopConfig.ReadConfigInfo().LogoAddress!=string.Empty){%>
+            <img src="<$ShopConfig.ReadConfigInfo().MobileLogoAddress$>" alt="<$ShopConfig.ReadConfigInfo().Title$>" />
+            <%}else{%>
+            <img src="<html:templatePath>/Mobile/uploadfile/logo.png" alt="<$ShopConfig.ReadConfigInfo().Title$>" />
+            <%}%>
+            </div>
+        <div class="search">
+            <input type="" class="txt" value="" placeholder="搜索商品关键词" maxlength="10" id="showSearcher" />
+        </div>
+        <div class="links">
+            <html:if expression="base.UserId==0">
+                <a class="login" href="/Mobile/User/login.html">登录</a>
+            <html:else>
+                <a class="user" href="/Mobile/User/index.html">会员中心</a>
+            </html:if>
+        </div>
+    </div>
+</header>
+<section class="banner" id="banner">
+	<ul class="list clearfix">
+    <% List<AdImageInfo> MobileAdList =new List<AdImageInfo>(); %>
+        <html:foreach expression="AdImageInfo myAD in MobileAdList">
+            <li><a href="<%=myAD.LinkUrl%>"><img src="<$myAD.ImageUrl$>" alt="<$myAD.Title$>" /></a></li>                    		                        </html:foreach>	    	
+        
+    </ul>
+    <div class="tip"></div>
+</section>
+<nav class="inav" id="inav">
+	<ul class="list wrap clearfix">
+    	<li><a class="ico-nav" href="/Mobile/ProductClass.html">分类查询</a></li>
+        <li><a class="ico-car" href="/Mobile/cart.html">购物车</a></li>
+        <li><a class="ico-user" href="/Mobile/User/index.html">我的竞网</a></li>
+        <li><a class="ico-favo" href="/Mobile/User/UserProductCollect.html">我的收藏</a></li>
+    </ul>
+</nav>
+<section class="iadv-first">
+	<ul class="list wrap clearfix">
+        <%
+                            List<AdImageInfo> flashList=AdImageBLL.ReadList(8,1);
+                            foreach(var flash in flashList){%> 
+    	<li><a href="<%=flash.LinkUrl%>"><img src="<%=flash.ImageUrl%>" alt="<%=flash.Title%>" scale="100:35" /></a></li>
+        <%}
+                            flashList=AdImageBLL.ReadList(9,3);
+                            foreach(var flash in flashList){%> 
+        <li><a href="<%=flash.LinkUrl%>"><img src="<%=flash.ImageUrl%>" alt="<%=flash.Title%>" scale="100:122" /></a></li>
+        <%}%>
+    </ul>
+</section>
+<section class="ipro">
+	<div class="head">
+    	<h2>热门推荐</h2>
+        <a href="/Mobile/List.html" class="mo">更多商品&gt;</a>
+    </div>
+	<ul class="list clearfix">
+    <%List<ProductInfo> hotProductList=new List<ProductInfo>(); %>
+        <%foreach(var item in hotProductList){%>
+    	<li class="item"><a href="/Mobile/productDetail-I<%=item.Id%>.html">
+        	<figure><img src="<%=ShopCommon.ShowImage(item.Photo)%>" title="<%=item.Name%>" alt="<%=item.Name%>" /></figure>
+            <h3><%=StringHelper.Substring(item.Name,12)%></h3>
+            <div class="price">¥<%=ProductBLL.GetCurrentPrice(item.SalePrice,base.GradeID)%></div>
+        </a></li>
+        <%}%>
+    </ul>
+</section>
+    <!--楼层展示-->
+<html:foreach expression="var item in ProductClassList.Where(k => k.ParentId == 0).Take(9)">
+<section class="ipro">
+    <div class="head">
+        <a href="/mobile/list.html?cat=<%=item.Id%>" title="<%=item.Name%>" class="mo">更多商品&gt;</a>
+    	<h2><%=item.Name%></h2>
+    </div>
+	<ul class="list clearfix">
+ <%List<AdImageInfo> flashList=AdImageBLL.ReadList(10);
+          var _hotAdList = flashList.Where(k => k.ClassId == item.Id);
+         foreach(var flash in _hotAdList){%>
+<li class="itemad"><a <%if(!String.IsNullOrEmpty(flash.LinkUrl)){%>href="<$flash.LinkUrl$>"<%}%>><img src="<$ShopCommon.ShowImage(flash.ImageUrl)$>" alt="<$flash.Title$>" title="<$flash.Title$>" scale="100:35" /></a></li>
+    <%}%>
+         <html:csharp>
+                        int _count = 0;
+                        var _dataList = ProductBLL.SearchList(1, 6, new ProductSearchInfo { ClassId = "|" + item.Id + "|",  IsSale = (int)BoolType.True }, ref _count);
+                    </html:csharp>
+    <html:if expression="_dataList.Count>0">
+       <html:foreach expression="var product in _dataList">
+    	<li class="item">
+    		<div class="itemcon">
+	    		<a href="/mobile/ProductDetail-I<$product.Id$>.html" title="<$product.Name$>">
+		            <h3><%=StringHelper.Substring(product.Name,12)%></h3>
+		            <div class="price">￥<%=ProductBLL.GetCurrentPrice(product.SalePrice,base.GradeID)%></div>
+		        	<figure><img src="<$ShopCommon.ShowImage(product.Photo.Replace("Original","90-90"))$>" title="<$product.Name$>" alt="<$product.Name$>" /></figure>
+	       		</a>
+       		</div>
+    	</li>
+        		</html:foreach>
+    <html:else><li class="item">暂无相关信息...</li></html:if>
+    	
+    </ul>
+</section>
+         </html:foreach>
+<!--楼层展示End-->
+    <html:include file="/Mobile/_Search.htm" />
+
+    <html:include file="/Mobile/Foot.htm" />
+    <html:include file="/Mobile/FootScript.htm" />
+</body>
+</html>

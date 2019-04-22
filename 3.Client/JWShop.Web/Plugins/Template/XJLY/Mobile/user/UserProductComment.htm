@@ -1,0 +1,47 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<html:include file="/Mobile/Head.htm" />
+</head>
+<body>
+<header class="header-min clearfix" id="header">
+    <div class="back" ig-back></div>
+    <h2>我的评论</h2>
+    <html:include file="/Mobile/TopLink.htm" />
+</header>
+<section class="wrapper user" id="wrapper">
+    <dl class="user-feedbook">
+        <%if(productCommentList.Count<=0){%>
+    	<dd class="null">暂无相关数据</dd>
+        <%}else{%>
+        <html:foreach expression="ProductCommentInfo productComment in productCommentList">
+            <html:csharp>ProductInfo product=ProductBLL.Read(productComment.ProductId);</html:csharp> 
+        <dd class="item">
+        	<div class="head">
+            	<div class="star"><span style="width:<$productComment.Rank*20$>%;"></span></div>
+                <div class="time">评论时间：<$productComment.PostDate$></div>
+            </div>
+            <div class="promain"><a href="/Mobile/ProductDetail-I<$product.Id$>.html">
+                <figure><img src="<$ShopCommon.ShowImage(product.Photo.Replace("Original","90-90"))$>" style="max-width:100%;" title="<$product.Name$>" alt="<$product.Name$>" /></figure>
+                <h3><$product.Name$></h3>
+            </a></div>
+            <div class="main">
+            	<$productComment.Content$>
+            </div>
+            <!--<div class="foot">
+            	<span class="sp-item">支持：100</span>
+                <span class="sp-item">反对：100</span>
+            </div>-->
+        </dd>
+        </html:foreach>   
+        <%}%>
+    </dl>
+    <$pager.ShowPage()$>  
+                    <div class="clear">
+                    </div>
+</section>
+
+    <html:include file="/Mobile/Foot.htm" />
+    <html:include file="/Mobile/FootScript.htm" />
+</body>
+</html>

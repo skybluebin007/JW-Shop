@@ -1,0 +1,40 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <html:include file="/_Head.htm" />
+</head>
+<body>
+    <!--top start-->
+    <html:include file="/_Top.htm" />
+    <!--main content start-->
+    <div id="shopCart" class="w990">
+        <div id="floor_1_main" class="clearfix">
+            <div class="allShop clearfix">
+                <h2 class="fl">
+                    全部商品<span></span></h2>
+            </div>
+            <div class="cartList" id="cartList">
+            </div>
+        </div>
+        <div id="floor_2_main">
+            <div class="title">
+                <a class="fr" href="/list.html" title="">更多></a>推荐商品</div>
+            <div class="gridlist1 clearfix">
+                <html:foreach expression="ProductInfo proInfo in  likeProductList">
+                <div class="item">
+                    <a href="/ProductDetail-I<$proInfo.Id$>.html" title="<$proInfo.Name$>" target="_blank" class="img">
+                        <img src="<$ShopCommon.ShowImage(proInfo.Photo.Replace("Original","250-250"))$>" alt="<$proInfo.Name$>" title="<$proInfo.Name$>" /></a>
+                    <p>
+                        <span class="price">￥<$ProductBLL.GetCurrentPrice(proInfo.SalePrice,base.GradeID)$></span><del>￥<$proInfo.MarketPrice$>.00</del></p>
+                    <h3>
+                        <a href="" title="" target="_blank"><$proInfo.Name$></a></h3>
+                </div>
+               </html:foreach>
+            </div>
+        </div>
+    </div>
+    <!-- footer start -->
+    <html:include file="/_FootOrd.htm" />
+    <script language="javascript" type="text/javascript" src="<html:templatePath>/Js/Cart.js"></script>
+</body>
+</html>

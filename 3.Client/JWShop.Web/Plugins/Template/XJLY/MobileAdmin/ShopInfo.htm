@@ -1,0 +1,77 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <html:include file="/MobileAdmin/_Head.htm" />
+</head>
+<body>
+    <header class="header" id="header">
+        <a class="goBack icon" href="/mobileadmin/info.html" ig-back=""></a>
+        <h2>门店设置</h2>
+    </header>
+    <section class="userlist">
+        <!--<div class="itembox">
+            <div class="item">
+                <a class="clearfix" href="" title="">
+                    <span class="tit">营业状态</span>
+                    <p class="txt green"><em class="jt icobef"></em>营业中</p>
+                </a>
+            </div>
+            <div class="item clearfix">
+                <a class="clearfix" href="" title="">
+                    <span class="tit">餐厅公告</span>
+                    <p class="txt green"><em class="jt icobef"></em></p>
+                </a>
+            </div>
+        </div>--><!--end itembox-->
+
+        <div class="itembox">
+            <div class="item toux clearfix">
+                <a class="clearfix" href="/mobileadmin/shoplogo.html" >
+                    <span class="tit">店铺Logo</span>
+                    <p class="txt Avatar"><em class="jt icobef"></em><img src="<$ShopConfig.ReadConfigInfo().AdminLogo$>" alt="<$ShopConfig.ReadConfigInfo().Title$>" /></p>
+                </a>
+            </div>
+            <div class="item clearfix">
+                <a class="clearfix" href="/mobileadmin/shoptitle.html">
+                    <span class="tit">标题</span>
+                    <p class="txt"><em class="jt icobef"></em><$ShopConfig.ReadConfigInfo().Title$></p>
+                </a>
+            </div>
+            <div class="item clearfix">
+                <a class="clearfix" href="/mobileadmin/shopdes.html">
+                    <span class="tit">描述</span>
+                    <p class="txt dz"><em class="jt icobef"></em><$ShopConfig.ReadConfigInfo().Description$></p>
+                </a>
+            </div>
+            <div class="item clearfix">
+                <a class="clearfix" href="/mobileadmin/shoptel.html">
+                    <span class="tit">联系电话</span>
+                    <p class="txt"><em class="jt icobef"></em><$ShopConfig.ReadConfigInfo().Tel$></p>
+                </a>
+            </div>
+            <div class="item clearfix">
+                <a class="clearfix" href="/mobileadmin/shopaddress.html">
+                    <span class="tit">地址</span>
+                    <p class="txt dz"><$ShopConfig.ReadConfigInfo().Address$></p>
+                </a>
+            </div>
+            <div class="item clearfix">
+                <a class="clearfix" href="/mobileadmin/shophour.html">
+                    <span class="tit">营业时间</span>
+                    <p class="txt"><em class="jt icobef"></em><$ShopConfig.ReadConfigInfo().BusinessHours$></p>
+                </a>
+            </div>
+        </div><!--end itembox-->
+        <div class="itembox">
+            <div class="item clearfix">
+                <a class="clearfix" href="/mobileadmin/shopqualify.html">
+                    <span class="tit">营业执照</span>
+                    <p class="txt"><em class="jt icobef"></em>查看营业执照</p>
+                </a>
+            </div>        
+        </div><!--end itembox-->
+    </section>
+
+    <script type="text/javascript" src="<html:templatePath>/mobileadmin/js/app.js"></script>
+</body>
+</html>

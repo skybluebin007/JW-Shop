@@ -1,0 +1,91 @@
+﻿<html:namespace name="JWShop.Entity" />
+<html:namespace name="JWShop.Business" />
+<html:namespace name="JWShop.Common" />
+<html:namespace name="SkyCES.EntLib" />
+<html:switch name="action">
+    <html:case value=""Add"">    
+<div class="conIndex">
+    <table cellpadding="0" cellspacing="0" border="0" width="70%" class="tableThemes_3"
+        id="rechargeForm">
+        <tr class="even">
+            <td align="right" width="100" height="35" class="tit">
+                余额：
+            </td>
+            <td>
+                <$moneyLeft$>
+            </td>
+        </tr>
+        <tr class="odd">
+            <td align="right" height="35" class="tit">
+                提现金额：
+            </td>
+            <td>
+                <input type="text" value="" id="Money" name="Money" class="txt_120 money" maxlength="9" />
+                元 <span class="rechargeTip">充值金额必须是合法的资金格式 例如：100 或者0.01</span>
+            </td>
+        </tr>
+        <tr class="even">
+            <td align="right" height="100" class="tit">
+                提现备注：
+            </td>
+            <td>
+                <textarea name="content" id="UserNote" name="UserNote" class="text_300"></textarea>
+            </td>
+        </tr>
+        <tr class="odd">
+            <td align="right" height="35" class="tit">
+            </td>
+            <td>
+                <input type="button" value="确定" class="submit submit_red_themes_1"  onclick="addUserApply();"/>
+            </td>
+        </tr>
+    </table>
+</div>
+    <html:break>
+    
+    <html:case value=""Read"">
+<div class="conIndex">
+    <table cellpadding="0" cellspacing="0" border="0" width="100%" class="tableThemes_2">
+        <thead>
+            <tr>
+                <td align="center" width="200" height="35">
+                    流水号
+                </td>
+                <td align="center" width="">
+                    金额（元）
+                </td>
+                <td align="center" width="130">
+                    充值时间
+                </td>
+                <td align="center" width="100">
+                    会员备注
+                </td>
+                <td align="center" width="100">
+                    管理员备注
+                </td>
+                <td align="center" width="100">
+                    状态
+                </td>
+            </tr>
+        </thead>
+        <tbody>
+            <html:foreach expression="UserApplyInfo userApply in userApplyList">
+                            <tr class="even">
+                                <td align="center" height="35" class="link"><span><$userApply.Number $></span></td>
+                                <td align="center" class="money"><$userApply.Money $></td>
+                                <td align="center" ><$userApply.ApplyDate $></td>
+                                <td align="center" ><$userApply.UserNote $></td>
+                                <td align="center" ><$userApply.AdminNote $></td>
+                                <td align="center" ><font color="red"><$UserApplyBLL.ReadApplyStatus(userApply.Status)$></font></td>
+                            </tr>
+                            </html:foreach>
+        </tbody>
+    </table>
+    <$ajaxPagerClass.ShowPage()$>
+    <div class="clear">
+    </div>
+</div>
+    <html:break>    
+    <html:default>
+    <html:break>
+</html:swith>

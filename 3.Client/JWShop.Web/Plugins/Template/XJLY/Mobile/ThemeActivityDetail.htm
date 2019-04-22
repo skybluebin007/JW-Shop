@@ -1,0 +1,69 @@
+﻿<!DOCTYPE html >
+<html lang="en">
+<head>
+    <html:include file="/Mobile/Head.htm" />
+    <style type="text/css">
+        <html:if expression="!string.IsNullOrEmpty(theme.CssMobile)">
+            <%=theme.CssMobile%>        
+        </html:if>         
+    </style>
+</head>
+<body>
+    <header class="header-min clearfix" id="header">
+        <div class="back" ig-back></div>
+        <h2><%=theme.Name%></h2>
+        <html:include file="/Mobile/TopLink.htm" />
+    </header>    
+    <section class="wrapper" id="wrapper">
+        <!--顶部图片 start-->
+        <html:if expression="!string.IsNullOrEmpty(styleArray[9])">
+            <div class="themeActivityTop">
+                <img src="<%=styleArray[9]%>" />
+            </div>
+        </html:if>
+        <!--顶部图片 end-->
+        <div class="themeActivityMiddle" <html:if expression="!string.IsNullOrEmpty(styleArray[10])">style="background:url(<%=styleArray[10]%>) no-repeat;"</html:if>>
+        <!--商品列表 start-->
+        <html:if expression="productGroupArray.Length > 0">
+            <html:for init="int i=0" condtion="i<productGroupArray.Length" expression="i++">
+                <html:csharp>
+                        string[] tempArray=productGroupArray[i].Split('|');
+                        var group = productGroup.FirstOrDefault(k => k.index == i);
+                    </html:csharp>
+                    <html:if expression="!string.IsNullOrEmpty(tempArray[2])">
+                        <div class="blockPhoto"><img src="<%=tempArray[2]%>" class="block" /></div>
+                    </html:if>
+            <section class="ipro">
+	            <div class="head">
+                    <html:if expression="!string.IsNullOrEmpty(tempArray[3])">
+                    <a href="<%=tempArray[3]%>" class="mo">更多商品&gt;</a>
+                    </html:if>
+                </div>
+	            <ul class="list clearfix">
+                    <html:if expression="group!=null">                    
+                    <html:foreach expression="var subItem in group.list">
+    	            <li class="item"><a href="/Mobile/productDetail-I<%=subItem.Id%>.html">
+        	            <figure><img src="<%=ShopCommon.ShowImage(subItem.Photo.Replace("Original","190-190"))%>" title="<%=subItem.Name%>" alt="<%=subItem.Name%>" /></figure>
+                        <h3><%=StringHelper.Substring(subItem.Name,30)%></h3>
+                        <div class="price">¥<%=ProductBLL.GetCurrentPrice(subItem.SalePrice,base.GradeID)%></div>
+                    </a></li>   
+                    </html:foreach>
+                    </html:if>      
+                </ul>
+            </section>
+            </html:for>            
+        </html:if>
+        <!--商品列表 end-->
+        </div>
+        <!--底部图片 start-->
+        <html:if expression="!string.IsNullOrEmpty(styleArray[11])">
+            <div>
+                <img src="<%=styleArray[11]%>" />
+            </div>
+        </html:if>
+        <!--底部图片 end-->
+    </section>
+    <html:include file="Mobile/Foot.htm" /> 
+    <html:include file="/Mobile/FootScript.htm" />       
+</body>
+</html>

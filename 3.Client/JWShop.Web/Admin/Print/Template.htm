@@ -1,0 +1,62 @@
+﻿<style type=text/css>
+    .title{ font-size:15px; font-weight:bold; text-align:center; color:#000;}
+    body,td { font-size:13px; line-height:22px; color:#000}
+    td {padding-left:10px;}
+    .orderProduct td {border:solid 1px #000; border-collapse:collapse;}
+</style>
+<div class="title">订单信息</div>
+<table cellPadding="1" width="98%">
+    <tr>
+        <td align="right">订单号：</td>
+        <td><$OrderNumber$></td>
+        <td align="right">购货人：</td>
+        <td><$UserName$></td>
+        <td align="right">下单时间：</td>
+        <td><$AddDate$></td>
+    </tr>
+    <tr>
+        <td align="right">支付方式：</td>
+        <td><$PayName$></td>
+        <td align="right">配送方式：</td>
+        <td><$ShippingName$></td>        
+        <td align="right">发货单号：</td>
+        <td><$ShippingNumber$></td>      
+    </tr>
+    <tr>
+        <td align="right">收货人：</td>
+        <td><$Consignee$></td>
+        <td align="right">邮编：</td>
+        <td><$ZipCode$></td>
+        <td align="right">联系方式：</td>
+        <td><$Tel$> <$Mobile$></td>
+    </tr>
+    <tr>
+        <td align="right">收货地址：</td>
+        <td colSpan="5">[<$RegionID$>]&nbsp;<$Address$></td>
+    </tr>    
+    <tr>
+        <td align="right">用户留言：</td>
+        <td colSpan="5"><$UserMessage$></td>
+    </tr>
+</table>
+<table style="border:solid 1px #000; border-collapse:collapse; " width="98%" class="orderProduct">
+    <tr align="middle" bgColor="#ebebeb">
+        <td width="10%">编号</td>
+        <td width="60%">名称</td>
+        <td width="10%">数量</td>
+        <td width="10%">单价</td>
+        <td width="10%">小计</td>        
+    </tr>
+    <$OrderDetailList$>
+</table>
+<table border="0" width="98%">
+    <tr align="right">
+        <td>产品金额：<$ProductMoney$> 元 + 运费：<$ShippingMoney$> 元 + 其它费用：<$OtherMoney$> 元 - 优惠券：<$CouponMoney$>元 - 优惠活动：<$FavorableMoney$>元 - 积分抵扣金额：<$PointMoney$> 元 - 余额：<$Balance$> 元 <br /> = 应付金额：<$NoPayMoney$> 元</td>
+    </tr>
+    <tr align="right">
+        <td>打印时间：<$PrintTime$>&nbsp;&nbsp;&nbsp;操作者：<$ActionUser$></td>
+    </tr>
+</table>
+<script type="text/javascript">
+    window.print();
+</script>

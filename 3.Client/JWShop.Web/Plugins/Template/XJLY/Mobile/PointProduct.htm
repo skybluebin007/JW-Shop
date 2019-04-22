@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+ <html:include file="/Mobile/Head.htm" />
+</head>
+<body>
+        <header class="header-min header-jf" id="header">
+      <p style="padding-right:1rem;">当前积分有：<span><%=CurrentUser.PointLeft%></span></p>
+	<s class="icon"></s>积分兑换
+    <html:include file="/Mobile/TopLink.htm" />
+    </header>
+
+<div class="jfListbox">
+	<ul class="list" id="pointList">
+                <html:if expression="pointProductList.Count>0">
+            <html:foreach expression="var item in pointProductList">
+            <li class="item">
+			<a href="/mobile/pointdetail-i<$item.Id$>.html" title="<$item.Name$>">
+				<img class="img" src="<$item.Photo.Replace("Original","400-300")$>" alt="<$item.Name$>" title="<$item.Name$>" /></a>
+				<h3><a href="/mobile/pointdetail-i<$item.Id$>.html" title="<$item.Name$>" ><$StringHelper.Substring(item.Name,9)$></a></h3>
+                <p class="b">需要积分：<span><%=item.Point%></span></p>
+			<a href="javascript:" class="btn" onclick="checkPoint(<%=item.Id%>)">立即兑换</a>			
+		</li>
+                </html:foreach>         
+            <html:else>
+                <li class="item">
+                暂无相关信息...    
+                </li>
+        </html:if>			
+	</ul>
+</div>
+
+ <html:include file="/Mobile/Foot.htm" />
+ <html:include file="/Mobile/FootScript.htm" />
+<script type="text/javascript" src="<html:templatePath>/js/jquery.validator.js"></script>
+    <script type="text/javascript" src="<html:templatePath>/js/zh-CN.js"></script>
+    <script type="text/javascript" src="<html:templatePath>/mobile/js/pointproduct.js"></script>
+    <script type="text/javascript">
+        var canScroll=true, tempPage = 1,_pageSize="<%=pageSize%>";
+        $(function () {
+            $(window).scroll(function () {
+                if (canScroll) {
+                    if ($(window).scrollTop() + $(window).height() >= $(document).height() - 100) {
+                        tempPage++;
+                        canScroll = false;
+                        scrollProduct();
+                    }
+                }
+            });
+        });
+        function scrollProduct() {
+            $.ajax({
+                url: "/mobile/pointproduct.aspx?Action=LoadProducts",
+                type: "get",
+                data: {pageNum:tempPage,pageSize:_pageSize},
+                dataType:"json",
+                success: function (data) {
+                    if(data.count>0){
+                        canScroll=true;
+                        var _html="";
+                        for(var i in data.dataList){
+                            var item=data.dataList[i];
+                            var itemname=item.Name;
+                            if(itemname.length>10) itemname=itemname.substr(0,10)+"..";
+                            _html+="<li class='item'><a href='/mobile/pointdetail-i"+item.Id+".html' title='"+item.Name+"'><img class='img' src='"+item.Photo+"' alt='"+item.Name+"' title='"+item.Name+"' /></a><h3><a href='/mobile/pointdetail-i"+item.Id+".html' title='"+item.Name+"' >"+itemname+"</a></h3><p class='b'>需要积分：<span>"+item.Point+"</span></p><a href='javascript:' class='btn' onclick='checkPoint(<"+item.Id+")'>立即兑换</a></li>";
+                        }
+                        console.log(_html);
+                        $("#pointList").append(_html);
+                    }
+                    else{
+                        canScroll = false;
+                    }
+                },
+                error: function () {
+                    app.jMsg("系统忙，请稍后重试");
+                }
+
+            })
+
+        }
+    </script>
+</body>
+</html>

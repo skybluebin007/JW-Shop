@@ -1,0 +1,9 @@
+﻿<div class="countInfo">
+    <div class="uPic"><img src="<$ShopCommon.ShowUserPhoto(UserBLL.ReadUserPhoto())$>"  alt="用户头像" /></div>
+    <div class="uName"><strong class="red"><$base.UserName$></strong><br/>您好，欢迎回到会员中心！</div>
+    <div class="uInfo"><span class="red">会员等级：</span><$base.UserGrade$> 
+        <span class="red">积分：</span><$CurrentUser.PointLeft$>
+        <span class="red">优惠券：</span><$CurrentUser.CouPonLeft$>
+        <span class="red">未读消息：</span><$CurrentUser.NoReadMessage$><br/>最近登录：<$usr.LastLoginDate$>  IP:<$usr.LastLoginIP$>  ( 不是您登录的？请<a href="/User/ChangePassword.html">点击这里</a> )</div>
+    <div class="clear"></div>
+</div>

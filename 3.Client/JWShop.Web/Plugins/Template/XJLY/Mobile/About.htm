@@ -1,0 +1,30 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <html:include file="/Mobile/Head.htm" />
+</head>
+<body>
+    <header class="header-min" id="header">
+        <a class="back" href="javascript:;" ig-back>返回</a>
+        <h2><$topClass.Name$></h2>
+        <html:include file="/Mobile/TopLink.htm" />
+    </header>
+    <section class="wrapper" id="wrapper">
+        <section class="cateContent pageshowNews">
+            <article class="">
+                <h1><$article.Title$></h1>
+
+                <div class="contxt">
+                    <$(!String.IsNullOrEmpty(article.AddCol2)?article.AddCol2:!String.IsNullOrEmpty(article.Content)?article.Content:"资料添加中...")$>
+                </div>
+
+                
+            </article>
+        </section>
+        
+
+    </section>
+
+    <html:include file="/Mobile/FootScript.htm" />
+</body>
+</html>

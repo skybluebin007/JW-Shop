@@ -1,0 +1,104 @@
+﻿<section class="searcher" id="searcher">
+	<header class="searcher-input">
+    	<div class="close" id="closeSearcher"></div>
+        <div class="input">
+        	<input type="txt" class="txt" value="" name="keyWord" id="keyWord" placeholder="请输入商品关键词" maxlength="10" />
+            <input type="button" class="submit" value="" onclick="return topSearchProduct2()"/>
+        </div>
+    </header>
+                         <!-- 搜索关键词模糊匹配 ↓-->
+<script type="text/javascript" src="<html:templatePath>/js/jquery.autocomplete.js"></script>
+<script type="text/javascript" src="<html:templatePath>/js/json2.js"></script>
+
+                <script type="text/javascript">
+                    $(function () {
+                        getHotKeys();
+                    });
+                    //读取匹配搜索关键词列表
+                    function getHotKeys() {
+
+                        $.ajax({
+                            url: '/Ajax.aspx?Action=GetHotKeys',
+                            type: 'GET',
+                            data: { keyword: $("#keyWord").val() },
+                            success: function (result) {
+                                var json = JSON.parse(result);
+
+                                $("#keyWord").autocomplete(json, {
+                                    minChars: 0, //自动完成激活之前填入的最小字符
+                                    max: 12, //列表条目数
+                                    width: 270, //提示的宽度
+                                    scrollHeight: 300, //提示的高度
+                                    matchContains: true, //是否只要包含文本框里的就可以
+                                    autoFill: false, //自动填充
+                                    formatItem: function (data, i, max) { //格式化列表中的条目 row:条目对象,i:当前条目数,max:总条目数                                      
+                                        if (typeof (data.name) === 'undefined' || data.name === false) {
+                                            $(".ac_results ul").html("");
+                                            $(".ac_results").hide();
+                                            return "";
+
+                                        }
+                                        else {
+
+                                            return data.name + "<span>约" + data.productcount + "个商品</span>";
+                                            $(".ac_results").show();
+                                        }
+                                    },
+                                    formatMatch: function (data, i, max) { //配合formatItem使用，作用在于，由于使用了formatItem，所以条目中的内容有所改变，而我们要匹配的是原始的数据，所以用formatMatch做一个调整，使之匹配原始数据
+                                        if (typeof (data.name) === 'undefined' || data.name === false) {
+                                            return "";
+
+                                        }
+                                        else {
+                                            return data.name + data.spell;
+
+                                        }
+                                    },
+                                    formatResult: function (data) { //定义最终返回的数据，比如我们还是要返回原始数据，而不是formatItem过的数据
+                                        if (typeof (data.name) === 'undefined' || data.name === false) {
+                                            return "";
+                                            $(".ac_results").hide();
+                                        }
+                                        else {
+                                            return data.name;
+                                            $(".ac_results").show();
+                                        }
+                                    }
+                                }).result(function (event, data, formatted) {
+
+                                    if (typeof (data.name) === 'undefined' || data.name === false) {
+                                        return false;
+                                    }
+                                    else {
+                                        var url = "/mobile/list.html?kw=" + encodeURIComponent(data.name) + "";
+                                        window.location = url;
+                                    }
+                                });
+                            }
+                        });
+                    }
+</script>
+ <!-- 搜索关键词模糊匹配↑-->
+    <div class="searcher-hot">
+    	<div class="head">热搜:</div>
+        <ul class="list clearfix">
+            <html:foreach expression="var _keyword in AdKeywordBLL.ReadList()">
+                <li><a href="/Mobile<%=_keyword.Url%>"><%=_keyword.Name%></a></li>
+            </html:foreach>        	
+        </ul>
+    </div> 
+    <div class="searcher-history" id="searcherHistory">
+    	<div class="head">历史:</div>
+        <ul class="list clearfix">
+   
+           <html:if expression="strHistorySearch!=string.Empty">  
+                    <html:foreach expression="string temp in strHistorySearch.Split(',')">
+        	<li><a href="/Mobile/List.html?kw=<%=Server.UrlDecode(temp)%>"><%=temp%></a></li>
+            </html:foreach>                    
+                    </html:if>
+        </ul>
+        <footer class="btn">
+        	<a href="javascript:;" id="clearHistory">清空历史搜索</a>
+        </footer>
+    </div>
+</section>

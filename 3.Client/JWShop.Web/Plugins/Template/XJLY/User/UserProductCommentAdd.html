@@ -1,0 +1,67 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <html:include file="/_Head.htm" />
+</head>
+<body>
+    <html:include file="/_UTop.htm" />
+    <div id="myOrder">
+        <div class="w1210 clearfix">
+            <html:include file="/User/UserLeft.htm" />
+            <div id="right" class="content fr">
+                <html:include file="/User/UserTop.htm" />
+                <div class="orderList" id="orderList">
+                    <div class="tab">
+                        <a href="javascript:;" class="item cur" value="">我的评论</a>
+                        <div class="clear">
+                        </div>
+                    </div>
+                    <div class="container">
+                        <table cellpadding="0" cellspacing="0" border="0" width="100%" class="tableThemes_2">
+                            <thead>
+                                <tr>
+                                    <td align="center" width="50">
+                                        状态
+                                    </td>
+                                    <td align="center" width="" height="35">
+                                        评论内容
+                                    </td>
+                                    <td align="center" width="100">
+                                        星级
+                                    </td> 
+                                    <!-- <td align="center" width="80">支持数</td>
+                                    <td align="center" width="80">反对数</td>
+                                    <td align="center" width="80">回复数</td>-->
+                                    <td align="center" width="130">
+                                        评论时间
+                                    </td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <html:foreach expression="ProductCommentInfo productComment in productCommentList">
+                                    <tr class="even">
+                                        <td align="center"><$EnumHelper.ReadEnumChineseName<CommentStatus>(productComment.Status)$></td>
+                                        <td align="left" height="35" class="link"><a href="/ProductDetail-I<$productComment.ProductId$>.html" title="<$productComment.Content$>" target="_blank"><$productComment.Content$></a></td>
+                                        <td align="center"><div class=""><span class="star star<$productComment.Rank$>"></span></div></td>
+                                        <td align="center" style="display:none;"><$productComment.Support$></td>
+                                        <td align="center" style="display:none;"><$productComment.Against$></td>
+                                        <td align="center" style="display:none;"><$productComment.ReplyCount$></td>
+                                        <td align="center"><$productComment.PostDate$></td>
+                                    </tr>
+                                </html:foreach>
+                            </tbody>
+                        </table>
+                        <$pager.ShowPage()$>
+                            <div class="clear">
+                            </div>
+                    </div>
+                </div>
+            </div>
+            <div class="clear">
+            </div>
+        </div>
+    </div>
+    <html:include file="/_Foot.htm" />
+</body>
+</html>

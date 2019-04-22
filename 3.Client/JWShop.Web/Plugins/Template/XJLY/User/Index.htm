@@ -1,0 +1,160 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <html:include file="/_Head.htm" />
+</head>
+<body>
+    <!--top start-->
+    <html:include file="/_UTop.htm" />
+    <!--header start-->
+    <!--nav start-->
+    <!--main content start-->
+    <div id="myOrder">
+        <div class="w1210 clearfix">
+            <html:include file="/User/UserLeft.htm" />
+            <div id="right" class="fr">
+                <div id="myBLH_1" class="clearfix">
+                    <div class="myBLH_1_left fl">
+                        <img src="<$ShopCommon.ShowImage(UserBLL.ReadUserPhoto())$>" class="img fl" alt="用户头像" />
+                       <div class="vip" style="margin: 0px;">
+                            <s class="icon"></s><span style="font-size: 20px;color: #c81623;font-weight: bold;"> <$base.UserName$></span></div>
+                        <h2 style="color:#005ea7; font-size:12px; line-height:18px; margin-top:4px;"><$base.UserGrade$></h2>
+                        <div class="saft_rankCon viparea" style="color:#005ea7; line-height:18px;">
+                            <a href="/user/safetycenter.html">账户安全：</a>
+                            <div class="saft_rank">
+                                <div class="rank rank<%=base.safetyGrade%>"></div>
+                            </div>
+                            <span class="span<%=base.safetyGrade%>"><%=base.safetyGradeName%></span>
+                        </div>
+
+                      <!-- <h2 ><a href="/user/safetycenter.html" class="orange">账户安全:<%=base.safetyGradeName%></h2> -->
+                        <div class="b">
+                            <a href="/User/UserAdd.html" title="">个人信息</a> <a href="/User/LogOut.html" title="" >安全退出</a>
+                        </div>
+                    </div>
+                    <div class="myBLH_1_right fr">
+                        <div class="p1">
+                            <a href="/User/UserAddress.html" >我的收货地址</a></div>
+                        <div class="p2">
+                            <a class="pa1" href="/User/OrderList.html?type=1" title="" ><s class="mymebicon"></s>待付款<span class="orange"><%=arrT[1] %></span></a> 
+                            <a class="pa2" href="/User/OrderList.html?type=3" title=""><s class="mymebicon"></s>待发货<span class="orange"><%=arrT[2] %></span></a> 
+                            <a class="pa3" href="/User/OrderList.html?type=4" title="" ><s class="mymebicon"></s>待收货<span class="orange"><%=arrT[3] %></span></a> 
+                            <a class="pa4" href="/User/OrderList.html?type=2" title=""><s class="mymebicon"></s>待审核<span class="orange"><%=arrT[4] %></span></a> 
+                            <a class="pa5" href="/User/OrderList.html?type=5" title=""><s class="mymebicon"></s>无效<span class="orange"><%=arrT[5] %></span></a>
+                        </div>
+                    </div>
+                </div>
+                <div id="myBLH_2" class="clearfix">
+                    <div class="myBLH_2_left fl">
+                        <div class="myBLH_2_left_1">
+                            <h3 class="title">
+                                我的订单(<%=arrT[0] %>)</h3>
+                            <html:if expression="orderList.Count>0">
+                            <div class="ddList">
+                                <html:foreach expression="OrderInfo order in orderList">
+                                <%List<OrderDetailInfo> orderdetailinfo = OrderDetailBLL.ReadList(order.Id); %>
+                                <% foreach(OrderDetailInfo orderdetail in orderdetailinfo){  %>
+                                <% ProductInfo productList = ProductBLL.Read(orderdetail.ProductId); %>
+                                <% OrderActionInfo ordaion=OrderActionBLL.ReadLast(orderdetail.Id,order.OrderStatus); %>
+                               
+                                <div class="item clearfix">
+                                    <div class="itemLeft fl">
+                                        <a href="/User/OrderDetail.html?id=<%=order.Id%>" title="<$productList.Name$>" target="_blank" class="img fl">
+                                            <img src="<$ShopCommon.ShowImage(productList.Photo.Replace("Original","90-90"))$>" alt="<$productList.Name$>" title="<$productList.Name$>" /></a>
+                                        <h3>
+                                           <$OrderBLL.ReadOrderStatus(order.OrderStatus,order.IsDelete)$> - <$ordaion.Note$> <br />
+                                           <$(ordaion.Id>0?ordaion.Date:order.AddDate)$>
+                                           </h3>
+                                    </div>
+                                    <div class="itemRight fr">
+                                       <html:if expression="JWRefund.CanRefund(order).CanRefund">
+                                       <$OrderBLL.ReadOrderUserOperate(order.Id,order.OrderStatus,order.PayKey,base.UserId)$> 
+                                      <!--  <a href="/User/OrderDetail.html?ID=<$order.Id$>" class="blue">查看订单</a>-->
+                                       </html:if> 
+                                    </div>
+                                </div>
+                                   
+                                <% } %>
+                                </html:foreach>
+                            </div>
+                            <a href="/User/OrderList.html" class="more" title="">查看更多订单</a>
+                            <html:else>
+                                <div class="ddList"> 暂无订单,<a href="/List.html">快去挑选合适的商品吧！</a></div>
+                            </html:if>
+                        </div>
+                         <div class="myBLH_2_left_2">
+                            <h3 class="title" style="margin-bottom: 20px;">
+                                关注的商品</h3>
+                            <div class="hotlist">
+                                <html:if expression="productCollectList.Count>0">
+                                <div class="conlist">
+                                    <ul class="clearfix">
+                                        <html:foreach expression="ProductCollectInfo productCollect in productCollectList">
+                        <%ProductInfo proInfo=ProductBLL.ReadProductByProductList(productList,productCollect.ProductId);%>
+                                        <li><a href="/ProductDetail-I<$proInfo.Id$>.html" title="<$proInfo.Name$>" target="_blank" class="img">
+                                            <img src="<$ShopCommon.ShowImage(proInfo.Photo.Replace("Original","150-150"))$>" alt="<$proInfo.Name$>" title="<$proInfo.Name$>" />
+                                            <h3>
+                                                <$proInfo.Name$></h3>
+                                            <div class="b">
+                                                <del>￥<$proInfo.MarketPrice$></del> <span class="price fwb">￥<$ProductBLL.GetCurrentPrice(proInfo.SalePrice,base.GradeID)$></span>
+                                            </div>
+                                        </a></li></html:foreach>
+                                    </ul>
+                                </div>
+                                    <a style="display: block; text-align: center; font-size: 12px; margin-top: 20px;" href="/User/UserProductCollect.html" class="more" title="">查看更多</a>
+                                 <html:else>
+                                <div class="conlist"> 您还没有关注任何商品，看到感兴趣的就果断关注吧！</div>
+                            </html:if>
+                            </div>
+                        </div>
+                        <div class="myBLH_2_left_2">
+                            <h3 class="title">
+                                热销产品</h3>
+                            <div class="hotlist" id="hotlist">
+                                <div class="btnleft icon">
+                                </div>
+                                <html:if expression="proListHot.Count>0">
+                                <div class="conlist">
+                                    <ul class="clearfix">
+                                        <html:foreach expression="ProductInfo proInfo in proListHot">
+                                        <li><a href="/ProductDetail-I<$proInfo.Id$>.html" title="<$proInfo.Name$>" target="_blank" class="img">
+                                            <img src="<$ShopCommon.ShowImage(proInfo.Photo.Replace("Original","150-150"))$>" alt="<$proInfo.Name$>" title="<$proInfo.Name$>" />
+                                            <h3>
+                                                <$proInfo.Name$></h3>
+                                            <div class="b">
+                                                <del>￥<$proInfo.MarketPrice$></del> <span class="price fwb">￥<$ProductBLL.GetCurrentPrice(proInfo.SalePrice,base.GradeID)$></span>
+                                            </div>
+                                        </a></li></html:foreach>
+                                    </ul>
+                                </div>
+                                <html:else>
+                                <div class="conlist"> 暂无相关信息，敬请期待！</div>
+                            </html:if>
+                                <div class="btnright icon">
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                    <div class="myBLH_2_right fr">
+                        <h3 class="title">
+                            我的足迹</h3>
+                        <html:if expression="proHistoryList.Count>0">
+                        <ul class="clearfix">
+                            <html:foreach expression="var product in proHistoryList">
+                              <li><a href="/ProductDetail-I<$product.Id$>.html" title="<$product.Name$>" target="_blank">
+                                <img src="<$ShopCommon.ShowImage(product.Photo.Replace("Original","90-90"))$>" alt="<$product.Name$>" title="<$product.Name$>" />￥<$ProductBLL.GetCurrentPrice(product.SalePrice,base.GradeID)$></a></li>
+                           </html:foreach>
+                        </ul>
+                        <a href="/User/HistoryList.html" class="more" >查看更多</a>
+                        <html:else><span style="font-size: 12px;">您还未留下足迹哦，快快开启您的购物之旅吧</span></html:if>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- footer start -->
+    <html:include file="/_Foot.htm" />
+           <script language="javascript" type="text/javascript" src="<html:templatePath>/Js/Order.js"></script>
+</body>
+</html>
